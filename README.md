@@ -6,13 +6,9 @@ The Red Sea shipping crisis is a global crisis that began in October 2023, when
 
 The World Bank Country Economics teams in Egypt, Yemen, and Djibouti seek to monitor the status and impacts of the crisis on their respective and regional economies. To support these efforts, a Bank team comprised of colleagues from the Data Lab and the Geospatial Operations Support Team (GOST) are using a combinat
 
-
-
 ## Data
 
-Most of the data science products in thie repository are derived using maritime Automatic Identification System (AIS) data pulled from the [IMF PortWatch](https://portwatch.imf.org/) system and from the UN..., as well as conflict statistics prepared by the [Armed Conflict Location and Event Data project](https://acleddata.com/). 
-
-
+Most of the data science products in thie repository are derived using maritime Automatic Identification System (AIS) data pulled from the [IMF PortWatch](https://portwatch.imf.org/) system and from the [UN Global Platform](https://unstats.un.org/bigdata/un-global-platform.cshtml), as well as conflict statistics provided by the [Armed Conflict Location and Event Data project](https://acleddata.com/). 
 
 ## Reusable Data Science Products
 
@@ -30,8 +26,6 @@ The following data products have been prepared:
 
 Time and resources pending, the team may also investigate datasets and methods for monitoring ancillary air cargo trends.
 
-
-
 ## Insights and Indicators
 
 The team is combining these data products to prepare high-level analytics and indicators, such as:
@@ -39,10 +33,6 @@ The team is combining these data products to prepare high-level analytics and in
 * Combined conflict and maritime traffic diverstion trends analysis
 
 * *to be determined*
-
-
-
-
 
 ## License
 
