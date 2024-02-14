@@ -8,7 +8,7 @@ The World Bank Country Economics teams in Egypt, Yemen, and Djibouti seek to mon
 
 ## Data
 
-Most of the data science products in thie repository are derived using maritime Automatic Identification System (AIS) data pulled from the [IMF PortWatch](https://portwatch.imf.org/) system and from the [UN Global Platform](https://unstats.un.org/bigdata/un-global-platform.cshtml), as well as conflict statistics provided by the [Armed Conflict Location and Event Data project](https://acleddata.com/). 
+Most of the data science products in thie repository are derived using maritime Automatic Identification System (AIS) data pulled from the [IMF PortWatch](https://portwatch.imf.org/) system and from the [UN Committee of Experts on Big Data and Data Science for Official Statistics](https://unstats.un.org/bigdata/task-teams/ais/index.cshtml), as well as conflict statistics provided by the [Armed Conflict Location and Event Data project](https://acleddata.com/). 
 
 ## Reusable Data Science Products
 
