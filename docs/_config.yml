@@ -1,7 +1,7 @@
 # Book settings
 title: Red Sea Monitoring
 author: Data Lab
-logo: docs/images/logo.png
+logo: docs/images/logo-lab.png
 only_build_toc_files: true
 
 repository:
