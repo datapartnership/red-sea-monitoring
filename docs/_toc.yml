@@ -4,7 +4,7 @@ root: README
 parts:
   - caption: Introduction to Data Goods
     chapters:
-      - file: docs/1-intro-to_data-goods
+      - file: docs/1-intro-to-data-goods
   - caption: Data
     chapters:
       - file: docs/2-foundational-data
