@@ -1,16 +1,21 @@
-# Datasets: Introduction
+# Data
 
-Each Data Goods project begins with a survey of existing data resources that can be leveraged to support a project or program. In addition to these existing datasets, advisory is provided on digtizing data may exist in paper records and making existing government data records more discoverable through AI. Also, methods for new data collection, including household surveys, remote sensing, and crowdsourcing are proposed. 
+The following section provides a convenient list of all datasets used in the data science products and analytics prepared for this project. The datasets table includes a description of the data and their update frequency, as well as access links and contact information for questions about use and access. Users should not require any datasets not included in this table to complete the analytical work for the Data Good.
 
-All Bank-produced datasets as part of the Data Good will be hosted as a special collection on the World Bank's Data Catalogue, managed by the Development Economics Data Group (DECDG). The Catalogue receives more than 14 million unique users per month and will ensure value of the investment in data collection will be multiplied.
+```{note}
+**Project Sharepoint** links are only accessible to the project team. For permissions to access these data, please write to the contact provided. The **Development Data Hub** is the World Bank's central data catalogue and includes meta-data and license information.
+```
 
-The following chapters provide additional detail about these services:
+| ID  | Name                | License     | Description                                                                                            | Update Frequency | Access                                                                                                                                                                                                                                                                                                                           | Contact                                                        |
+| --- | ------------------- | ----------- | ------------------------------------------------------------------------------------------------------ | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| 1   | AIS Data            | Proprietary | Ship location data aggregated by Spire made available through a UN collaboration                       | Daily            | [Project SharePoint](https://worldbankgroup.sharepoint.com/:f:/r/teams/DevelopmentDataPartnershipCommunity-WBGroup/Shared%20Documents/Projects/Data%20Lab/Red%20Sea%20Maritime%20Monitoring?csf=1&web=1&e=AHvobA)                                                                                                                | [Andres Chamorro](mailto:achamorroelizond@worldbank.org), GOST |
+| 2   | ACLED Conflict Data | Proprietary | Timestamped, geolocated points where conflict took place collected based on news and crowdsourced data | Daily            | [Development Data Hub]((https://datacatalog.worldbank.org/int/search/dataset/0061835/acled---middle-east)) and [Project SharePoint](https://worldbankgroup.sharepoint.com/:f:/r/teams/DevelopmentDataPartnershipCommunity-WBGroup/Shared%20Documents/Projects/Data%20Lab/Red%20Sea%20Maritime%20Monitoring?csf=1&web=1&e=AHvobA) | [Sahiti Sarva](mailto:ssarva@worldbank.org), Data Lab          |
+| 3   |                     |             |                                                                                                        |                  |                                                                                                                                                                                                                                                                                                                                  |                                                                |
 
-- [Existing Data](2a-existing-data.md)
-- [Digitized Government Data](2b-digitizing-gov-data.md)
-- [New Data Collection](2c-new-data-collection.md)
 
-And the final chapter includes an example of how these resources can come together:
 
-* [Data Work Plan Example](2d-work-plan.md)
+
+
+
+
 
