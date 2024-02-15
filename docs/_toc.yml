@@ -7,10 +7,10 @@ parts:
       - file: docs/1-intro-to-data-goods
   - caption: Data
     chapters:
-      - file: docs/2-foundational-data
+      - file: docs/2-data
   - caption: Reusable Data Products
     chapters:
-      - file: docs/CODE_OF_CONDUCT
+      - file: notebooks/README
   - caption: Insights and Indicators
     chapters:
       - file: docs/4-sample-insights-and-ind
