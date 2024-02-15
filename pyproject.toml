@@ -1,39 +1,45 @@
 [build-system]
-requires = ["setuptools>=61.0.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling>=1.21.0", "hatch-vcs>=0.3.0"]
+build-backend = "hatchling.build"
 
 [project]
-name = "datalab"
-dynamic = ["version"]
-description = "An Python exampe package from the World Bank Data Lab"
+name = "red-sea-monitoring"
+description = ""
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
-keywords = ["template", "reproducible research"]
-authors = [{ name = "Development Data Group", email = "datalab@worldbank.org" }]
+keywords = ["world bank"]
+authors = [{ name = "World Bank Data Lab", email = "datalab@worldbank.org" }]
 maintainers = [
-	{ name = "Gabriel Stefanini Vicente", email = "gvicente@worldbank.org" },
+	{ name = "Andres Chamorro", email = "achamorroelizond@worldbank.org" },
 ]
 classifiers = [
-	"Programming Language :: Python :: 3",
-	"Programming Language :: Python :: 3.7",
-	"Programming Language :: Python :: 3.8",
-	"Programming Language :: Python :: 3.9",
-	"Programming Language :: Python :: 3.10",
-	"Programming Language :: Python :: 3.11",
-	"Programming Language :: Python :: 3 :: Only",
 	"Development Status :: 3 - Alpha",
-	"Intended Audience :: Developers",
-	"Operating System :: OS Independent",
+	"Intended Audience :: Science/Research",
+	"Topic :: Scientific/Engineering",
 ]
-requires-python = ">=3.7"
-dependencies = ["requests>=2.28.1", "pycountry>=22.3.5"]
+requires-python = ">=3.10"
+dynamic = ["version"]
+
 [project.optional-dependencies]
-notebook = ["notebook>=6.5.2"]
-
+docs = [
+	"docutils==0.17.1",     # https://jupyterbook.org/en/stable/content/citations.html?highlight=docutils#citations-and-bibliographies
+	"jupyter-book>=0.15.1",
+]
 [project.urls]
-"Homepage" = "https://github.com/worldbank/template"
-"Bug Reports" = "https://github.com/worldbank/template/issues"
-"Source" = "https://github.com/worldbank/template"
+"Homepage" = "https://datapartnership.github.io/red-sea-monitoring"
+"Bug Reports" = "https://github.com/datapartnership/red-sea-monitoring/issues"
+"Source" = "https://github.com/datapartnership/red-sea-monitoring"
 
-[tool.setuptools.dynamic]
-version = { attr = "datalab.__version__" }
+[tool.codespell]
+skip = './.git,docs/_build,docs/references.bib,*.py,*.R,*.png,*.gz,*.whl'
+ignore-regex = '^\s*"image\/png":\s.*'
+ignore-words-list = "gost,"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/red-sea-monitoring"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
