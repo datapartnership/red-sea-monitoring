@@ -8,7 +8,7 @@ The World Bank Country Economics teams in Egypt, Yemen, and Djibouti seek to mon
 
 ## Data
 
-Most of the data science products in thie repository are derived using maritime Automatic Identification System (AIS) data pulled from the [IMF PortWatch](https://portwatch.imf.org/) system and from the [UN Committee of Experts on Big Data and Data Science for Official Statistics](https://unstats.un.org/bigdata/task-teams/ais/index.cshtml), as well as conflict statistics provided by the [Armed Conflict Location and Event Data project](https://acleddata.com/). 
+Most of the data science products in thie repository are derived using maritime Automatic Identification System (AIS) data pulled from the [IMF PortWatch](https://portwatch.imf.org/) system and from the [UN Committee of Experts on Big Data and Data Science for Official Statistics](https://unstats.un.org/bigdata/task-teams/ais/index.cshtml), as well as conflict statistics provided by the [Armed Conflict Location and Event Data project](https://acleddata.com/).
 
 ## Reusable Data Science Products
 
@@ -36,4 +36,4 @@ The team is combining these data products to prepare high-level analytics and in
 
 ## License
 
-This repository is licensed under the [Mozilla Public Licence](https://www.mozilla.org/en-US/MPL/). 
+This projects is licensed under the [**Mozilla Public License**](https://opensource.org/license/mpl-2-0/) - see the [LICENSE](LICENSE) file for details.
