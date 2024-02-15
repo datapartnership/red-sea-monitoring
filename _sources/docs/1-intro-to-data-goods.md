@@ -5,16 +5,16 @@
 Data Goods packages may include:
 
 1. **Data**. Data Goods provide guidance on how to access the data underpinning all data products, indicators, and insights. This transparency in data sources supports reproducibility and, critically, re-use in new countries and contexts, over time. The Datasets section includes three parts:
-   
-   
+
+
 
 > <u>Existing Data</u>. Each Data Goods may include a curation of datasets -- public and private -- that will support project objectives. The team prepares this curated list as a table, which includes data type, update frequency, access links, and contact information.
 
-> <u>Digitized Government Data</u>. Where needed, a Data Good may also include guidance on government data digitalization and/or management, leveraging AI methods to make disaggregated government records readily searchable and usable. 
+> <u>Digitized Government Data</u>. Where needed, a Data Good may also include guidance on government data digitalization and/or management, leveraging AI methods to make disaggregated government records readily searchable and usable.
 
-> <u>New Data Collection</u>. A Data Good may also incude a field data collection plan (and implementation of that plan, as needed) that includes some combination of household surveys, remote sensing (including drones), and crowdsourcing. Data Goods may also include guidance (and again, implementation of that guidance) on processing, storage, and cataloguing of all collected data. 
-> 
-> All Bank-produced datasets as part of the Data Good can be hosted as a special collection on the World Bank's Data Catalogue, managed by the Development Economics Data Group (DECDG). The Catalogue receives more than 14 million unique users per month and will ensure value of the investment in data collection will be multiplied. 
+> <u>New Data Collection</u>. A Data Good may also incude a field data collection plan (and implementation of that plan, as needed) that includes some combination of household surveys, remote sensing (including drones), and crowdsourcing. Data Goods may also include guidance (and again, implementation of that guidance) on processing, storage, and cataloguing of all collected data.
+>
+> All Bank-produced datasets as part of the Data Good can be hosted as a special collection on the World Bank's Data Catalogue, managed by the Development Economics Data Group (DECDG). The Catalogue receives more than 14 million unique users per month and will ensure value of the investment in data collection will be multiplied.
 
 
 
