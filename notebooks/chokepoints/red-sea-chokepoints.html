@@ -1,0 +1,1809 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Choke Point Notebook &#8212; Red Sea Monitoring</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/chokepoints/red-sea-chokepoints';</script>
+    <link rel="canonical" href="http://datapartnership.org/red-sea-monitoring/notebooks/chokepoints/red-sea-chokepoints.html" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Port Call Trends Monitor" href="../ports/README.html" />
+    <link rel="prev" title="Maritime Choke Point Trends Monitor" href="README.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Feb 27, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-lab.png" class="logo__image only-light" alt="Red Sea Monitoring - Home"/>
+    <script>document.write(`<img src="../../_static/logo-lab.png" class="logo__image only-dark" alt="Red Sea Monitoring - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Data Goods</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/1-intro-to-data-goods.html">Introduction to Data Goods</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/2-data.html">Data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reusable Data Products</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Reusable Data Science Products</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">Maritime Choke Point Trends Monitor</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Choke Point Notebook</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ports/README.html">Port Call Trends Monitor</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ports/red-sea-ports.html">Ports Notebook</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Insights and Indicators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/4-sample-insights-and-ind.html">Insights, Indicators, and Data Sources: Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Acknowledgements</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/6-team.html">Data Goods Team and Acknowedgements</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://datapartnership.org">Development Data Partnership</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://wbdatalab.org">World Bank Data Lab</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.worldbank.org/en/about/unit/unit-dec">World Bank DEC</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.worldbank.org/en/research/dime">World Bank DIME</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/datapartnership/red-sea-monitoring" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/datapartnership/red-sea-monitoring/edit/main/notebooks/chokepoints/red-sea-chokepoints.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/datapartnership/red-sea-monitoring/issues/new?title=Issue%20on%20page%20%2Fnotebooks/chokepoints/red-sea-chokepoints.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/chokepoints/red-sea-chokepoints.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Choke Point Notebook</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#locations">Locations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-of-choke-points">Map of Choke Points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ais-data">AIS Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-analysis">Data Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-smoothening">Data Smoothening</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-ais-transit-calls-in-key-areas-historical">Figure: AIS Transit Calls in Key Areas, Historical</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-reference-values">Calculate Reference Values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-ais-transit-calls-in-key-areas">Figure: AIS Transit Calls in Key Areas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-ais-transit-calls-relative-to-historical-average">Figure: AIS Transit Calls Relative to Historical Average</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-ais-transit-calls-change-from-historical-average">Figure: AIS Transit Calls % Change from Historical Average</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-statistics">Summary Statistics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#table-daily-average-values-by-time-period">Table: Daily Average Values by Time Period</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#table-daily-average-values-by-time-period-change-from-baseline">Table: Daily Average Values by Time Period, % Change from Baseline</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="choke-point-notebook">
+<h1>Choke Point Notebook<a class="headerlink" href="#choke-point-notebook" title="Permalink to this heading">#</a></h1>
+<p>The objective of this analysis is to examine the impact of the Red Sea Conflict on maritime trade statistics derived from AIS data.</p>
+<p>We process transit calls and estimated trade volume from the IMF’s <a class="reference external" href="https://portwatch.imf.org/">PortWatch</a> platform for key areas of interest. We then produce charts to inspect trends and calculate percentage changes from a historical baseline.</p>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">#</a></h2>
+<p>Import libraries and define output paths to save graphs and tables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">exists</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
+
+<span class="kn">import</span> <span class="nn">git</span>
+
+<span class="n">git_repo</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">search_parent_directories</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">git_root</span> <span class="o">=</span> <span class="n">git_repo</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">rev_parse</span><span class="p">(</span><span class="s2">&quot;--show-toplevel&quot;</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">git_root</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;red-sea-monitoring&quot;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># For plotting</span>
+<span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">mizani.breaks</span> <span class="kn">import</span> <span class="n">date_breaks</span>
+<span class="kn">from</span> <span class="nn">mizani.formatters</span> <span class="kn">import</span> <span class="n">date_format</span><span class="p">,</span> <span class="n">percent_format</span>
+<span class="kn">import</span> <span class="nn">plotnine</span>
+
+<span class="n">plotnine</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">figure_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+
+<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\WB514197\WBG\Development Data Partnership - Red Sea Maritime Monitoring&quot;</span>
+<span class="n">charts_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">git_root</span><span class="p">,</span> <span class="s2">&quot;reports&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data">
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h2>
+<section id="locations">
+<h3>Locations<a class="headerlink" href="#locations" title="Permalink to this heading">#</a></h3>
+<p>Retrieve chokopoints locations dataset and select the three areas of interest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints</span> <span class="o">=</span> <span class="n">get_chokepoints</span><span class="p">()</span>
+
+<span class="c1"># List areas of interest</span>
+<span class="n">aois</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">,</span> <span class="s2">&quot;Cape of Good Hope&quot;</span><span class="p">,</span> <span class="s2">&quot;Suez Canal&quot;</span><span class="p">]</span>
+
+<span class="n">chokepoints_sel</span> <span class="o">=</span> <span class="n">chokepoints</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">chokepoints</span><span class="o">.</span><span class="n">portname</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">aois</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">chokepoints_sel</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>portid</th>
+      <th>portname</th>
+      <th>country</th>
+      <th>ISO3</th>
+      <th>continent</th>
+      <th>fullname</th>
+      <th>lat</th>
+      <th>lon</th>
+      <th>vessel_count_total</th>
+      <th>vessel_count_container</th>
+      <th>...</th>
+      <th>vessel_count_tanker</th>
+      <th>industry_top1</th>
+      <th>industry_top2</th>
+      <th>industry_top3</th>
+      <th>share_country_maritime_import</th>
+      <th>share_country_maritime_export</th>
+      <th>LOCODE</th>
+      <th>pageid</th>
+      <th>countrynoaccents</th>
+      <th>ObjectId</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>chokepoint1</td>
+      <td>Suez Canal</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Suez Canal</td>
+      <td>30.593346</td>
+      <td>32.436882</td>
+      <td>22217</td>
+      <td>6455</td>
+      <td>...</td>
+      <td>6919</td>
+      <td>Petroleum, Chemical and Non-Metallic Mineral P...</td>
+      <td>Mining and Quarrying</td>
+      <td>Agriculture</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>c57c79bf612b4372b08a9c6ea9c97ef0</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>chokepoint4</td>
+      <td>Bab el-Mandeb Strait</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Bab el-Mandeb Strait</td>
+      <td>12.788597</td>
+      <td>43.349545</td>
+      <td>22519</td>
+      <td>6280</td>
+      <td>...</td>
+      <td>7386</td>
+      <td>Petroleum, Chemical and Non-Metallic Mineral P...</td>
+      <td>Mining and Quarrying</td>
+      <td>Agriculture</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6b1814d64903461b98144a6cc25eb79c</td>
+      <td>None</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>chokepoint7</td>
+      <td>Cape of Good Hope</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>Cape of Good Hope</td>
+      <td>-34.927286</td>
+      <td>20.882737</td>
+      <td>17332</td>
+      <td>2018</td>
+      <td>...</td>
+      <td>3973</td>
+      <td>Mining and Quarrying</td>
+      <td>Petroleum, Chemical and Non-Metallic Mineral P...</td>
+      <td>Agriculture</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>edf18f455a2b4637a3632b6af201abe9</td>
+      <td>None</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 23 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_sel</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chokepoints_sel</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">lat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">chokepoints_sel</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">chokepoints_sel</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
+<span class="c1"># chokepoints_sel.to_file(join(output_dir, &quot;chokepoints.shp&quot;), driver=&#39;ESRI Shapefile&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="map-of-choke-points">
+<h3>Map of Choke Points<a class="headerlink" href="#map-of-choke-points" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_sel</span><span class="p">[[</span>
+    <span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;portname&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_total&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_container&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;vessel_count_dry_bulk&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_general_cargo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;vessel_count_RoRo&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_tanker&#39;</span><span class="p">,</span> <span class="s1">&#39;industry_top1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;industry_top2&#39;</span><span class="p">,</span> <span class="s1">&#39;industry_top3&#39;</span>
+    <span class="p">]]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
+        <span class="n">column</span><span class="o">=</span><span class="s1">&#39;portname&#39;</span><span class="p">,</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Dark2&#39;</span><span class="p">,</span>
+        <span class="n">marker_kwds</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;radius&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">},</span>
+        <span class="n">tiles</span> <span class="o">=</span> <span class="s1">&#39;Esri Ocean Basemap&#39;</span><span class="p">,</span>
+        <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="s1">&#39;caption&#39;</span><span class="p">:</span> <span class="s1">&#39;Choke Points&#39;</span><span class="p">}</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_afc13c1e506b7a3ec2cd6e147e6dfff0 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+    
+                    &lt;style&gt;
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    &lt;/style&gt;
+            
+    
+    &lt;script src=&quot;https://code.jquery.com/ui/1.12.1/jquery-ui.js&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;$( function() {
+        $( &quot;.maplegend&quot; ).draggable({
+            start: function (event, ui) {
+                $(this).css({
+                    right: &quot;auto&quot;,
+                    top: &quot;auto&quot;,
+                    bottom: &quot;auto&quot;
+                });
+            }
+        });
+    });
+    &lt;/script&gt;
+    &lt;style type=&#x27;text/css&#x27;&gt;
+      .maplegend {
+        position: absolute;
+        z-index:9999;
+        background-color: rgba(255, 255, 255, .8);
+        border-radius: 5px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        padding: 10px;
+        font: 12px/14px Arial, Helvetica, sans-serif;
+        right: 10px;
+        bottom: 20px;
+      }
+      .maplegend .legend-title {
+        text-align: left;
+        margin-bottom: 5px;
+        font-weight: bold;
+        }
+      .maplegend .legend-scale ul {
+        margin: 0;
+        margin-bottom: 0px;
+        padding: 0;
+        float: left;
+        list-style: none;
+        }
+      .maplegend .legend-scale ul li {
+        list-style: none;
+        margin-left: 0;
+        line-height: 16px;
+        margin-bottom: 2px;
+        }
+      .maplegend ul.legend-labels li span {
+        display: block;
+        float: left;
+        height: 14px;
+        width: 14px;
+        margin-right: 5px;
+        margin-left: 0;
+        border: 0px solid #ccc;
+        }
+      .maplegend .legend-source {
+        color: #777;
+        clear: both;
+        }
+      .maplegend a {
+        color: #777;
+        }
+    &lt;/style&gt;
+    
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+    &lt;div id=&#x27;maplegend Choke Points&#x27; class=&#x27;maplegend&#x27;&gt;
+        &lt;div class=&#x27;legend-title&#x27;&gt;Choke Points&lt;/div&gt;
+        &lt;div class=&#x27;legend-scale&#x27;&gt;
+            &lt;ul class=&#x27;legend-labels&#x27;&gt;
+                &lt;li&gt;&lt;span style=&#x27;background:#1b9e77&#x27;&gt;&lt;/span&gt;Bab el-Mandeb Strait&lt;/li&gt;
+                &lt;li&gt;&lt;span style=&#x27;background:#66a61e&#x27;&gt;&lt;/span&gt;Cape of Good Hope&lt;/li&gt;
+                &lt;li&gt;&lt;span style=&#x27;background:#666666&#x27;&gt;&lt;/span&gt;Suez Canal&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_afc13c1e506b7a3ec2cd6e147e6dfff0&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_afc13c1e506b7a3ec2cd6e147e6dfff0 = L.map(
+                &quot;map_afc13c1e506b7a3ec2cd6e147e6dfff0&quot;,
+                {
+                    center: [-2.166969785000001, 32.116140709999996],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 10,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+            L.control.scale().addTo(map_afc13c1e506b7a3ec2cd6e147e6dfff0);
+
+            
+
+        
+    
+            var tile_layer_eb60abb6259a9bcb2a6b8e2147005233 = L.tileLayer(
+                &quot;https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}&quot;,
+                {&quot;attribution&quot;: &quot;Tiles \u0026copy; Esri \u0026mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 13, &quot;maxZoom&quot;: 13, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            );
+        
+    
+            tile_layer_eb60abb6259a9bcb2a6b8e2147005233.addTo(map_afc13c1e506b7a3ec2cd6e147e6dfff0);
+        
+    
+            map_afc13c1e506b7a3ec2cd6e147e6dfff0.fitBounds(
+                [[-34.92728556, 20.88273666], [30.59334599, 43.34954476]],
+                {}
+            );
+        
+    
+        function geo_json_be43f5257556a794b533b50ba6aabfab_styler(feature) {
+            switch(feature.id) {
+                case &quot;0&quot;: 
+                    return {&quot;color&quot;: &quot;#666666&quot;, &quot;fillColor&quot;: &quot;#666666&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
+                case &quot;3&quot;: 
+                    return {&quot;color&quot;: &quot;#1b9e77&quot;, &quot;fillColor&quot;: &quot;#1b9e77&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
+                default:
+                    return {&quot;color&quot;: &quot;#66a61e&quot;, &quot;fillColor&quot;: &quot;#66a61e&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
+            }
+        }
+        function geo_json_be43f5257556a794b533b50ba6aabfab_highlighter(feature) {
+            switch(feature.id) {
+                default:
+                    return {&quot;fillOpacity&quot;: 0.75};
+            }
+        }
+        function geo_json_be43f5257556a794b533b50ba6aabfab_pointToLayer(feature, latlng) {
+            var opts = {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3388ff&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3388ff&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 15, &quot;stroke&quot;: true, &quot;weight&quot;: 3};
+            
+            let style = geo_json_be43f5257556a794b533b50ba6aabfab_styler(feature)
+            Object.assign(opts, style)
+            
+            return new L.CircleMarker(latlng, opts)
+        }
+
+        function geo_json_be43f5257556a794b533b50ba6aabfab_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === &quot;function&quot;){
+                        geo_json_be43f5257556a794b533b50ba6aabfab.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === &quot;function&quot;){
+                        const highlightStyle = geo_json_be43f5257556a794b533b50ba6aabfab_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_be43f5257556a794b533b50ba6aabfab = L.geoJson(null, {
+                onEachFeature: geo_json_be43f5257556a794b533b50ba6aabfab_onEachFeature,
+            
+                style: geo_json_be43f5257556a794b533b50ba6aabfab_styler,
+                pointToLayer: geo_json_be43f5257556a794b533b50ba6aabfab_pointToLayer,
+        });
+
+        function geo_json_be43f5257556a794b533b50ba6aabfab_add (data) {
+            geo_json_be43f5257556a794b533b50ba6aabfab
+                .addData(data);
+        }
+            geo_json_be43f5257556a794b533b50ba6aabfab_add({&quot;bbox&quot;: [20.88273666, -34.92728556, 43.34954476, 30.59334599], &quot;features&quot;: [{&quot;bbox&quot;: [32.43688221, 30.59334599, 32.43688221, 30.59334599], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.43688221, 30.59334599], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Suez Canal&quot;, &quot;vessel_count_RoRo&quot;: 876, &quot;vessel_count_container&quot;: 6455, &quot;vessel_count_dry_bulk&quot;: 5870, &quot;vessel_count_general_cargo&quot;: 2097, &quot;vessel_count_tanker&quot;: 6919, &quot;vessel_count_total&quot;: 22217}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [43.34954476, 12.78859715, 43.34954476, 12.78859715], &quot;geometry&quot;: {&quot;coordinates&quot;: [43.34954476, 12.78859715], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#1b9e77&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Bab el-Mandeb Strait&quot;, &quot;vessel_count_RoRo&quot;: 1074, &quot;vessel_count_container&quot;: 6280, &quot;vessel_count_dry_bulk&quot;: 5940, &quot;vessel_count_general_cargo&quot;: 1839, &quot;vessel_count_tanker&quot;: 7386, &quot;vessel_count_total&quot;: 22519}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [20.88273666, -34.92728556, 20.88273666, -34.92728556], &quot;geometry&quot;: {&quot;coordinates&quot;: [20.88273666, -34.92728556], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#66a61e&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Cape of Good Hope&quot;, &quot;vessel_count_RoRo&quot;: 355, &quot;vessel_count_container&quot;: 2018, &quot;vessel_count_dry_bulk&quot;: 10277, &quot;vessel_count_general_cargo&quot;: 709, &quot;vessel_count_tanker&quot;: 3973, &quot;vessel_count_total&quot;: 17332}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+
+        
+    
+    geo_json_be43f5257556a794b533b50ba6aabfab.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create(&#x27;div&#x27;);
+    
+    let handleObject = feature=&gt;typeof(feature)==&#x27;object&#x27; ? JSON.stringify(feature) : feature;
+    let fields = [&quot;portname&quot;, &quot;vessel_count_total&quot;, &quot;vessel_count_container&quot;, &quot;vessel_count_dry_bulk&quot;, &quot;vessel_count_general_cargo&quot;, &quot;vessel_count_RoRo&quot;, &quot;vessel_count_tanker&quot;, &quot;industry_top1&quot;, &quot;industry_top2&quot;, &quot;industry_top3&quot;];
+    let aliases = [&quot;portname&quot;, &quot;vessel_count_total&quot;, &quot;vessel_count_container&quot;, &quot;vessel_count_dry_bulk&quot;, &quot;vessel_count_general_cargo&quot;, &quot;vessel_count_RoRo&quot;, &quot;vessel_count_tanker&quot;, &quot;industry_top1&quot;, &quot;industry_top2&quot;, &quot;industry_top3&quot;];
+    let table = &#x27;&lt;table&gt;&#x27; +
+        String(
+        fields.map(
+        (v,i)=&gt;
+        `&lt;tr&gt;
+            &lt;th&gt;${aliases[i]}&lt;/th&gt;
+            
+            &lt;td&gt;${handleObject(layer.feature.properties[v])}&lt;/td&gt;
+        &lt;/tr&gt;`).join(&#x27;&#x27;))
+    +&#x27;&lt;/table&gt;&#x27;;
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{&quot;className&quot;: &quot;foliumtooltip&quot;, &quot;sticky&quot;: true});
+                     
+    
+            geo_json_be43f5257556a794b533b50ba6aabfab.addTo(map_afc13c1e506b7a3ec2cd6e147e6dfff0);
+        
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div></div></div>
+</div>
+</section>
+<section id="ais-data">
+<h3>AIS Data<a class="headerlink" href="#ais-data" title="Permalink to this heading">#</a></h3>
+<p>Pull AIS data for selected locations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chokepoints_sel</span><span class="o">.</span><span class="n">portid</span><span class="p">)</span>
+<span class="n">df_chokepoints</span> <span class="o">=</span> <span class="n">get_chokepoint_data</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+<span class="n">df_chokepoints</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;ymd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_chokepoints</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># df_chokepoints.to_csv(join(output_dir, &#39;data&#39;, &#39;PortWatch-data&#39; f&#39;chokepoints_data_{time.strftime(&quot;%m_%d_%Y&quot;)}.csv&#39;), index=False)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="data-analysis">
+<h2>Data Analysis<a class="headerlink" href="#data-analysis" title="Permalink to this heading">#</a></h2>
+<section id="data-smoothening">
+<h3>Data Smoothening<a class="headerlink" href="#data-smoothening" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df = pd.read_csv(join(output_dir, f&#39;chokepoints_data_{time.strftime(&quot;%m_%d_%Y&quot;)}.csv&#39;))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;PortWatch-data&#39;</span><span class="p">,</span> <span class="s2">&quot;chokepoints_data_02_26_2024.csv&quot;</span><span class="p">))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2019-01-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>portid</th>
+      <th>portname</th>
+      <th>date</th>
+      <th>n_cargo</th>
+      <th>n_tanker</th>
+      <th>n_total</th>
+      <th>capacity</th>
+      <th>ObjectId</th>
+      <th>ymd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5629</th>
+      <td>chokepoint7</td>
+      <td>Cape of Good Hope</td>
+      <td>2024-02-18 19:00:00</td>
+      <td>61</td>
+      <td>17</td>
+      <td>78</td>
+      <td>5.976186e+06</td>
+      <td>20796</td>
+      <td>2024-02-18</td>
+    </tr>
+    <tr>
+      <th>5630</th>
+      <td>chokepoint7</td>
+      <td>Cape of Good Hope</td>
+      <td>2024-02-19 19:00:00</td>
+      <td>64</td>
+      <td>23</td>
+      <td>87</td>
+      <td>7.643016e+06</td>
+      <td>20797</td>
+      <td>2024-02-19</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Calculate 7-day rolling average and create month-day attribute.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;portname&quot;</span><span class="p">)[[</span><span class="s2">&quot;n_tanker&quot;</span><span class="p">,</span> <span class="s2">&quot;n_cargo&quot;</span><span class="p">,</span> <span class="s2">&quot;n_total&quot;</span><span class="p">,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">]]</span>
+    <span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;level_1&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;ymd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;md&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>portname</th>
+      <th>capacity</th>
+      <th>n_cargo</th>
+      <th>n_tanker</th>
+      <th>n_total</th>
+      <th>date</th>
+      <th>ymd</th>
+      <th>md</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Bab el-Mandeb Strait</td>
+      <td>4.149714e+06</td>
+      <td>42.0</td>
+      <td>18.25</td>
+      <td>60.25</td>
+      <td>2019-01-01 19:00:00</td>
+      <td>2019-01-01</td>
+      <td>01-01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bab el-Mandeb Strait</td>
+      <td>4.129687e+06</td>
+      <td>40.6</td>
+      <td>18.20</td>
+      <td>58.80</td>
+      <td>2019-01-02 19:00:00</td>
+      <td>2019-01-02</td>
+      <td>01-02</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="figure-ais-transit-calls-in-key-areas-historical">
+<h3>Figure: AIS Transit Calls in Key Areas, Historical<a class="headerlink" href="#figure-ais-transit-calls-in-key-areas-historical" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conflict_date</span> <span class="o">=</span> <span class="s2">&quot;2023-10-07&quot;</span>
+<span class="n">crisis_date</span> <span class="o">=</span> <span class="s2">&quot;2023-11-17&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;chokepoints&quot;</span><span class="p">)):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;chokepoints&quot;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o777</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;n_total&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="o">+</span> <span class="n">geom_line</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">conflict_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls in Key Areas&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;6 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">scale_color_brewer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">facet_wrap</span><span class="p">(</span><span class="s2">&quot;~portname&quot;</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">p0</span>
+<span class="c1"># p0.save(</span>
+<span class="c1">#     filename=join(</span>
+<span class="c1">#         charts_dir, &quot;chokepoints&quot;, &quot;transit-calls-chokepoints-historical.jpeg&quot;</span>
+<span class="c1">#     ),</span>
+<span class="c1">#     dpi=300,</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1f7f6b1bc4fdbc7da8170ef9b39b6dee468082630915590a8c261d6758976a74.png" src="../../_images/1f7f6b1bc4fdbc7da8170ef9b39b6dee468082630915590a8c261d6758976a74.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="calculate-reference-values">
+<h3>Calculate Reference Values<a class="headerlink" href="#calculate-reference-values" title="Permalink to this heading">#</a></h3>
+<p>Periods</p>
+<ul class="simple">
+<li><p><strong>Baseline</strong>: 2021, 2022, 2023 (January 1st – October 6th)</p></li>
+<li><p><strong>Middle East Conflict</strong>: 2023 (October 7th - November 16th)</p></li>
+<li><p><strong>Red Sea Crisis</strong>: November 17th - January 31st, 2024</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_reference_date</span> <span class="o">=</span> <span class="s2">&quot;2022-01-01&quot;</span>
+<span class="n">conflict_date</span> <span class="o">=</span> <span class="s2">&quot;2023-10-07&quot;</span>
+<span class="n">crisis_date</span> <span class="o">=</span> <span class="s2">&quot;2023-11-17&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_ref</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">start_reference_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">conflict_date</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_ref</span> <span class="o">=</span> <span class="n">df_ref</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;md&quot;</span><span class="p">])[</span>
+    <span class="p">[</span><span class="s2">&quot;n_tanker&quot;</span><span class="p">,</span> <span class="s2">&quot;n_cargo&quot;</span><span class="p">,</span> <span class="s2">&quot;n_total&quot;</span><span class="p">,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">df_ref</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_ref</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;n_tanker&quot;</span><span class="p">:</span> <span class="s2">&quot;n_tanker_ref&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_cargo&quot;</span><span class="p">:</span> <span class="s2">&quot;n_cargo_ref&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_total&quot;</span><span class="p">:</span> <span class="s2">&quot;n_total_ref&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="s2">&quot;capacity_ref&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Filter recent data (2023 onwards) and merge reference values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2023-01-01&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_ref</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;md&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">&quot;m:1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Calculate percentage change.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;n_total_pct_ch&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">n_total</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">n_total_ref</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">n_total_ref</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-ais-transit-calls-in-key-areas">
+<h3>Figure: AIS Transit Calls in Key Areas<a class="headerlink" href="#figure-ais-transit-calls-in-key-areas" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_filt</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;n_total&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="o">+</span> <span class="n">geom_line</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">conflict_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls in Key Areas&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">scale_color_brewer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">p1</span>
+<span class="c1"># p1.save(</span>
+<span class="c1">#     filename=join(charts_dir, &quot;chokepoints&quot;, &quot;transit-calls-chokepoints.jpeg&quot;), dpi=300</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6c7dc7777657052c84481d448783227157424e0c37851d184bd5e5aa81e08955.png" src="../../_images/6c7dc7777657052c84481d448783227157424e0c37851d184bd5e5aa81e08955.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-ais-transit-calls-relative-to-historical-average">
+<h3>Figure: AIS Transit Calls Relative to Historical Average<a class="headerlink" href="#figure-ais-transit-calls-relative-to-historical-average" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_filt</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;n_total&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="o">+</span> <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">conflict_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_line</span><span class="p">(</span>
+        <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;n_total_ref&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">),</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls Relative to Historical Average&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">scale_color_brewer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># + scale_y_continuous(labels=comma_format())</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">facet_wrap</span><span class="p">(</span><span class="s2">&quot;~portname&quot;</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">p2</span>
+<span class="c1"># p2.save(</span>
+<span class="c1">#     filename=join(charts_dir, &quot;chokepoints&quot;, &quot;transit-calls-chokepoints-ref.jpeg&quot;),</span>
+<span class="c1">#     dpi=300,</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/902a4b222ca95ed7360b099c79b03471a22c080770238921a6f91610b48bd130.png" src="../../_images/902a4b222ca95ed7360b099c79b03471a22c080770238921a6f91610b48bd130.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-ais-transit-calls-change-from-historical-average">
+<h3>Figure: AIS Transit Calls % Change from Historical Average<a class="headerlink" href="#figure-ais-transit-calls-change-from-historical-average" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p3</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span>
+        <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2023-08-01&quot;</span><span class="p">],</span>
+        <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;n_total_pct_ch&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">),</span>
+    <span class="p">)</span>  <span class="c1">#</span>
+    <span class="o">+</span> <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">conflict_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;%&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls in Key Areas, % Change&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">scale_color_brewer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">percent_format</span><span class="p">())</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">facet_wrap</span><span class="p">(</span><span class="s2">&quot;~portname&quot;</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">p3</span>
+<span class="c1"># p3.save(</span>
+<span class="c1">#     filename=join(charts_dir, &quot;chokepoints&quot;, &quot;transit-calls-chokepoints-pct.jpeg&quot;),</span>
+<span class="c1">#     dpi=300,</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6eb0a9096d68ed77729a39aae64603f5cc7218811582a1e4a4711463804558d3.png" src="../../_images/6eb0a9096d68ed77729a39aae64603f5cc7218811582a1e4a4711463804558d3.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary-statistics">
+<h2>Summary Statistics<a class="headerlink" href="#summary-statistics" title="Permalink to this heading">#</a></h2>
+<p>Calculate average values by location and time period.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conflict_date</span><span class="p">,</span> <span class="n">crisis_date</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;2023-10-07&#39;, &#39;2023-11-17&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;period&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">start_reference_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">crisis_date</span><span class="p">),</span> <span class="s2">&quot;period&quot;</span>
+<span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Reference&quot;</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">conflict_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">crisis_date</span><span class="p">),</span> <span class="s2">&quot;period&quot;</span>
+<span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Middle East Conflict&quot;</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">crisis_date</span><span class="p">),</span> <span class="s2">&quot;period&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Red Sea Crisis&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">period</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="p">])[[</span><span class="s2">&quot;n_tanker&quot;</span><span class="p">,</span> <span class="s2">&quot;n_cargo&quot;</span><span class="p">,</span> <span class="s2">&quot;n_total&quot;</span><span class="p">,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">]]</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># change order of rows</span>
+<span class="n">df_agg</span> <span class="o">=</span> <span class="n">df_agg</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;Reference&quot;</span><span class="p">,</span> <span class="s2">&quot;Middle East Conflict&quot;</span><span class="p">,</span> <span class="s2">&quot;Red Sea Crisis&quot;</span><span class="p">],</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="table-daily-average-values-by-time-period">
+<h3>Table: Daily Average Values by Time Period<a class="headerlink" href="#table-daily-average-values-by-time-period" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span> <span class="o">=</span> <span class="n">df_agg</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># format column numbers to 2 decimal places only for first three columns</span>
+<span class="n">table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="c1"># format last column numbers to thousands</span>
+<span class="n">table</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;capacity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">capacity</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:,.0f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">table</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;n_tanker&quot;</span><span class="p">:</span> <span class="s2">&quot;Tankers&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_cargo&quot;</span><span class="p">:</span> <span class="s2">&quot;Cargo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_total&quot;</span><span class="p">:</span> <span class="s2">&quot;Total&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="s2">&quot;Capacity&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">table</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span> <span class="s2">&quot;Period&quot;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+<span class="c1"># table.transpose()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_17292\467821549.py:3: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Tankers</th>
+      <th>Cargo</th>
+      <th>Total</th>
+      <th>Capacity</th>
+    </tr>
+    <tr>
+      <th>Area of Interest</th>
+      <th>Period</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">Bab el-Mandeb Strait</th>
+      <th>Reference</th>
+      <td>23.91</td>
+      <td>46.86</td>
+      <td>70.77</td>
+      <td>4,823,326</td>
+    </tr>
+    <tr>
+      <th>Middle East Conflict</th>
+      <td>25.95</td>
+      <td>51.58</td>
+      <td>77.53</td>
+      <td>5,305,603</td>
+    </tr>
+    <tr>
+      <th>Red Sea Crisis</th>
+      <td>17.98</td>
+      <td>32.14</td>
+      <td>50.12</td>
+      <td>3,106,581</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Cape of Good Hope</th>
+      <th>Reference</th>
+      <td>9.34</td>
+      <td>36.68</td>
+      <td>46.01</td>
+      <td>4,380,133</td>
+    </tr>
+    <tr>
+      <th>Middle East Conflict</th>
+      <td>10.03</td>
+      <td>39.20</td>
+      <td>49.23</td>
+      <td>4,813,646</td>
+    </tr>
+    <tr>
+      <th>Red Sea Crisis</th>
+      <td>13.90</td>
+      <td>49.31</td>
+      <td>63.21</td>
+      <td>5,735,754</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">Suez Canal</th>
+      <th>Reference</th>
+      <td>23.09</td>
+      <td>46.98</td>
+      <td>70.07</td>
+      <td>4,737,291</td>
+    </tr>
+    <tr>
+      <th>Middle East Conflict</th>
+      <td>25.20</td>
+      <td>51.64</td>
+      <td>76.83</td>
+      <td>5,246,677</td>
+    </tr>
+    <tr>
+      <th>Red Sea Crisis</th>
+      <td>18.38</td>
+      <td>36.99</td>
+      <td>55.38</td>
+      <td>3,476,979</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_copy</span> <span class="o">=</span> <span class="n">df_agg</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">aoi</span> <span class="ow">in</span> <span class="n">aois</span><span class="p">:</span>
+    <span class="n">df_sub</span> <span class="o">=</span> <span class="n">df_agg_copy</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">aoi</span><span class="p">),</span> <span class="p">:]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df_sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;Middle East Conflict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df_sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;Middle East Conflict&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;Reference&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">/</span> <span class="n">df_sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;Reference&quot;</span><span class="p">]</span>
+    <span class="n">df_sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;Red Sea Crisis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df_sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;Red Sea Crisis&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;Reference&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">/</span> <span class="n">df_sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;Reference&quot;</span><span class="p">]</span>
+    <span class="n">df_sub2</span> <span class="o">=</span> <span class="n">df_sub</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="n">df_sub2</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Reference&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_sub2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;portname&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aoi</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_sub2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_pct</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="table-daily-average-values-by-time-period-change-from-baseline">
+<h3>Table: Daily Average Values by Time Period, % Change from Baseline<a class="headerlink" href="#table-daily-average-values-by-time-period-change-from-baseline" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_pct</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_agg_pct</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># format columns as pct</span>
+<span class="n">df_agg_pct</span> <span class="o">=</span> <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">applymap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2%}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">df_agg_pct</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;n_tanker&quot;</span><span class="p">:</span> <span class="s2">&quot;Tankers&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_cargo&quot;</span><span class="p">:</span> <span class="s2">&quot;Cargo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_total&quot;</span><span class="p">:</span> <span class="s2">&quot;Total&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="s2">&quot;Capacity&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">df_agg_pct</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span> <span class="s2">&quot;Period&quot;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_agg_pct</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_17292\3184510119.py:5: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Tankers</th>
+      <th>Cargo</th>
+      <th>Total</th>
+      <th>Capacity</th>
+    </tr>
+    <tr>
+      <th>Area of Interest</th>
+      <th>Period</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Bab el-Mandeb Strait</th>
+      <th>Middle East Conflict</th>
+      <td>8.56%</td>
+      <td>10.08%</td>
+      <td>9.56%</td>
+      <td>10.00%</td>
+    </tr>
+    <tr>
+      <th>Red Sea Crisis</th>
+      <td>-24.79%</td>
+      <td>-31.42%</td>
+      <td>-29.18%</td>
+      <td>-35.59%</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Cape of Good Hope</th>
+      <th>Middle East Conflict</th>
+      <td>7.42%</td>
+      <td>6.87%</td>
+      <td>6.98%</td>
+      <td>9.90%</td>
+    </tr>
+    <tr>
+      <th>Red Sea Crisis</th>
+      <td>48.88%</td>
+      <td>34.45%</td>
+      <td>37.38%</td>
+      <td>30.95%</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Suez Canal</th>
+      <th>Middle East Conflict</th>
+      <td>9.12%</td>
+      <td>9.91%</td>
+      <td>9.65%</td>
+      <td>10.75%</td>
+    </tr>
+    <tr>
+      <th>Red Sea Crisis</th>
+      <td>-20.38%</td>
+      <td>-21.25%</td>
+      <td>-20.97%</td>
+      <td>-26.60%</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Save tables to excel</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;summary-tables-chokepoints.xlsx&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>  
+    <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Chokepoints Summary&#39;</span><span class="p">)</span>
+    <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Chokepoints % Change&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/chokepoints"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="README.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Maritime Choke Point Trends Monitor</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../ports/README.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Port Call Trends Monitor</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#locations">Locations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-of-choke-points">Map of Choke Points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ais-data">AIS Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-analysis">Data Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-smoothening">Data Smoothening</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-ais-transit-calls-in-key-areas-historical">Figure: AIS Transit Calls in Key Areas, Historical</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-reference-values">Calculate Reference Values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-ais-transit-calls-in-key-areas">Figure: AIS Transit Calls in Key Areas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-ais-transit-calls-relative-to-historical-average">Figure: AIS Transit Calls Relative to Historical Average</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-ais-transit-calls-change-from-historical-average">Figure: AIS Transit Calls % Change from Historical Average</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-statistics">Summary Statistics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#table-daily-average-values-by-time-period">Table: Daily Average Values by Time Period</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#table-daily-average-values-by-time-period-change-from-baseline">Table: Daily Average Values by Time Period, % Change from Baseline</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Data Lab
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Feb 27, 2024.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>
+ Country borders or names do not necessarily reflect the World Bank Group’s official position. All maps are for illustrative purposes and do not imply the expression of any opinion on the part of the World Bank, concerning the legal status of any country or territory or concerning the delimitation of frontiers or boundaries
+</div>
+<div>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://www.mozilla.org/en-US/MPL">Mozilla Public License.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -65,7 +65,7 @@
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Port Call Trends Monitor" href="../ports/README.html" />
+    <link rel="next" title="Choke Point Notebook" href="red-sea-chokepoints.html" />
     <link rel="prev" title="Reusable Data Science Products" href="../README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -185,8 +185,14 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reusable Data Products</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">Reusable Data Science Products</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Maritime Choke Point Trends Monitor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ports/README.html">Port Call Trends Monitor</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Maritime Choke Point Trends Monitor</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="red-sea-chokepoints.html">Choke Point Notebook</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ports/README.html">Port Call Trends Monitor</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ports/red-sea-ports.html">Ports Notebook</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Insights and Indicators</span></p>
 <ul class="nav bd-sidenav">
@@ -473,7 +479,7 @@ document.write(`
 <p>We then prepare a simple baseline estimation for each day of the year and compare the recent daily values to this reference baseline.</p>
 <section id="reference-period">
 <h3>Reference Period<a class="headerlink" href="#reference-period" title="Permalink to this heading">#</a></h3>
-<p>Given the volatility of 2021, we define our reference period as January 1st 2023 up to October 6th 2023. We calculate daily averages based on this time period.</p>
+<p>Given the volatility of 2021, we define our reference period as January 1st 2022 up to October 6th 2023. We calculate daily averages based on this time period.</p>
 <p>The following chart separates transit calls for each area and includes a black line which signals the historical average for each area.</p>
 <figure class="align-center" id="id3">
 <img alt="../../_images/transit-calls-chokepoints-ref.jpeg" src="../../_images/transit-calls-chokepoints-ref.jpeg" />
@@ -501,6 +507,7 @@ document.write(`
 <li><p><strong>Middle East Conflict</strong>: October 7th, 2023 - November 16th, 2023</p></li>
 <li><p><strong>Red Sea Crisis</strong>: November 17th, 2023 - February 19th, 2024</p></li>
 </ul>
+<p>The tables below are also accessible through the <a class="reference external" href="https://worldbankgroup.sharepoint.com/:x:/r/teams/DevelopmentDataPartnershipCommunity-WBGroup/Shared%20Documents/Projects/Data%20Lab/Red%20Sea%20Maritime%20Monitoring/tables/summary-tables-chokepoints.xlsx?d=wd056773265624429b55f7ddf0e7e1f10&amp;amp;csf=1&amp;amp;web=1&amp;amp;e=3Ozsl5">Project’s Sharepoint Folder</a>.</p>
 <figure class="align-center" id="id5">
 <img alt="../../_images/summary-table.png" src="../../_images/summary-table.png" />
 <figcaption>
@@ -518,9 +525,11 @@ document.write(`
 <section id="implementation">
 <h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p><span class="xref myst">Notebook to create charts and tables</span></p></li>
+<li><p><a class="reference internal" href="red-sea-chokepoints.html"><span class="std std-doc">Notebook to create charts and tables</span></a></p></li>
 </ul>
 </section>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -563,11 +572,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="../ports/README.html"
+       href="red-sea-chokepoints.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Port Call Trends Monitor</p>
+        <p class="prev-next-title">Choke Point Notebook</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

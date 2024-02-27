@@ -65,8 +65,8 @@
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Insights, Indicators, and Data Sources: Introduction" href="../../docs/4-sample-insights-and-ind.html" />
-    <link rel="prev" title="Maritime Choke Point Trends Monitor" href="../chokepoints/README.html" />
+    <link rel="next" title="Ports Notebook" href="red-sea-ports.html" />
+    <link rel="prev" title="Choke Point Notebook" href="../chokepoints/red-sea-chokepoints.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="Feb 27, 2024"/>
@@ -185,8 +185,14 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reusable Data Products</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">Reusable Data Science Products</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chokepoints/README.html">Maritime Choke Point Trends Monitor</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Port Call Trends Monitor</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chokepoints/README.html">Maritime Choke Point Trends Monitor</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chokepoints/red-sea-chokepoints.html">Choke Point Notebook</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Port Call Trends Monitor</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="red-sea-ports.html">Ports Notebook</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Insights and Indicators</span></p>
 <ul class="nav bd-sidenav">
@@ -459,6 +465,7 @@ document.write(`
 <section id="data">
 <h2>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h2>
 <p>We process daily estimated trade (imports and exports) since 2019 from the IMF’s <a class="reference external" href="https://portwatch.imf.org/">PortWatch</a> platform for e following ports: Aden, Al Ahmadi, Al Aqabah, Al Mukalla, As Suways, Djibouti, Duba. Duba Bulk Plant Tanker Terminal, El-Adabiya, Jiddah, Jiddah Oil, King Fahd Port, North Ain Sukhna Port, Rabigh, Safaga, and Yanbu. As of this date, the latest data point available is February 19th, 2024.</p>
+<p>The location of these ports can be verified in the following <a class="reference external" href="https://datapartnership.org/red-sea-monitoring/notebooks/ports/red-sea-ports.html#map-of-ports">interactive map</a> within the notebook.</p>
 <p>Since the data is daily and there multiple days with no trade, we first resample the data to weekly sums. The following charts show the estimated trade volumes by port. The vertical dotted lines mark the beginning of key periods of interest highlighted by the team.</p>
 <ul class="simple">
 <li><p>Middle East conflict: <strong>October 7th</strong></p></li>
@@ -578,7 +585,7 @@ Aden</label><div class="sd-tab-content docutils">
 <p>Given the numerous weeks with no trade data in the PorWatch dataset, we resample the data to the monthly frequency using the sum value.</p>
 <section id="reference-period">
 <h3>Reference Period<a class="headerlink" href="#reference-period" title="Permalink to this heading">#</a></h3>
-<p>We use the same reference period as in the choke points analysis: January 1st 2023 up to October 6th 2023. We calculate monthly historical averages based on this time period.</p>
+<p>We use the same reference period as in the choke points analysis: January 1st 2022 up to October 6th 2023. We calculate monthly historical averages based on this time period.</p>
 <p>The following charts show trade volume for each port, separating imports and exports, and includes trend lines from the historical average data (blue for imports, red for exports).</p>
 <section id="id1">
 <h4>Djibouti<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
@@ -695,6 +702,7 @@ Aden</label><div class="sd-tab-content docutils">
 <li><p><strong>Middle East Conflict</strong>: October 7th, 2023 - November 16th, 2023</p></li>
 <li><p><strong>Red Sea Crisis</strong>: November 17th, 2023 - February 19th, 2024</p></li>
 </ul>
+<p>The tables below are also accessible through the <a class="reference external" href="https://worldbankgroup.sharepoint.com/:x:/r/teams/DevelopmentDataPartnershipCommunity-WBGroup/Shared%20Documents/Projects/Data%20Lab/Red%20Sea%20Maritime%20Monitoring/tables/summary-tables-ports.xlsx?d=w6d7bf104d8c14016905e50ed1d50d4b8&amp;amp;csf=1&amp;amp;web=1&amp;amp;e=huaaYI">Project’s Sharepoint Folder</a>.</p>
 <section id="monthly-averages-by-time-period">
 <h3>Monthly Averages by Time Period<a class="headerlink" href="#monthly-averages-by-time-period" title="Permalink to this heading">#</a></h3>
 <table class="colwidths-auto table">
@@ -1538,9 +1546,11 @@ Aden</label><div class="sd-tab-content docutils">
 <section id="implementation">
 <h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p><span class="xref myst">Notebook to create charts and tables</span></p></li>
+<li><p><a class="reference internal" href="red-sea-ports.html"><span class="std std-doc">Notebook to create charts and tables</span></a></p></li>
 </ul>
 </section>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1574,20 +1584,20 @@ Aden</label><div class="sd-tab-content docutils">
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../chokepoints/README.html"
+       href="../chokepoints/red-sea-chokepoints.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Maritime Choke Point Trends Monitor</p>
+        <p class="prev-next-title">Choke Point Notebook</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../docs/4-sample-insights-and-ind.html"
+       href="red-sea-ports.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Insights, Indicators, and Data Sources: Introduction</p>
+        <p class="prev-next-title">Ports Notebook</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
