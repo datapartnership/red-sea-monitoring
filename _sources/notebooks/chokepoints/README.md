@@ -64,7 +64,7 @@ align: center
 AIS Transit Calls % Change from Historical Average
 ```
 
-### Summary Statistics
+## Summary Statistics
 
 Finally, we provide some aggregate statistics (average values) per area for each period of interest.
 
