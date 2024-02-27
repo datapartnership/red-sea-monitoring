@@ -11,6 +11,8 @@ parts:
   - caption: Reusable Data Products
     chapters:
       - file: notebooks/README
+      - file: notebooks/chokepoints/README
+      - file: notebooks/ports/README
   - caption: Insights and Indicators
     chapters:
       - file: docs/4-sample-insights-and-ind
