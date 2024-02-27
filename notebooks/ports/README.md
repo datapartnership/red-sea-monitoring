@@ -85,7 +85,7 @@ Since the data is daily and there multiple days with no trade, we first resample
 ```
 ````
 
-### Methodology
+## Methodology
 
 Given the numerous weeks with no trade data in the PorWatch dataset, we resample the data to the monthly frequency using the sum value.
 
@@ -168,7 +168,7 @@ The following charts show trade volume for each port, separating imports and exp
 ```
 ````
 
-### Summary Statistics
+## Summary Statistics
 
 From this monthly data, we follow a similar methodology as the last section of the choke points analysis, and calculate monthly average values for each time period of interest.
 
@@ -176,7 +176,7 @@ From this monthly data, we follow a similar methodology as the last section of t
 - **Middle East Conflict**: October 7th, 2023 - November 16th, 2023
 - **Red Sea Crisis**: November 17th, 2023 - February 19th, 2024
 
-#### Monthly Averages by Time Period
+### Monthly Averages by Time Period
 
 | Country      | Port                            | Period               | Cargo Import   | Cargo Export   | Tanker Import   | Tanker Export   | Total Import   | Total Export   |
 |:-------------|:--------------------------------|:---------------------|:---------------|:---------------|:----------------|:----------------|:---------------|:---------------|
@@ -229,7 +229,7 @@ From this monthly data, we follow a similar methodology as the last section of t
 | Yemen        | Al Mukalla                      | Middle East Conflict | 17,786         | 531            | 19,324          | 0               | 37,110         | 531            |
 | Yemen        | Al Mukalla                      | Red Sea Crisis       | 6,605          | 0              | 9,136           | 0               | 15,741         | 0              |
 
-#### Monthly Averages by Time Period, % Change from Baseline
+### Monthly Averages by Time Period, % Change from Baseline
 
 The following table shows the difference in monthly average values (% change from baseline period).
 
