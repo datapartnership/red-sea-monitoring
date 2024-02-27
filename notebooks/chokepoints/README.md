@@ -38,7 +38,7 @@ The historical chart also shows the Suez Canal blockage in early 2021, and an ov
 
 As noted earlier, first we apply a 7-day moving average to the daily data.
 
-We then prepare a simple baseline estimation for each day of the year and compare the recent daily values to this reference baseline. 
+We then prepare a simple baseline estimation for each day of the year and compare the recent daily values to this reference baseline.
 
 ### Reference Period
 
@@ -66,7 +66,7 @@ AIS Transit Calls % Change from Historical Average
 
 ### Summary Statistics
 
-Finally, we provide some aggregate statistics (average values) per area for each period of interest. 
+Finally, we provide some aggregate statistics (average values) per area for each period of interest.
 
 - **Baseline**: January 1st, 2022 – October 6th, 2023
 - **Middle East Conflict**: October 7th, 2023 - November 16th, 2023
