@@ -42,7 +42,7 @@ We then prepare a simple baseline estimation for each day of the year and compar
 
 ### Reference Period
 
-Given the volatility of 2021, we define our reference period as January 1st 2023 up to October 6th 2023. We calculate daily averages based on this time period.
+Given the volatility of 2021, we define our reference period as January 1st 2022 up to October 6th 2023. We calculate daily averages based on this time period.
 
 The following chart separates transit calls for each area and includes a black line which signals the historical average for each area.
 
@@ -71,6 +71,8 @@ Finally, we provide some aggregate statistics (average values) per area for each
 - **Baseline**: January 1st, 2022 – October 6th, 2023
 - **Middle East Conflict**: October 7th, 2023 - November 16th, 2023
 - **Red Sea Crisis**: November 17th, 2023 - February 19th, 2024
+
+The tables below are also accessible through the [Project's Sharepoint Folder](https://worldbankgroup.sharepoint.com/:x:/r/teams/DevelopmentDataPartnershipCommunity-WBGroup/Shared%20Documents/Projects/Data%20Lab/Red%20Sea%20Maritime%20Monitoring/tables/summary-tables-chokepoints.xlsx?d=wd056773265624429b55f7ddf0e7e1f10&csf=1&web=1&e=3Ozsl5).
 
 ```{figure} ../../reports/chokepoints/summary-table.png
 ---

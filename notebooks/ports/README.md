@@ -6,6 +6,8 @@ This section examines how AIS-derived trade estimates have evolved in ports alon
 
 We process daily estimated trade (imports and exports) since 2019 from the IMF's [PortWatch](https://portwatch.imf.org/) platform for e following ports: Aden, Al Ahmadi, Al Aqabah, Al Mukalla, As Suways, Djibouti, Duba. Duba Bulk Plant Tanker Terminal, El-Adabiya, Jiddah, Jiddah Oil, King Fahd Port, North Ain Sukhna Port, Rabigh, Safaga, and Yanbu. As of this date, the latest data point available is February 19th, 2024.
 
+The location of these ports can be verified in the following [interactive map](https://datapartnership.org/red-sea-monitoring/notebooks/ports/red-sea-ports.html#map-of-ports) within the notebook.
+
 Since the data is daily and there multiple days with no trade, we first resample the data to weekly sums. The following charts show the estimated trade volumes by port. The vertical dotted lines mark the beginning of key periods of interest highlighted by the team.
 - Middle East conflict: **October 7th**
 - Red Sea crisis: **November 17th**
@@ -91,7 +93,7 @@ Given the numerous weeks with no trade data in the PorWatch dataset, we resample
 
 ### Reference Period
 
-We use the same reference period as in the choke points analysis: January 1st 2023 up to October 6th 2023. We calculate monthly historical averages based on this time period.
+We use the same reference period as in the choke points analysis: January 1st 2022 up to October 6th 2023. We calculate monthly historical averages based on this time period.
 
 The following charts show trade volume for each port, separating imports and exports, and includes trend lines from the historical average data (blue for imports, red for exports).
 
@@ -175,6 +177,8 @@ From this monthly data, we follow a similar methodology as the last section of t
 - **Baseline**: January 1st, 2022 – October 6th, 2023
 - **Middle East Conflict**: October 7th, 2023 - November 16th, 2023
 - **Red Sea Crisis**: November 17th, 2023 - February 19th, 2024
+
+The tables below are also accessible through the [Project's Sharepoint Folder](https://worldbankgroup.sharepoint.com/:x:/r/teams/DevelopmentDataPartnershipCommunity-WBGroup/Shared%20Documents/Projects/Data%20Lab/Red%20Sea%20Maritime%20Monitoring/tables/summary-tables-ports.xlsx?d=w6d7bf104d8c14016905e50ed1d50d4b8&csf=1&web=1&e=huaaYI).
 
 ### Monthly Averages by Time Period
 
