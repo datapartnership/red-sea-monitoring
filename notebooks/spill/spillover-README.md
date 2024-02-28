@@ -27,7 +27,8 @@ For this analysis, we filtered the global dataset for exports to all Yemen ports
 
 ![](images/capacity.png)
 
-
+<br>
+<br>
 
 |     | Origin Country       | Daily Capacity at Risk (metric tons) | Capacity at Risk - 90-Day Disruption (metric tons) |
 | --- | -------------------- | ------------------------------------ | -------------------------------------------------- |
