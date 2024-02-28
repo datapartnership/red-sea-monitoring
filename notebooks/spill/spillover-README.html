@@ -469,18 +469,67 @@ document.write(`
 <h3>Estimating At-Risk Capacity of a Port Disruption (Metric Tons) by Country<a class="headerlink" href="#estimating-at-risk-capacity-of-a-port-disruption-metric-tons-by-country" title="Permalink to this heading">#</a></h3>
 <p>For this analysis, we filtered the global dataset for exports to all Yemen ports. We then identified the top ten countries whose at-risk daily capacity (aggregated across all ports in a country) were the highest if any of the Yemen ports were disrupted. We then followed the paper’s guidance on the linear relationship between daily at-risk capacity and the number of days of disruption and multipled the at-risk capacity by 90 days. With these steps, we produced the following bar chart and table.</p>
 <p><img alt="" src="../../_images/capacity.png" /></p>
-<p>| from_country | daily_capacity_at_risk | daily_capacity_at_risk_90_days_disruption |
-| — | — | — | — |
-| 0   | Saudi Arabia | 12643.487558 | 1137914 |
-| 1   | Djibouti | 11860.796300 | 1067472 |
-| 2   | United Arab Emirates | 3855.990247 | 347039 |
-| 3   | Türkiye | 3282.348785 | 295411 |
-| 4   | South Africa | 1509.575073 | 135862 |
-| 5   | Russian Federation | 1303.949299 | 117355 |
-| 6   | Oman | 1076.202858 | 96858 |
-| 7   | Ukraine | 998.247991 | 89842 |
-| 8   | Egypt | 837.215334 | 75349 |
-| 9   | Malaysia | 730.501202 | 65745 |</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Origin Country</p></th>
+<th class="head"><p>Daily Capacity at Risk (metric tons)</p></th>
+<th class="head"><p>Capacity at Risk - 90-Day Disruption (metric tons)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Saudi Arabia</p></td>
+<td><p>12,643</p></td>
+<td><p>1,137,914</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Djibouti</p></td>
+<td><p>11,861</p></td>
+<td><p>1,067,472</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>United Arab Emirates</p></td>
+<td><p>3,856</p></td>
+<td><p>347,039</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Türkiye</p></td>
+<td><p>3,282</p></td>
+<td><p>295,411</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>South Africa</p></td>
+<td><p>1,510</p></td>
+<td><p>135,862</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Russian Federation</p></td>
+<td><p>1,304</p></td>
+<td><p>117,355</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Oman</p></td>
+<td><p>1,076</p></td>
+<td><p>96,858</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>Ukraine</p></td>
+<td><p>998</p></td>
+<td><p>89,842</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>Egypt</p></td>
+<td><p>837</p></td>
+<td><p>75,349</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>Malaysia</p></td>
+<td><p>731</p></td>
+<td><p>65,745</p></td>
+</tr>
+</tbody>
+</table>
 <p>In the above, we see that Saudi Arabia is most impacted by a 90-day disruption at a Yemen port, with more than 1.1 million metric tons of export capacity at risk, followed by Djibouti, with 1.0 million metric tons.</p>
 </section>
 <section id="estimating-at-risk-export-value-of-a-port-disruption-usd-by-country">

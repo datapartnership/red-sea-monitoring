@@ -27,20 +27,24 @@ For this analysis, we filtered the global dataset for exports to all Yemen ports
 
 ![](images/capacity.png)
 
-| from_country | daily_capacity_at_risk | daily_capacity_at_risk_90_days_disruption |
-| --- | --- | --- | --- |
-| 0   | Saudi Arabia | 12643.487558 | 1137914 |
-| 1   | Djibouti | 11860.796300 | 1067472 |
-| 2   | United Arab Emirates | 3855.990247 | 347039 |
-| 3   | Türkiye | 3282.348785 | 295411 |
-| 4   | South Africa | 1509.575073 | 135862 |
-| 5   | Russian Federation | 1303.949299 | 117355 |
-| 6   | Oman | 1076.202858 | 96858 |
-| 7   | Ukraine | 998.247991 | 89842 |
-| 8   | Egypt | 837.215334 | 75349 |
-| 9   | Malaysia | 730.501202 | 65745 |
+
+
+|     | Origin Country       | Daily Capacity at Risk (metric tons) | Capacity at Risk - 90-Day Disruption (metric tons) |
+| --- | -------------------- | ------------------------------------ | -------------------------------------------------- |
+| 1   | Saudi Arabia         | 12,643                               | 1,137,914                                          |
+| 2   | Djibouti             | 11,861                               | 1,067,472                                          |
+| 3   | United Arab Emirates | 3,856                                | 347,039                                            |
+| 4   | Türkiye              | 3,282                                | 295,411                                            |
+| 5   | South Africa         | 1,510                                | 135,862                                            |
+| 6   | Russian Federation   | 1,304                                | 117,355                                            |
+| 7   | Oman                 | 1,076                                | 96,858                                             |
+| 8   | Ukraine              | 998                                  | 89,842                                             |
+| 9   | Egypt                | 837                                  | 75,349                                             |
+| 10  | Malaysia             | 731                                  | 65,745                                             |
 
 In the above, we see that Saudi Arabia is most impacted by a 90-day disruption at a Yemen port, with more than 1.1 million metric tons of export capacity at risk, followed by Djibouti, with 1.0 million metric tons. 
+
+
 
 #### Estimating At-Risk Export Value of a Port Disruption (USD) by Country
 
@@ -59,5 +63,3 @@ The complete code for reproducing the above results may be found here: [Github N
 [Verschuur, J., Koks, E.E. & Hall, J.W. Ports’ criticality in international trade and global supply-chains. *Nat Commun* **13**, 4351 (2022).](https://doi.org/10.1038/s41467-022-32070-0)
 
 [Verschuur, J., Koks, E.E. & Hall, J.W. Systemic risks from climate-related disruptions at ports. Nat. Clim. Chang. 13, 804–806 (2023).](https://doi.org/10.1038/s41558-023-01754-w)
-
-
