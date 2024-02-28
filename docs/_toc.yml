@@ -17,9 +17,11 @@ parts:
       - file: notebooks/ports/README
         sections:
           - file: notebooks/ports/red-sea-ports.ipynb
+      - file: notebooks/conflict/acled.ipynb
   - caption: Insights and Indicators
     chapters:
       - file: docs/4-sample-insights-and-ind
+      - file: notebooks/indicators/conflict-and-trade.ipynb
   - caption: Acknowledgements
     chapters:
       - file: docs/6-team
