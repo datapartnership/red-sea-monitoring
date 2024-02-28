@@ -88,30 +88,29 @@ def get_bar_chart(
     )
 
     crisis_label = Label(
-    y=250,  # Adjust as needed
-    x=crisis_date,
-    y_units='screen',
-    text='Red Sea Crisis',
-    render_mode='css',
-    background_fill_color='white',
-    background_fill_alpha=0.7,
-    text_font_size = '9pt'
-)
+        y=250,  # Adjust as needed
+        x=crisis_date,
+        y_units="screen",
+        text="Red Sea Crisis",
+        render_mode="css",
+        background_fill_color="white",
+        background_fill_alpha=0.7,
+        text_font_size="9pt",
+    )
 
     conflict_label = Label(
         y=290,  # Adjust as needed
         x=conflict_date,
-        y_units='screen',
-        text='Middle East Conflict',
-        render_mode='css',
-        background_fill_color='white',
+        y_units="screen",
+        text="Middle East Conflict",
+        render_mode="css",
+        background_fill_color="white",
         background_fill_alpha=0.7,
-        text_font_size = '9pt'
+        text_font_size="9pt",
     )
 
     p2.add_layout(crisis_label)
     p2.add_layout(conflict_label)
-
 
     # Combine the title, plot, and subtitle into a single layout
     layout = column(title_fig, p2, sub_title_fig)
@@ -197,25 +196,25 @@ def get_stacked_bar_chart(
         )
 
     crisis_label = Label(
-    y=250,  # Adjust as needed
-    x=crisis_date,
-    y_units='screen',
-    text='Red Sea Crisis',
-    render_mode='css',
-    background_fill_color='white',
-    background_fill_alpha=0.7,
-    text_font_size = '9pt'
-)
+        y=250,  # Adjust as needed
+        x=crisis_date,
+        y_units="screen",
+        text="Red Sea Crisis",
+        render_mode="css",
+        background_fill_color="white",
+        background_fill_alpha=0.7,
+        text_font_size="9pt",
+    )
 
     conflict_label = Label(
-    y=290,  # Adjust as needed
-    x=conflict_date,
-    y_units='screen',
-    text='Middle East Conflict',
-    render_mode='css',
-    background_fill_color='white',
-    background_fill_alpha=0.7,
-    text_font_size = '9pt'
+        y=290,  # Adjust as needed
+        x=conflict_date,
+        y_units="screen",
+        text="Middle East Conflict",
+        render_mode="css",
+        background_fill_color="white",
+        background_fill_alpha=0.7,
+        text_font_size="9pt",
     )
 
     p2.add_layout(crisis_label)
