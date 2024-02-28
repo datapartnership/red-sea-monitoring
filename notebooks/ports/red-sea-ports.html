@@ -65,11 +65,11 @@
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Insights, Indicators, and Data Sources: Introduction" href="../../docs/4-sample-insights-and-ind.html" />
+    <link rel="next" title="Conflict Location and Trends Monitor" href="../conflict/acled.html" />
     <link rel="prev" title="Port Call Trends Monitor" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 27, 2024"/>
+    <meta name="docbuild:last-update" content="Feb 28, 2024"/>
   </head>
   
   
@@ -193,10 +193,12 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Ports Notebook</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../conflict/acled.html">Conflict Location and Trends Monitor</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Insights and Indicators</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../docs/4-sample-insights-and-ind.html">Insights, Indicators, and Data Sources: Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indicators/conflict-and-trade.html">Shipping and Conflict</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Acknowledgements</span></p>
 <ul class="nav bd-sidenav">
@@ -466,9 +468,9 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
 
 <span class="kn">import</span> <span class="nn">git</span>
+
 <span class="n">git_repo</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">search_parent_directories</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">git_root</span> <span class="o">=</span> <span class="n">git_repo</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">rev_parse</span><span class="p">(</span><span class="s2">&quot;--show-toplevel&quot;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">git_root</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;red-sea-monitoring&quot;</span><span class="p">))</span>
@@ -482,7 +484,9 @@ document.write(`
 
 <span class="n">plotnine</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">figure_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 
-<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\WB514197\WBG\Development Data Partnership - Red Sea Maritime Monitoring&quot;</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;C:\Users\WB514197\WBG\Development Data Partnership - Red Sea Maritime Monitoring&quot;</span>
+<span class="p">)</span>
 <span class="n">charts_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">git_root</span><span class="p">,</span> <span class="s2">&quot;reports&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -645,21 +649,31 @@ document.write(`
 <h3>Map of Ports<a class="headerlink" href="#map-of-ports" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ports_red_sea</span><span class="p">[[</span>
-    <span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;portname&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> 
-    <span class="s1">&#39;vessel_count_total&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_container&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;vessel_count_dry_bulk&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_general_cargo&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;vessel_count_RoRo&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_tanker&#39;</span><span class="p">,</span> <span class="s1">&#39;industry_top1&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;industry_top2&#39;</span><span class="p">,</span> <span class="s1">&#39;industry_top3&#39;</span><span class="p">,</span> <span class="s1">&#39;share_country_maritime_import&#39;</span><span class="p">,</span>
-       <span class="s1">&#39;share_country_maritime_export&#39;</span>
-    <span class="p">]]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
-        <span class="n">column</span><span class="o">=</span><span class="s1">&#39;country&#39;</span><span class="p">,</span>
-        <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Dark2&#39;</span><span class="p">,</span>
-        <span class="n">marker_kwds</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;radius&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
-        <span class="n">tiles</span> <span class="o">=</span> <span class="s1">&#39;Esri.WorldGrayCanvas&#39;</span><span class="p">,</span>
-        <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="s1">&#39;caption&#39;</span><span class="p">:</span> <span class="s1">&#39;Ports&#39;</span><span class="p">}</span>
-        <span class="c1"># attribution = &#39;chec&#39;</span>
-    <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ports_red_sea</span><span class="p">[</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;geometry&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;portname&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;country&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_total&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_container&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_dry_bulk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_general_cargo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_RoRo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_tanker&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;industry_top1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;industry_top2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;industry_top3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;share_country_maritime_import&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;share_country_maritime_export&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;country&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Dark2&quot;</span><span class="p">,</span>
+    <span class="n">marker_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+    <span class="n">tiles</span><span class="o">=</span><span class="s2">&quot;Esri.WorldGrayCanvas&quot;</span><span class="p">,</span>
+    <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="s2">&quot;caption&quot;</span><span class="p">:</span> <span class="s2">&quot;Ports&quot;</span><span class="p">},</span>
+    <span class="c1"># attribution = &#39;chec&#39;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -930,7 +944,9 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ports_red_sea</span><span class="o">.</span><span class="n">portid</span><span class="p">)</span>
 <span class="n">df_ports</span> <span class="o">=</span> <span class="n">get_port_data</span><span class="p">(</span><span class="n">ports</span><span class="p">)</span>
-<span class="n">df_ports</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span> <span class="s2">&quot;ports_data_02_26_2024.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_ports</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span> <span class="s2">&quot;ports_data_02_26_2024.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -943,7 +959,9 @@ document.write(`
 <h3>Convert to Weekly<a class="headerlink" href="#convert-to-weekly" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span> <span class="s2">&quot;ports_data_02_26_2024.csv&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span> <span class="s2">&quot;ports_data_02_26_2024.csv&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2019-01-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
@@ -1428,19 +1446,23 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_ref</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">start_reference_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">conflict_date</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">df_ref</span> <span class="o">=</span> <span class="n">df_ref</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">])[</span>
-    <span class="p">[</span>
-        <span class="s2">&quot;portcalls_cargo&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;portcalls_tanker&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;portcalls&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;import_cargo&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;export_cargo&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;import_tanker&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;export_tanker&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;import&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;export&quot;</span><span class="p">,</span>
+<span class="n">df_ref</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_ref</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">])[</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;portcalls_cargo&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;portcalls_tanker&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;portcalls&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;import_cargo&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;export_cargo&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;import_tanker&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;export_tanker&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;import&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;export&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
     <span class="p">]</span>
-<span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
 <span class="n">df_ref</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
     <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;portcalls_cargo&quot;</span><span class="p">:</span> <span class="s2">&quot;portcalls_cargo_ref&quot;</span><span class="p">,</span>
@@ -1826,6 +1848,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itables</span> <span class="kn">import</span> <span class="n">init_notebook_mode</span>
+
 <span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">all_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2077,9 +2100,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 <p>Save tables to excel</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;summary-tables-ports.xlsx&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>  
-    <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Ports Summary&#39;</span><span class="p">)</span>
-    <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Ports % Change&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;summary-tables-ports.xlsx&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Ports Summary&quot;</span><span class="p">)</span>
+    <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Ports % Change&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2128,11 +2151,11 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
       </div>
     </a>
     <a class="right-next"
-       href="../../docs/4-sample-insights-and-ind.html"
+       href="../conflict/acled.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Insights, Indicators, and Data Sources: Introduction</p>
+        <p class="prev-next-title">Conflict Location and Trends Monitor</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -2198,7 +2221,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Feb 27, 2024.
+  Last updated on Feb 28, 2024.
   <br/>
 </p>
   </div>

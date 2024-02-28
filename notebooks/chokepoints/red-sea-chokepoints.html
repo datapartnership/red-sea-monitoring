@@ -69,7 +69,7 @@
     <link rel="prev" title="Maritime Choke Point Trends Monitor" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 27, 2024"/>
+    <meta name="docbuild:last-update" content="Feb 28, 2024"/>
   </head>
   
   
@@ -193,10 +193,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../ports/red-sea-ports.html">Ports Notebook</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../conflict/acled.html">Conflict Location and Trends Monitor</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Insights and Indicators</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../docs/4-sample-insights-and-ind.html">Insights, Indicators, and Data Sources: Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indicators/conflict-and-trade.html">Shipping and Conflict</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Acknowledgements</span></p>
 <ul class="nav bd-sidenav">
@@ -484,7 +486,9 @@ document.write(`
 
 <span class="n">plotnine</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">figure_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 
-<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\WB514197\WBG\Development Data Partnership - Red Sea Maritime Monitoring&quot;</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;C:\Users\WB514197\WBG\Development Data Partnership - Red Sea Maritime Monitoring&quot;</span>
+<span class="p">)</span>
 <span class="n">charts_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">git_root</span><span class="p">,</span> <span class="s2">&quot;reports&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -630,8 +634,12 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_sel</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chokepoints_sel</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">lat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">chokepoints_sel</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">chokepoints_sel</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_sel</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chokepoints_sel</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">lat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">chokepoints_sel</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
+    <span class="n">chokepoints_sel</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="p">)</span>
 <span class="c1"># chokepoints_sel.to_file(join(output_dir, &quot;chokepoints.shp&quot;), driver=&#39;ESRI Shapefile&#39;)</span>
 </pre></div>
 </div>
@@ -642,18 +650,27 @@ document.write(`
 <h3>Map of Choke Points<a class="headerlink" href="#map-of-choke-points" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_sel</span><span class="p">[[</span>
-    <span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;portname&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_total&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_container&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;vessel_count_dry_bulk&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_general_cargo&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;vessel_count_RoRo&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_count_tanker&#39;</span><span class="p">,</span> <span class="s1">&#39;industry_top1&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;industry_top2&#39;</span><span class="p">,</span> <span class="s1">&#39;industry_top3&#39;</span>
-    <span class="p">]]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
-        <span class="n">column</span><span class="o">=</span><span class="s1">&#39;portname&#39;</span><span class="p">,</span>
-        <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Dark2&#39;</span><span class="p">,</span>
-        <span class="n">marker_kwds</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;radius&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">},</span>
-        <span class="n">tiles</span> <span class="o">=</span> <span class="s1">&#39;Esri Ocean Basemap&#39;</span><span class="p">,</span>
-        <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="s1">&#39;caption&#39;</span><span class="p">:</span> <span class="s1">&#39;Choke Points&#39;</span><span class="p">}</span>
-    <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_sel</span><span class="p">[</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;geometry&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;portname&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_total&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_container&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_dry_bulk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_general_cargo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_RoRo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_count_tanker&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;industry_top1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;industry_top2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;industry_top3&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Dark2&quot;</span><span class="p">,</span>
+    <span class="n">marker_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">},</span>
+    <span class="n">tiles</span><span class="o">=</span><span class="s2">&quot;Esri Ocean Basemap&quot;</span><span class="p">,</span>
+    <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="s2">&quot;caption&quot;</span><span class="p">:</span> <span class="s2">&quot;Choke Points&quot;</span><span class="p">},</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -933,7 +950,9 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df = pd.read_csv(join(output_dir, f&#39;chokepoints_data_{time.strftime(&quot;%m_%d_%Y&quot;)}.csv&#39;))</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;PortWatch-data&#39;</span><span class="p">,</span> <span class="s2">&quot;chokepoints_data_02_26_2024.csv&quot;</span><span class="p">))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span> <span class="s2">&quot;chokepoints_data_02_26_2024.csv&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2019-01-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
@@ -1651,9 +1670,11 @@ document.write(`
 <p>Save tables to excel</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;summary-tables-chokepoints.xlsx&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>  
-    <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Chokepoints Summary&#39;</span><span class="p">)</span>
-    <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Chokepoints % Change&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;summary-tables-chokepoints.xlsx&quot;</span><span class="p">)</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Chokepoints Summary&quot;</span><span class="p">)</span>
+    <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Chokepoints % Change&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1773,7 +1794,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Feb 27, 2024.
+  Last updated on Feb 28, 2024.
   <br/>
 </p>
   </div>
