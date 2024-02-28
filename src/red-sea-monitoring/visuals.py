@@ -22,7 +22,7 @@ def get_bar_chart(
     conflict_date=None,
 ):
     # Initialize the figure
-    p2 = figure(x_axis_type="datetime", width=800, height=400, toolbar_location="above")
+    p2 = figure(x_axis_type="datetime", width=750, height=400, toolbar_location="above")
     p2.add_layout(Legend(), "right")
 
     # Define the color palette (make sure this has enough colors for the categories)
@@ -55,13 +55,13 @@ def get_bar_chart(
         p2.title.text = subtitle
 
     # Create title and subtitle text using separate figures
-    title_fig = figure(title=title, toolbar_location=None, width=800, height=40)
+    title_fig = figure(title=title, toolbar_location=None, width=750, height=40)
     title_fig.title.align = "left"
     title_fig.title.text_font_size = "14pt"
     title_fig.border_fill_alpha = 0
     title_fig.outline_line_color = None
 
-    sub_title_fig = figure(title=source, toolbar_location=None, width=800, height=40)
+    sub_title_fig = figure(title=source, toolbar_location=None, width=750, height=40)
     sub_title_fig.title.align = "left"
     sub_title_fig.title.text_font_size = "10pt"
     sub_title_fig.title.text_font_style = "normal"
@@ -140,14 +140,14 @@ def get_stacked_bar_chart(
     #         df_pivot[category] = 0  # Add missing categories with 0 values
 
     # Initialize the figure
-    p2 = figure(x_axis_type="datetime", width=800, height=400, toolbar_location="above")
+    p2 = figure(x_axis_type="datetime", width=750, height=400, toolbar_location="above")
 
     # Convert dataframe to ColumnDataSource
     source = ColumnDataSource(df_pivot)
 
     p2 = figure(
         x_axis_type="datetime",
-        width=800,
+        width=750,
         height=400,
         title=title,
         toolbar_location="above",
@@ -222,8 +222,8 @@ def get_stacked_bar_chart(
     p2.add_layout(conflict_label)
 
     # # Set subtitles and titles
-    # title_fig = _create_title_figure(title, width=800, height=50, font_size="14pt")
-    # sub_title_fig = _create_title_figure(subtitle if subtitle else source, width=800, height=30, font_size="10pt", font_style="normal")
+    # title_fig = _create_title_figure(title, width=750, height=50, font_size="14pt")
+    # sub_title_fig = _create_title_figure(subtitle if subtitle else source, width=750, height=30, font_size="10pt", font_style="normal")
 
     # Combine everything into a single layout
     layout = column(p2)
