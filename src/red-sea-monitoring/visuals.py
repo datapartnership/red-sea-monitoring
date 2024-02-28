@@ -1,5 +1,5 @@
 from bokeh.plotting import figure, ColumnDataSource
-from bokeh.models import Legend, Span
+from bokeh.models import Legend, Span, Label
 from bokeh.layouts import column
 from bokeh.core.validation import silence
 from bokeh.core.validation.warnings import EMPTY_LAYOUT
@@ -87,6 +87,32 @@ def get_bar_chart(
         ]
     )
 
+    crisis_label = Label(
+    y=250,  # Adjust as needed
+    x=crisis_date,
+    y_units='screen',
+    text='Red Sea Crisis',
+    render_mode='css',
+    background_fill_color='white',
+    background_fill_alpha=0.7,
+    text_font_size = '9pt'
+)
+
+    conflict_label = Label(
+        y=290,  # Adjust as needed
+        x=conflict_date,
+        y_units='screen',
+        text='Middle East Conflict',
+        render_mode='css',
+        background_fill_color='white',
+        background_fill_alpha=0.7,
+        text_font_size = '9pt'
+    )
+
+    p2.add_layout(crisis_label)
+    p2.add_layout(conflict_label)
+
+
     # Combine the title, plot, and subtitle into a single layout
     layout = column(title_fig, p2, sub_title_fig)
 
@@ -169,6 +195,31 @@ def get_stacked_bar_chart(
                 line_dash=(4, 4),
             )
         )
+
+    crisis_label = Label(
+    y=250,  # Adjust as needed
+    x=crisis_date,
+    y_units='screen',
+    text='Red Sea Crisis',
+    render_mode='css',
+    background_fill_color='white',
+    background_fill_alpha=0.7,
+    text_font_size = '9pt'
+)
+
+    conflict_label = Label(
+    y=290,  # Adjust as needed
+    x=conflict_date,
+    y_units='screen',
+    text='Middle East Conflict',
+    render_mode='css',
+    background_fill_color='white',
+    background_fill_alpha=0.7,
+    text_font_size = '9pt'
+    )
+
+    p2.add_layout(crisis_label)
+    p2.add_layout(conflict_label)
 
     # # Set subtitles and titles
     # title_fig = _create_title_figure(title, width=800, height=50, font_size="14pt")
