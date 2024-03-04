@@ -492,10 +492,10 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the data from the downloaded file into a DataFrame</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/2023-11-12-spill-data.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/2023-11-12-spill-data.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Filter data to only select rows where &quot;to_country&quot; = &quot;Yemen&quot; (for example)</span>
-<span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;to_country&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Yemen&#39;</span><span class="p">]</span>
+<span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;to_country&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Yemen&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -506,11 +506,15 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Identify the top ten &quot;from_country&quot; with greatest &quot;daily_capacity_at_risk&quot;</span>
-<span class="n">top_ten_countries</span> <span class="o">=</span> <span class="n">df_filtered</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;from_country&#39;</span><span class="p">)[</span><span class="s1">&#39;daily_capacity_at_risk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">top_ten_countries</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_filtered</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;from_country&quot;</span><span class="p">)[</span><span class="s2">&quot;daily_capacity_at_risk&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="c1"># Create a new table with 90-day indicator (using standard numbers in lieu of scientific notation)</span>
 <span class="n">new_table</span> <span class="o">=</span> <span class="n">top_ten_countries</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">new_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">90</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">new_table</span><span class="p">[</span><span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">new_table</span><span class="p">[</span><span class="s2">&quot;daily_capacity_at_risk&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">90</span>
+<span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -524,24 +528,38 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sort &#39;daily_capacity_at_risk_90_days_disruption&#39; in descending order</span>
 <span class="n">sorted_table</span> <span class="o">=</span> <span class="n">new_table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">sorted_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">sorted_table</span> <span class="o">=</span> <span class="n">sorted_table</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sorted_table</span><span class="p">[</span><span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_table</span><span class="p">[</span>
+    <span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">sorted_table</span> <span class="o">=</span> <span class="n">sorted_table</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+    <span class="n">by</span><span class="o">=</span><span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 
 <span class="c1"># Create vertical bar chart with adjusted y-axis labels (without scientific notation)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">bars</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">sorted_table</span><span class="p">[</span><span class="s1">&#39;from_country&#39;</span><span class="p">],</span> <span class="n">sorted_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Simulated Capacity at Risk from 90 Days Disruption at all Yemen Ports (metric tons)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;From Country&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Estimated Capacity at Risk in Top Ten Countries Most Impacted by 90-Day Disruption in Yemen Ports (metric tons)&#39;</span><span class="p">)</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="n">sorted_table</span><span class="p">[</span><span class="s2">&quot;from_country&quot;</span><span class="p">],</span>
+    <span class="n">sorted_table</span><span class="p">[</span><span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;skyblue&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span>
+    <span class="s2">&quot;Simulated Capacity at Risk from 90 Days Disruption at all Yemen Ports (metric tons)&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;From Country&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+    <span class="s2">&quot;Estimated Capacity at Risk in Top Ten Countries Most Impacted by 90-Day Disruption in Yemen Ports (metric tons)&quot;</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
 
 <span class="c1"># Adjust y-axis labels to display standard numbers</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="p">)</span>
 
 <span class="c1"># Add gray grid lines</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;images/capacity.png&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/capacity.png&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
@@ -650,10 +668,10 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the data from the downloaded file into a DataFrame</span>
-<span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/2023-11-12-spill-country-data.csv&#39;</span><span class="p">)</span>
+<span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/2023-11-12-spill-country-data.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Filter data to only select rows where &quot;to_country&quot; = &quot;Yemen&quot; (for example)</span>
-<span class="n">country_data</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;to_country&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Yemen&#39;</span><span class="p">]</span>
+<span class="n">country_data</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;to_country&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Yemen&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -664,16 +682,27 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new table, summing the daily export and import values at risk for all from_portid in each from_country</span>
-<span class="n">grouped_data</span> <span class="o">=</span> <span class="n">country_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;from_country&#39;</span><span class="p">,</span> <span class="s1">&#39;industry&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
-    <span class="n">daily_export_value_at_risk</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">),</span>
-    <span class="n">daily_import_value_at_risk</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;daily_import_value_at_risk&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">)</span>
-<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">grouped_data</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">country_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;from_country&quot;</span><span class="p">,</span> <span class="s2">&quot;industry&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">daily_export_value_at_risk</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;daily_export_value_at_risk&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">daily_import_value_at_risk</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;daily_import_value_at_risk&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
 
 <span class="c1"># Identify the top ten countries with the greatest daily_export_value_at_risk</span>
-<span class="n">top_ten_exporters</span> <span class="o">=</span> <span class="n">grouped_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;from_country&#39;</span><span class="p">)[</span><span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">top_ten_exporters</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">grouped_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;from_country&quot;</span><span class="p">)[</span><span class="s2">&quot;daily_export_value_at_risk&quot;</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
 
 <span class="c1"># Create a new table for these top ten countries, including a new column that multiplies the export value by 90 days (or other time period -- the relatiobship is linear)</span>
-<span class="n">top_ten_exporters</span><span class="p">[</span><span class="s1">&#39;at_risk_daily_export_value_90x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">90</span>
+<span class="n">top_ten_exporters</span><span class="p">[</span><span class="s2">&quot;at_risk_daily_export_value_90x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s2">&quot;daily_export_value_at_risk&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">90</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -687,19 +716,27 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create bar chart with y-axis showing &quot;millions&quot; and gray grid lines</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">top_ten_exporters</span><span class="p">[</span><span class="s1">&#39;from_country&#39;</span><span class="p">],</span> <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s1">&#39;at_risk_daily_export_value_90x&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top Countries by At-Risk Export Value with 90-Day Port Disruption in Yemen&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Country&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;At-Risk Export Value with 90-Day Port Disruption in Yemen (Millions of US Dollars&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s2">&quot;from_country&quot;</span><span class="p">],</span>
+    <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s2">&quot;at_risk_daily_export_value_90x&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;skyblue&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Top Countries by At-Risk Export Value with 90-Day Port Disruption in Yemen&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Country&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span>
+    <span class="s2">&quot;At-Risk Export Value with 90-Day Port Disruption in Yemen (Millions of US Dollars&quot;</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
 <span class="c1"># Adjust the y-axis labels to reflect the new scale in millions</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="p">)</span>
 
 <span class="c1"># Display the adjusted plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;images/value.png&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/value.png&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="c1"># Show the new table for top ten countries</span>
