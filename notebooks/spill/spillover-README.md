@@ -4,7 +4,7 @@
 
 Spillover in this context refers to indirect effects that changes or disruptions in the maritime transport network can have on global supply chains and economies. This includes how events such as port closures or localized disruptions like conflict can affect global trade flows, supply chains, and economic activities across multiple countries and industries.
 
-In the paper, [Ports' Criticality in International Trade and Global Supply Chains](https://doi.org/10.1038/s41467-022-32070-0), the authors present a methodology for estimating how disruption to one port can place other ports or countries' export capacity (mesured in metric tons) and value (measured in USD) at risk. 
+In the paper, [Ports' Criticality in International Trade and Global Supply Chains](https://doi.org/10.1038/s41467-022-32070-0), the authors present a methodology for estimating how disruption to one port can place other ports or countries' export capacity (mesured in metric tons) and value (measured in USD) at risk.
 
 ## Data
 
@@ -43,7 +43,7 @@ For this analysis, we filtered the global dataset for exports to all Yemen ports
 | 9   | Egypt                | 837                                  | 75,349                                             |
 | 10  | Malaysia             | 731                                  | 65,745                                             |
 
-In the above, we see that Saudi Arabia is most impacted by a 90-day disruption at a Yemen port, with more than 1.1 million metric tons of export capacity at risk, followed by Djibouti, with 1.0 million metric tons. 
+In the above, we see that Saudi Arabia is most impacted by a 90-day disruption at a Yemen port, with more than 1.1 million metric tons of export capacity at risk, followed by Djibouti, with 1.0 million metric tons.
 
 
 
@@ -53,7 +53,7 @@ For this analysis, we filtered the global dataset for exports to all Yemen ports
 
 ![](images/value.png)
 
-In the above chart, we see that, again, Saudi Arabia has the most export value at-risk with a 90-day disruption at a Yemen port, with USD 250 million , followed by China, with USD 190 million. 
+In the above chart, we see that, again, Saudi Arabia has the most export value at-risk with a 90-day disruption at a Yemen port, with USD 250 million , followed by China, with USD 190 million.
 
 ## Implementation
 
