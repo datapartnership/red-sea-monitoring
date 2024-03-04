@@ -129,9 +129,10 @@ def get_stacked_bar_chart(
     crisis_date=None,
     conflict_date=None,
     category_column="event_type",
+    measure = 'nrEvents'
 ):
     df_pivot = dataframe.pivot_table(
-        index=date_column, columns=category_column, values="nrEvents", fill_value=0
+        index=date_column, columns=category_column, values=measure, fill_value=0
     ).reset_index()
     # Ensure that the dataframe has all the necessary categories
     # for category in categories:
