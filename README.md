@@ -18,7 +18,7 @@ The following data products have been prepared:
 
 * **Port Call Trends Monitor** for the following ports: Aden, Al Ahmadi, Al Aqabah, Al Mukalla, As Suways, Djibouti, Duba. Duba Bulk Plant Tanker Terminal, El-Adabiya, Jiddah, Jiddah Oil, King Fahd Port, North Ain Sukhna Port, Rabigh, Safaga, and Yanbu
 
-* **Spillage Monitor** for trade arriving in ports in Egypt, Djibouti, and Yemen
+* **Spillover Monitor** for trade arriving in ports in Egypt, Djibouti, and Yemen
 
 * **Missing Ships Estimator** for ships that may have disabled their transponders
 
