@@ -51,7 +51,7 @@ In the above, we see that Saudi Arabia is most impacted by a 90-day disruption a
 
 For this analysis, we filtered the global dataset for exports to all Yemen ports. We then identified the top ten countries whose at-risk daily export value (aggregated across all ports in a country) were the highest if any of the Yemen ports were disrupted. We then followed the paper's guidance on the linear relationship between daily at-risk value and the number of days of disruption and multipled the at-risk value by 90 days. With these steps, we produced the following bar chart and table.
 
-![](images/value.png)
+![](images/value-1.png)
 
 In the above chart, we see that, again, Saudi Arabia has the most export value at-risk with a 90-day disruption at a Yemen port, with USD 250 million , followed by China, with USD 190 million.
 
