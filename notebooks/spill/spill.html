@@ -439,9 +439,14 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-estimating-aggregated-at-risk-export-value-by-country-from-any-port-disruption-in-a-selected-country-usd">Part II: Estimating Aggregated At-Risk Export Value by Country from Any Port Disruption in a Selected Country (USD)</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Read in Downladed Dataset and Select Country of Interest</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Filter Data for Top Ten Impacted Countries (Summation of All Port Data for Each Country)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Generate Bar Chart</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-data-for-top-ten-impacted-countries-summation-of-all-ports-data-for-each-country">Filter Data for Top Ten Impacted Countries (Summation of All Ports Data for Each Country)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Generate Bar Chart</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregated-by-country-export-value-at-risk-during-a-90-day-disruption-of-any-port-in-a-selected-country-usd">Aggregated by Country, Export Value at Risk during a 90-Day Disruption of Any Port in a Selected Country (USD)</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#identify-top-ten-countries-in-terms-of-impacted-percentage-of-total-exports-by-a-port-disruption">Identify Top Ten Countries in Terms of Impacted Percentage of Total Exports by a Port Disruption</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Generate Bar Chart</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregated-by-country-export-value-at-risk-due-to-disruption-of-any-port-in-a-selected-country-percent-of-total-export-value">Aggregated by Country, Export Value at Risk due to Disruption of Any Port in a Selected Country (Percent of Total Export Value)</a></li>
 </ul>
 </li>
 </ul>
@@ -492,10 +497,10 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the data from the downloaded file into a DataFrame</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/2023-11-12-spill-data.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/2023-11-12-spill-data.csv&#39;</span><span class="p">)</span>
 
 <span class="c1"># Filter data to only select rows where &quot;to_country&quot; = &quot;Yemen&quot; (for example)</span>
-<span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;to_country&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Yemen&quot;</span><span class="p">]</span>
+<span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;to_country&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Yemen&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -506,15 +511,11 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Identify the top ten &quot;from_country&quot; with greatest &quot;daily_capacity_at_risk&quot;</span>
-<span class="n">top_ten_countries</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">df_filtered</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;from_country&quot;</span><span class="p">)[</span><span class="s2">&quot;daily_capacity_at_risk&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="n">top_ten_countries</span> <span class="o">=</span> <span class="n">df_filtered</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;from_country&#39;</span><span class="p">)[</span><span class="s1">&#39;daily_capacity_at_risk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="c1"># Create a new table with 90-day indicator (using standard numbers in lieu of scientific notation)</span>
 <span class="n">new_table</span> <span class="o">=</span> <span class="n">top_ten_countries</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">new_table</span><span class="p">[</span><span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">new_table</span><span class="p">[</span><span class="s2">&quot;daily_capacity_at_risk&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">90</span>
-<span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">new_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">90</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -528,38 +529,24 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sort &#39;daily_capacity_at_risk_90_days_disruption&#39; in descending order</span>
 <span class="n">sorted_table</span> <span class="o">=</span> <span class="n">new_table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">sorted_table</span><span class="p">[</span><span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_table</span><span class="p">[</span>
-    <span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span>
-<span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">sorted_table</span> <span class="o">=</span> <span class="n">sorted_table</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
-    <span class="n">by</span><span class="o">=</span><span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
+<span class="n">sorted_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">sorted_table</span> <span class="o">=</span> <span class="n">sorted_table</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Create vertical bar chart with adjusted y-axis labels (without scientific notation)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">bars</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
-    <span class="n">sorted_table</span><span class="p">[</span><span class="s2">&quot;from_country&quot;</span><span class="p">],</span>
-    <span class="n">sorted_table</span><span class="p">[</span><span class="s2">&quot;daily_capacity_at_risk_90_days_disruption&quot;</span><span class="p">],</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;skyblue&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span>
-    <span class="s2">&quot;Simulated Capacity at Risk from 90 Days Disruption at all Yemen Ports (metric tons)&quot;</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;From Country&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
-    <span class="s2">&quot;Estimated Capacity at Risk in Top Ten Countries Most Impacted by 90-Day Disruption in Yemen Ports (metric tons)&quot;</span>
-<span class="p">)</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">sorted_table</span><span class="p">[</span><span class="s1">&#39;from_country&#39;</span><span class="p">],</span> <span class="n">sorted_table</span><span class="p">[</span><span class="s1">&#39;daily_capacity_at_risk_90_days_disruption&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Simulated Capacity at Risk from 90 Days Disruption at all Yemen Ports (metric tons)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;From Country&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Estimated Capacity at Risk in Top Ten Countries Most Impacted by 90-Day Disruption in Yemen Ports (metric tons)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
 
 <span class="c1"># Adjust y-axis labels to display standard numbers</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
 
 <span class="c1"># Add gray grid lines</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/capacity.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;images/capacity.png&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
@@ -569,7 +556,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4f3f3e6947ee3f854a9308e38f25e8241f96a99d07095dce5bef0d813684ad43.png" src="../../_images/4f3f3e6947ee3f854a9308e38f25e8241f96a99d07095dce5bef0d813684ad43.png" />
+<img alt="../../_images/995b35897e90afd21754bdbc578c27cfe9859594f5ea2681b5a422cd5bb3dd79.png" src="../../_images/995b35897e90afd21754bdbc578c27cfe9859594f5ea2681b5a422cd5bb3dd79.png" />
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -668,75 +655,59 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the data from the downloaded file into a DataFrame</span>
-<span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/2023-11-12-spill-country-data.csv&quot;</span><span class="p">)</span>
+<span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/2023-11-12-spill-country-data.csv&#39;</span><span class="p">)</span>
 
 <span class="c1"># Filter data to only select rows where &quot;to_country&quot; = &quot;Yemen&quot; (for example)</span>
-<span class="n">country_data</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;to_country&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Yemen&quot;</span><span class="p">]</span>
+<span class="n">country_data</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;to_country&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Yemen&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="filter-data-for-top-ten-impacted-countries-summation-of-all-ports-data-for-each-country">
+<h4>Filter Data for Top Ten Impacted Countries (Summation of All Ports Data for Each Country)<a class="headerlink" href="#filter-data-for-top-ten-impacted-countries-summation-of-all-ports-data-for-each-country" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, filter the DataFrame to include only the rows where &#39;industry&#39; == &#39;Total&#39;</span>
+<span class="n">total_industry_data</span> <span class="o">=</span> <span class="n">country_data</span><span class="p">[</span><span class="n">country_data</span><span class="p">[</span><span class="s1">&#39;industry&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Total&#39;</span><span class="p">]</span>
+
+<span class="c1"># Group and aggregate on the filtered DataFrame</span>
+<span class="n">grouped_data</span> <span class="o">=</span> <span class="n">total_industry_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;from_country&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">daily_export_value_at_risk</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">),</span>
+    <span class="n">daily_import_value_at_risk</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;daily_import_value_at_risk&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># Identify the top ten countries with the greatest daily_export_value_at_risk</span>
+<span class="n">top_ten_exporters</span> <span class="o">=</span> <span class="n">grouped_data</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a new table for these top ten countries, including a new column that multiplies the export value by 90 days (or other time period -- the relationship is linear)</span>
+<span class="n">top_ten_exporters</span><span class="p">[</span><span class="s1">&#39;at_risk_daily_export_value_90x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">90</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="id2">
-<h4>Filter Data for Top Ten Impacted Countries (Summation of All Port Data for Each Country)<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new table, summing the daily export and import values at risk for all from_portid in each from_country</span>
-<span class="n">grouped_data</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">country_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;from_country&quot;</span><span class="p">,</span> <span class="s2">&quot;industry&quot;</span><span class="p">])</span>
-    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
-        <span class="n">daily_export_value_at_risk</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;daily_export_value_at_risk&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
-        <span class="n">daily_import_value_at_risk</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;daily_import_value_at_risk&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
-    <span class="p">)</span>
-    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="p">)</span>
-
-<span class="c1"># Identify the top ten countries with the greatest daily_export_value_at_risk</span>
-<span class="n">top_ten_exporters</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">grouped_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;from_country&quot;</span><span class="p">)[</span><span class="s2">&quot;daily_export_value_at_risk&quot;</span><span class="p">]</span>
-    <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="p">)</span>
-
-<span class="c1"># Create a new table for these top ten countries, including a new column that multiplies the export value by 90 days (or other time period -- the relatiobship is linear)</span>
-<span class="n">top_ten_exporters</span><span class="p">[</span><span class="s2">&quot;at_risk_daily_export_value_90x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s2">&quot;daily_export_value_at_risk&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">90</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="id3">
-<h4>Generate Bar Chart<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<h4>Generate Bar Chart<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
 <section id="aggregated-by-country-export-value-at-risk-during-a-90-day-disruption-of-any-port-in-a-selected-country-usd">
 <h5>Aggregated by Country, Export Value at Risk during a 90-Day Disruption of Any Port in a Selected Country (USD)<a class="headerlink" href="#aggregated-by-country-export-value-at-risk-during-a-90-day-disruption-of-any-port-in-a-selected-country-usd" title="Permalink to this heading">#</a></h5>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create bar chart with y-axis showing &quot;millions&quot; and gray grid lines</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
-    <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s2">&quot;from_country&quot;</span><span class="p">],</span>
-    <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s2">&quot;at_risk_daily_export_value_90x&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;skyblue&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Top Countries by At-Risk Export Value with 90-Day Port Disruption in Yemen&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Country&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span>
-    <span class="s2">&quot;At-Risk Export Value with 90-Day Port Disruption in Yemen (Millions of US Dollars&quot;</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">top_ten_exporters</span><span class="p">[</span><span class="s1">&#39;from_country&#39;</span><span class="p">],</span> <span class="n">top_ten_exporters</span><span class="p">[</span><span class="s1">&#39;at_risk_daily_export_value_90x&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top Countries by At-Risk Export Value with 90-Day Port Disruption in Yemen&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Country&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;At-Risk Export Value with 90-Day Port Disruption in Yemen (Millions of US Dollars&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
 <span class="c1"># Adjust the y-axis labels to reflect the new scale in millions</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
 
 <span class="c1"># Display the adjusted plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;images/value.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;images/value.png&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="c1"># Show the new table for top ten countries</span>
@@ -745,7 +716,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/837993063fea5239445ca5ae8c818a8913b420caef6cc3858564004b74c3ccad.png" src="../../_images/837993063fea5239445ca5ae8c818a8913b420caef6cc3858564004b74c3ccad.png" />
+<img alt="../../_images/9172bf7ef95b04abd2f5b6e1a967439859a79436eee174ebc559be182067ba58.png" src="../../_images/9172bf7ef95b04abd2f5b6e1a967439859a79436eee174ebc559be182067ba58.png" />
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -766,73 +737,265 @@ document.write(`
       <th></th>
       <th>from_country</th>
       <th>daily_export_value_at_risk</th>
+      <th>daily_import_value_at_risk</th>
       <th>at_risk_daily_export_value_90x</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
+      <th>73</th>
       <td>Saudi Arabia</td>
-      <td>2.785300e+06</td>
-      <td>2.506770e+08</td>
+      <td>1.392650e+06</td>
+      <td>1.382254e+07</td>
+      <td>1.253385e+08</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>13</th>
       <td>China</td>
-      <td>2.147029e+06</td>
-      <td>1.932326e+08</td>
+      <td>1.073514e+06</td>
+      <td>6.136940e+06</td>
+      <td>9.661629e+07</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>100</th>
       <td>Yemen</td>
-      <td>7.086035e+05</td>
-      <td>6.377432e+07</td>
+      <td>3.543018e+05</td>
+      <td>1.353540e+07</td>
+      <td>3.188716e+07</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>75</th>
       <td>Singapore</td>
-      <td>3.530400e+05</td>
-      <td>3.177360e+07</td>
+      <td>1.765200e+05</td>
+      <td>4.802792e+06</td>
+      <td>1.588680e+07</td>
     </tr>
     <tr>
-      <th>4</th>
+      <th>52</th>
       <td>Malaysia</td>
-      <td>2.854227e+05</td>
-      <td>2.568804e+07</td>
+      <td>1.427114e+05</td>
+      <td>1.464506e+06</td>
+      <td>1.284402e+07</td>
     </tr>
     <tr>
-      <th>5</th>
+      <th>62</th>
       <td>Oman</td>
-      <td>2.486865e+05</td>
-      <td>2.238179e+07</td>
+      <td>1.243433e+05</td>
+      <td>1.370501e+06</td>
+      <td>1.119089e+07</td>
     </tr>
     <tr>
-      <th>6</th>
+      <th>34</th>
       <td>India</td>
-      <td>1.981304e+05</td>
-      <td>1.783173e+07</td>
+      <td>9.906518e+04</td>
+      <td>1.832184e+06</td>
+      <td>8.915866e+06</td>
     </tr>
     <tr>
-      <th>7</th>
+      <th>94</th>
       <td>United Arab Emirates</td>
-      <td>1.754435e+05</td>
-      <td>1.578992e+07</td>
+      <td>8.772177e+04</td>
+      <td>1.964594e+06</td>
+      <td>7.894959e+06</td>
     </tr>
     <tr>
-      <th>8</th>
+      <th>46</th>
       <td>Kuwait</td>
-      <td>1.293204e+05</td>
-      <td>1.163884e+07</td>
+      <td>6.466021e+04</td>
+      <td>4.853408e+04</td>
+      <td>5.819419e+06</td>
     </tr>
     <tr>
-      <th>9</th>
+      <th>86</th>
       <td>Thailand</td>
-      <td>9.406671e+04</td>
-      <td>8.466004e+06</td>
+      <td>4.703336e+04</td>
+      <td>5.448601e+05</td>
+      <td>4.233002e+06</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+</section>
+</section>
+<section id="identify-top-ten-countries-in-terms-of-impacted-percentage-of-total-exports-by-a-port-disruption">
+<h4>Identify Top Ten Countries in Terms of Impacted Percentage of Total Exports by a Port Disruption<a class="headerlink" href="#identify-top-ten-countries-in-terms-of-impacted-percentage-of-total-exports-by-a-port-disruption" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate total export value for each country to all destinations</span>
+<span class="n">total_export_to_all_countries</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="p">[</span><span class="s1">&#39;industry&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;from_country&#39;</span><span class="p">)[</span><span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">total_export_to_all_countries</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">:</span> <span class="s1">&#39;total_export_value_to_all&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Merge this with the top_ten_exporters DataFrame</span>
+<span class="n">top_ten_exporters_with_total</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">top_ten_exporters</span><span class="p">,</span> <span class="n">total_export_to_all_countries</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;from_country&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># Calculate percent of total export value to selected country out of total export value to all countries</span>
+<span class="n">top_ten_exporters_with_total</span><span class="p">[</span><span class="s1">&#39;portion_of_total_export_to_Country&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">top_ten_exporters_with_total</span><span class="p">[</span><span class="s1">&#39;daily_export_value_at_risk&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">top_ten_exporters_with_total</span><span class="p">[</span><span class="s1">&#39;total_export_value_to_all&#39;</span><span class="p">])</span>
+
+<span class="c1"># Sort the DataFrame by &#39;portion_of_total_export_to_Country&#39; in descending order</span>
+<span class="n">sorted_by_portion_to_yemen</span> <span class="o">=</span> <span class="n">top_ten_exporters_with_total</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;portion_of_total_export_to_Country&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Select the top ten countries based on the largest &#39;portion_of_total_export_to_Country&#39;</span>
+<span class="n">top_ten_countries_by_portion_to_country</span> <span class="o">=</span> <span class="n">sorted_by_portion_to_yemen</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Now, &#39;top_ten_countries_by_portion_to_yemen&#39; contains the top ten countries in terms of portion of total export to Yemen.</span>
+<span class="n">top_ten_countries_by_portion_to_country</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>from_country</th>
+      <th>daily_export_value_at_risk</th>
+      <th>daily_import_value_at_risk</th>
+      <th>at_risk_daily_export_value_90x</th>
+      <th>total_export_value_to_all</th>
+      <th>portion_of_total_export_to_Country</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>Yemen</td>
+      <td>3.543018e+05</td>
+      <td>1.353540e+07</td>
+      <td>3.188716e+07</td>
+      <td>3.387392e+07</td>
+      <td>0.010459</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Saudi Arabia</td>
+      <td>1.392650e+06</td>
+      <td>1.382254e+07</td>
+      <td>1.253385e+08</td>
+      <td>1.310762e+09</td>
+      <td>0.001062</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Oman</td>
+      <td>1.243433e+05</td>
+      <td>1.370501e+06</td>
+      <td>1.119089e+07</td>
+      <td>1.819159e+08</td>
+      <td>0.000684</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Kuwait</td>
+      <td>6.466021e+04</td>
+      <td>4.853408e+04</td>
+      <td>5.819419e+06</td>
+      <td>1.235327e+08</td>
+      <td>0.000523</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>China</td>
+      <td>1.073514e+06</td>
+      <td>6.136940e+06</td>
+      <td>9.661629e+07</td>
+      <td>9.855455e+09</td>
+      <td>0.000109</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Malaysia</td>
+      <td>1.427114e+05</td>
+      <td>1.464506e+06</td>
+      <td>1.284402e+07</td>
+      <td>1.569800e+09</td>
+      <td>0.000091</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>India</td>
+      <td>9.906518e+04</td>
+      <td>1.832184e+06</td>
+      <td>8.915866e+06</td>
+      <td>1.380379e+09</td>
+      <td>0.000072</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>United Arab Emirates</td>
+      <td>8.772177e+04</td>
+      <td>1.964594e+06</td>
+      <td>7.894959e+06</td>
+      <td>1.328998e+09</td>
+      <td>0.000066</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Thailand</td>
+      <td>4.703336e+04</td>
+      <td>5.448601e+05</td>
+      <td>4.233002e+06</td>
+      <td>8.547186e+08</td>
+      <td>0.000055</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Singapore</td>
+      <td>1.765200e+05</td>
+      <td>4.802792e+06</td>
+      <td>1.588680e+07</td>
+      <td>4.315688e+09</td>
+      <td>0.000041</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id3">
+<h4>Generate Bar Chart<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<section id="aggregated-by-country-export-value-at-risk-due-to-disruption-of-any-port-in-a-selected-country-percent-of-total-export-value">
+<h5>Aggregated by Country, Export Value at Risk due to Disruption of Any Port in a Selected Country (Percent of Total Export Value)<a class="headerlink" href="#aggregated-by-country-export-value-at-risk-due-to-disruption-of-any-port-in-a-selected-country-percent-of-total-export-value" title="Permalink to this heading">#</a></h5>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">PercentFormatter</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">top_ten_countries_by_portion_to_country</span><span class="p">[</span><span class="s1">&#39;from_country&#39;</span><span class="p">],</span> <span class="n">top_ten_countries_by_portion_to_country</span><span class="p">[</span><span class="s1">&#39;portion_of_total_export_to_Country&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top Countries by At-Risk Export Value with 90-Day Port Disruption in Yemen, as Percentage of Total Export Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Country&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;At-Risk Export Value with 90-Day Port Disruption in Yemen (as percentage of total exports)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># Adjust the y-axis labels to reflect percentages with 3 decimal places</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">PercentFormatter</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># Display the adjusted plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;images/value-percent.png&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/5f8807926cc1b6418a3acd20ce17e89ee42993fdca8c97dfdc1741e778dc7e25.png" src="../../_images/5f8807926cc1b6418a3acd20ce17e89ee42993fdca8c97dfdc1741e778dc7e25.png" />
+</div>
 </div>
 </section>
 </section>
@@ -918,9 +1081,14 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-estimating-aggregated-at-risk-export-value-by-country-from-any-port-disruption-in-a-selected-country-usd">Part II: Estimating Aggregated At-Risk Export Value by Country from Any Port Disruption in a Selected Country (USD)</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Read in Downladed Dataset and Select Country of Interest</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Filter Data for Top Ten Impacted Countries (Summation of All Port Data for Each Country)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Generate Bar Chart</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-data-for-top-ten-impacted-countries-summation-of-all-ports-data-for-each-country">Filter Data for Top Ten Impacted Countries (Summation of All Ports Data for Each Country)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Generate Bar Chart</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregated-by-country-export-value-at-risk-during-a-90-day-disruption-of-any-port-in-a-selected-country-usd">Aggregated by Country, Export Value at Risk during a 90-Day Disruption of Any Port in a Selected Country (USD)</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#identify-top-ten-countries-in-terms-of-impacted-percentage-of-total-exports-by-a-port-disruption">Identify Top Ten Countries in Terms of Impacted Percentage of Total Exports by a Port Disruption</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Generate Bar Chart</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregated-by-country-export-value-at-risk-due-to-disruption-of-any-port-in-a-selected-country-percent-of-total-export-value">Aggregated by Country, Export Value at Risk due to Disruption of Any Port in a Selected Country (Percent of Total Export Value)</a></li>
 </ul>
 </li>
 </ul>
