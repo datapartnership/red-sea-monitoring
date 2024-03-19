@@ -61,7 +61,7 @@ def get_bar_chart(
     title_fig.border_fill_alpha = 0
     title_fig.outline_line_color = None
 
-    sub_title_fig = figure(title=source, toolbar_location=None, width=750, height=40)
+    sub_title_fig = figure(title=source, toolbar_location=None, width=750, height=80)
     sub_title_fig.title.align = "left"
     sub_title_fig.title.text_font_size = "10pt"
     sub_title_fig.title.text_font_style = "normal"
