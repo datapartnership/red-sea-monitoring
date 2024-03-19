@@ -272,6 +272,42 @@ The following table shows the difference in monthly average values (% change fro
 | Saudi Arabia | Yanbu                           | Middle East Conflict | -30.20%        | -73.59%        | -10.32%         | -100.00%        | -28.82%        | -73.71%        |
 | Saudi Arabia | Yanbu                           | Red Sea Crisis       | -57.75%        | -55.16%        | 1.64%           | -100.00%        | -53.62%        | -55.36%        |
 
+## Summary Charts
+
+The following charts sort all ports by the greatest differences (absolute and relative) observed in the tables above. We use the monthly averages calculated for the **Red Sea Crisis** time period and the baseline reference.
+
+### Absolute Difference from Baseline
+
+```{figure} ../../reports/import-difference.jpeg
+---
+align: center
+---
+Difference in Import Volume during Red Sea Crisis
+```
+
+```{figure} ../../reports/export-difference.jpeg
+---
+align: center
+---
+Difference in Export Volume during Red Sea Crisis
+```
+
+### Percentage Change from Baseline
+
+```{figure} ../../reports/import-pct-change.jpeg
+---
+align: center
+---
+Percent Change in Import Volume during Red Sea Crisis
+```
+
+```{figure} ../../reports/export-pct-change.jpeg
+---
+align: center
+---
+Percent Change in Export Volume during Red Sea Crisis
+```
+
 ## Implementation
 
 - [Notebook to create charts and tables](red-sea-ports.ipynb)
