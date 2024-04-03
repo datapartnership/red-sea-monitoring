@@ -23,6 +23,9 @@ parts:
       - file: notebooks/spill/spillover-README
         sections:
         - file: notebooks/spill/spill.ipynb
+      - file: notebooks/mobility/README.md
+        sections:
+        - file: notebooks/mobility/visits.ipynb
   - caption: Insights and Indicators
     chapters:
       - file: notebooks/indicators/conflict-and-trade.ipynb
