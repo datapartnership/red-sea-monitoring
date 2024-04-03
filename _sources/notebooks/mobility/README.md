@@ -12,7 +12,7 @@ The project team acquired longitudinal human mobility data. The mobility data wa
 
 Data are available upon request through the [Development Data Partnership](https://datapartnership.org). Licensing and access information for all other datasets are included in the documentation.
 
-## Methodology
+## Results
 
 ```{caution}
 The following working methodologies are a work in progress and awaiting review.
