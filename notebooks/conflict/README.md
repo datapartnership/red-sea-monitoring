@@ -1,6 +1,6 @@
 # Conflict Location and Trends Monitor
 
-This analysis consists of analyzing trends in fatalities because of the conflicts in the countries bordering the Red Sea - Egypt, Yemen, Djibouti, Eritrea, Saudi Arabia and, Jordan. To this end, multiple datasets are considered.
+This analysis consists of analyzing trends in fatalities because of the conflicts in the countries bordering the Red Sea - Egypt, Yemen, Djibouti, Eritrea, Saudi Arabia and, Jordan. To this end, multiple datasets are considered. 
 
 ## Data Description
 
@@ -22,12 +22,15 @@ The sources that are used to identify these conflict events are traditional medi
 
 ### Other Datasets Explored
 
-A few other datasets were explored to identify conflict in the Red Sea region. However, currently, ACLED is the most relevant data source.
+A few other datasets were explored to identify conflict in the Red Sea region. However, currently, ACLED is the most relevant data source. 
 
-* [Global Terrorism Database](https://www.start.umd.edu/gtd/): The Global Terrorism Database™ (GTD) is an open-source database including information on terrorist events around the world from 1970 through 2020 (with additional annual updates planned for the future). Unlike many other event databases, the GTD includes systematic data on domestic as well as transnational and international terrorist incidents that have occurred during this time period and now includes more than 200,000 cases. This dataset was not considered for this analysis because the data stopped in 2020.
+* [Global Terrorism Database](https://www.start.umd.edu/gtd/): The Global Terrorism Database™ (GTD) is an open-source database including information on terrorist events around the world from 1970 through 2020 (with additional annual updates planned for the future). Unlike many other event databases, the GTD includes systematic data on domestic as well as transnational and international terrorist incidents that have occurred during this time period and now includes more than 200,000 cases. This dataset was not considered for this analysis because the data stopped in 2020. 
 
-* [Uppsala Conflict Data Program (UCDP)](https://ucdp.uu.se/): This conflict database has data ranging from 1946 to 2022 alone.
+* [Uppsala Conflict Data Program (UCDP)](https://ucdp.uu.se/): This conflict database has data ranging from 1946 to 2022 alone. 
 
-* [International Crisis Behavior (ICB) Project](http://www.icb.umd.edu/dataviewer/): A project by Duke University, they report conflict information till 2019.
+* [International Crisis Behavior (ICB) Project](http://www.icb.umd.edu/dataviewer/): A project by Duke University, they report conflict information till 2019. 
 
 * [Social Conflict Analysis Database](https://www.strausscenter.org/ccaps-research-areas/social-conflict/database/): The Social Conflict Analysis Database (SCAD) includes protests, riots, strikes, inter-communal conflict, government violence against civilians, and other forms of social conflict not systematically tracked in other conflict datasets. SCAD currently includes information on social conflicts from 1990-2017, covering all of Africa and now also Mexico, Central America, and the Caribbean.
+
+
+
