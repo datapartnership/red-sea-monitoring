@@ -4,6 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "red-sea-monitoring"
+dynamic = ["version"]
 description = ""
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
@@ -18,7 +19,12 @@ classifiers = [
 	"Topic :: Scientific/Engineering",
 ]
 requires-python = ">=3.10"
-dynamic = ["version"]
+dependencies = [
+	"bokeh>3,<4",
+    "geopandas>=0.12",
+	"pandas",
+	"requests",
+]
 
 [project.optional-dependencies]
 docs = [
@@ -36,7 +42,7 @@ ignore-regex = '^\s*"image\/png":\s.*'
 ignore-words-list = "gost,"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/red-sea-monitoring"]
+packages = ["src/red_sea_monitoring"]
 
 [tool.hatch.version]
 source = "vcs"
