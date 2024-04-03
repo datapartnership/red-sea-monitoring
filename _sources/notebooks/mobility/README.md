@@ -1,8 +1,6 @@
 # Economic Impacts in Tourism
 
-Understanding where and when population movement occurs can help inform disaster response and public policy, especially during crises.
-
-(mobility-data)=
+Understanding where and when population movement occurs and analyzing the frequency of visits within or near points of interest has the potential to provide insights into the economic ramifications of conflicts and disasters.
 
 ## Data
 
