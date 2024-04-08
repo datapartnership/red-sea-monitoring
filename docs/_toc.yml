@@ -26,6 +26,12 @@ parts:
       - file: notebooks/mobility/README.md
         sections:
         - file: notebooks/mobility/visits.ipynb
+      - file: notebooks/routes/README.md
+        sections:
+        - file: notebooks/routes/1-data-extraction.ipynb
+        - file: notebooks/routes/2-prepare-sea-routes.ipynb
+        - file: notebooks/routes/3-process-routes.ipynb
+        - file: notebooks/routes/4-aggregate.ipynb
   - caption: Insights and Indicators
     chapters:
       - file: notebooks/indicators/conflict-and-trade.ipynb
