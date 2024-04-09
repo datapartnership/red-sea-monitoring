@@ -209,7 +209,6 @@
 <li class="toctree-l2"><a class="reference internal" href="1-data-extraction.html">Data Extraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2-prepare-sea-routes.html">Sea Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="3-process-routes.html">Process AIS Dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="4-aggregate.html">Data Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -447,10 +446,17 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-sea-route-from-step-2">Merge Sea Route from Step 2</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregation-and-ghg-estimation">4. Aggregation and GHG Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregation-and-percent-change-calculation">4. Aggregation and Percent Change Calculation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-charts">Summary Charts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#percentage-change-from-baseline">Percentage Change from Baseline</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cargo-vessels">Cargo Vessels</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tanker-vessels">Tanker Vessels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-emissions-oecd-data">Global Emissions (OECD) Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
             </nav>
@@ -522,9 +528,9 @@ document.write(`
 </ul>
 </section>
 </section>
-<section id="aggregation-and-ghg-estimation">
-<h2>4. Aggregation and GHG Estimation<a class="headerlink" href="#aggregation-and-ghg-estimation" title="Permalink to this heading">#</a></h2>
-<p>From our final dataset of 1,761,090 trips, we further select vessels who have crossed the Red Sea during a reference period (January 2023 through October 2023), and have crossed any of our chokepoints of interest (Red Sea or Cape of Good Hope).</p>
+<section id="aggregation-and-percent-change-calculation">
+<h2>4. Aggregation and Percent Change Calculation<a class="headerlink" href="#aggregation-and-percent-change-calculation" title="Permalink to this heading">#</a></h2>
+<p>From our final dataset of 1,761,090 trips, we further select vessels who have crossed the Red Sea during a reference period (January 2023 through October 2023), and have crossed any of our chokepoints of interest (Red Sea or Cape of Good Hope). <strong>Critically, this represents only 15% of the 11,761,090 trips detected, and 12% of unique vessels in our dataset.</strong></p>
 <p>We then aggregate the total distance traveled (sum) and number of trips by origin-destination (ports) for each month. A sample of this aggregated data is shown below. The full table is available through the following <a class="reference external" href="https://worldbankgroup.sharepoint.com/:x:/r/teams/DevelopmentDataPartnershipCommunity-WBGroup/Shared%20Documents/Projects/Data%20Lab/Red%20Sea%20Maritime%20Monitoring/tables/red-sea-distance-summary.csv?d=w415bcf6503464bde83b05803980a4b29&amp;amp;csf=1&amp;amp;web=1&amp;amp;e=Yc1MRD">Sharepoint link</a>.</p>
 <table class="colwidths-auto table">
 <thead>
@@ -537,7 +543,7 @@ document.write(`
 <th class="text-left head"><p>Country</p></th>
 <th class="text-left head"><p>Port</p></th>
 <th class="text-right head"><p>Total travel time (hrs.)</p></th>
-<th class="text-right head"><p>Total distance</p></th>
+<th class="text-right head"><p>Total distance (n. miles)</p></th>
 <th class="text-right head"><p>No. of Vessels</p></th>
 </tr>
 </thead>
@@ -606,7 +612,7 @@ document.write(`
 </table>
 <section id="summary-charts">
 <h3>Summary Charts<a class="headerlink" href="#summary-charts" title="Permalink to this heading">#</a></h3>
-<p>Finally, we plot monthly sums of the data to examine aggregate changes in total distance traveled, as a proxy for emissions.</p>
+<p>In the figures below, we present monthly sums of the data to examine aggregate changes in total distance traveled, as a proxy for emissions. We observe a sharp increase in distance traveled caused by the trade diversion starting in January 2024, and most prominently in March 2024.</p>
 <figure class="align-center" id="id13">
 <img alt="../../_images/distance-traveled.jpeg" src="../../_images/distance-traveled.jpeg" />
 <figcaption>
@@ -625,10 +631,102 @@ document.write(`
 <p><span class="caption-number">Fig. 17 </span><span class="caption-text">Total Distance Traveled by Red Sea Vessels Crossing Cape of Good Hope</span><a class="headerlink" href="#id15" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<ul class="simple">
-<li><p><a class="reference internal" href="4-aggregate.html"><span class="std std-doc">Aggregation Notebook</span></a></p></li>
-</ul>
 </section>
+<section id="percentage-change-from-baseline">
+<h3>Percentage Change from Baseline<a class="headerlink" href="#percentage-change-from-baseline" title="Permalink to this heading">#</a></h3>
+<p>Using the same data, we define a baseline average pre-conflict (February 2023 through September 2023), and express the monthly value as a percent change from that baseline. Through this calculation, we find that emissions from an increase in distance traveled have raised up to 53% from a pre-conflict baseline for Cargo, and 28% for Tanker.</p>
+<figure class="align-center" id="id16">
+<img alt="../../_images/distance-traveled-pct.jpeg" src="../../_images/distance-traveled-pct.jpeg" />
+<figcaption>
+<p><span class="caption-number">Fig. 18 </span><span class="caption-text">Distance Traveled by Red Sea Vessels, % Change from Baseline</span><a class="headerlink" href="#id16" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id17">
+<img alt="../../_images/time-traveled-pct.jpeg" src="../../_images/time-traveled-pct.jpeg" />
+<figcaption>
+<p><span class="caption-number">Fig. 19 </span><span class="caption-text">Time Traveled by Red Sea Vessels, % Change from Baseline</span><a class="headerlink" href="#id17" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="cargo-vessels">
+<h4>Cargo Vessels<a class="headerlink" href="#cargo-vessels" title="Permalink to this heading">#</a></h4>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p></p></th>
+<th class="text-left head"><p>2024-01</p></th>
+<th class="text-left head"><p>2024-02</p></th>
+<th class="text-left head"><p>2024-03</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>% Change Distance Travel</p></td>
+<td class="text-left"><p>38.6%</p></td>
+<td class="text-left"><p>33.1%</p></td>
+<td class="text-left"><p>53.6%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>% Change Time Travel</p></td>
+<td class="text-left"><p>31.9%</p></td>
+<td class="text-left"><p>31.7%</p></td>
+<td class="text-left"><p>51.5%</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="tanker-vessels">
+<h3>Tanker Vessels<a class="headerlink" href="#tanker-vessels" title="Permalink to this heading">#</a></h3>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p></p></th>
+<th class="text-left head"><p>2024-01</p></th>
+<th class="text-left head"><p>2024-02</p></th>
+<th class="text-left head"><p>2024-03</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>% Change Distance Travel</p></td>
+<td class="text-left"><p>-0.6%</p></td>
+<td class="text-left"><p>8.9%</p></td>
+<td class="text-left"><p>28.7%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>% Change Time Travel</p></td>
+<td class="text-left"><p>5.8%</p></td>
+<td class="text-left"><p>9.0%</p></td>
+<td class="text-left"><p>39.4%</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p><a class="reference internal" href="#4-aggregate.ipynb"><span class="xref myst">Aggregation Notebook</span></a></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We attempted to apply average fuel consumption factors to the shipping activity for a rough estimation of CO2 emitted, however, the simplified formulas identified in an <a class="reference external" href="https://www.ipcc-nggip.iges.or.jp/public/gp/bgp/2_4_Water-borne_Navigation.pdf">IPCC report</a> require a multiplication of the consumption factor to the volume of a ship (gross tonnage), which we currently do not have. The <a class="reference external" href="https://www.imo.org/en/ourwork/Environment/Pages/Fourth-IMO-Greenhouse-Gas-Study-2020.aspx">Fourth Greenhouse Gas Study</a> (2020) by the International Maritime Organization provides additional guidelines for bottom-up GHG estimation with AIS data, but requires more detailed analysis of individual vessel type, speed, and draught factors which are beyond the scope of this analysis.</p>
+</div>
+</section>
+</section>
+<section id="global-emissions-oecd-data">
+<h2>Global Emissions (OECD) Data<a class="headerlink" href="#global-emissions-oecd-data" title="Permalink to this heading">#</a></h2>
+<p>The OECD has started reporting a monthly panel dataset of maritime transport CO2 emissions using the same AIS source data. We reviewed their dataset 2022 up to March 2024 and found that globally, emissions have remained constant despite the recent trade diversion caused by attacks in the red sea.</p>
+<p>Allocation to countries is based on the residence of the companies that operate the ships. Vessel-level emissions estimates are linked to information on operators and aggregated for all countries or territories represented in the estimates. More information on their methodology can be obtained through the <a class="reference external" href="https://data-explorer.oecd.org/vis?lc=en&amp;amp;tm=Maritime%20Transport%20CO2%20Emissions%20%28experimental%29&amp;amp;pg=0&amp;amp;hc%5BMeasure%5D=Emissions&amp;amp;snb=1&amp;amp;vw=tb&amp;amp;df%5Bds%5D=dsDisseminateFinalDMZ&amp;amp;df%5Bid%5D=DSD_MARITIME_TRANSPORT%40DF_MARITIME_TRANSPORT&amp;amp;df%5Bag%5D=OECD.SDD.NAD.SEEA&amp;amp;df%5Bvs%5D=1.0&amp;amp;pd=2022-01%2C&amp;amp;dq=.M.EMISSIONS.....ALL_VESSELS&amp;amp;ly%5Brw%5D=REF_AREA&amp;amp;ly%5Bcl%5D=TIME_PERIOD&amp;amp;to%5BTIME_PERIOD%5D=false">OECD Data Explorer website</a>. Notably, they reference using information from the Fourth IMO Greenhouse Gas Study 2020.</p>
+<figure class="align-center" id="id18">
+<img alt="../../_images/oecd.jpeg" src="../../_images/oecd.jpeg" />
+<figcaption>
+<p><span class="caption-number">Fig. 20 </span><span class="caption-text">Maritime transport CO2 emissions, OECD</span><a class="headerlink" href="#id18" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id19">
+<img alt="../../_images/oecd-historical.jpeg" src="../../_images/oecd-historical.jpeg" />
+<figcaption>
+<p><span class="caption-number">Fig. 21 </span><span class="caption-text">Maritime transport CO2 emissions (historical from 2022), OECD</span><a class="headerlink" href="#id19" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The proxy for increase in emissions presented assumes a linear relationship between time distance traveled and emissions, which omits many factors which influence the amount of fuel consumed (speed, type of engine, amount of power required relative to cargo).</p></li>
+<li><p>The distances and time travel calculated represent a best guess estimation of sea routes based on origin-destination ports, historical routes data, and an assumption that ships navigate through the shortest route available (with the restriction of having to traverse certain certain chokepoints). Thus, they may not represent the exact journeys that the ships followed.</p></li>
+</ul>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
@@ -725,10 +823,17 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-sea-route-from-step-2">Merge Sea Route from Step 2</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregation-and-ghg-estimation">4. Aggregation and GHG Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregation-and-percent-change-calculation">4. Aggregation and Percent Change Calculation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-charts">Summary Charts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#percentage-change-from-baseline">Percentage Change from Baseline</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cargo-vessels">Cargo Vessels</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tanker-vessels">Tanker Vessels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-emissions-oecd-data">Global Emissions (OECD) Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
   </nav></div>
