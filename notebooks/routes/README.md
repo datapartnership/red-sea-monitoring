@@ -1,6 +1,6 @@
 # CO2 Emissions Estimation
 
-This section attempts to estimate greenhouse gas emissions from maritime shipping. The objective is to document the percentage increase in CO2 emissions as a result of the Red Sea Crisis. Ships have embarked on longer routes across the Cape of Good Hope in order to avoid the Red Sea, resulting in longer distance traveled and increased fuel consumption (also from ships traveling at a higher speed*). 
+This section attempts to estimate greenhouse gas emissions from maritime shipping. The objective is to document the percentage increase in CO2 emissions as a result of the Red Sea Crisis. Ships have embarked on longer routes across the Cape of Good Hope in order to avoid the Red Sea, resulting in longer distance traveled and increased fuel consumption (also from ships traveling at a higher speed*).
 
 Given our team's access to detailed ship location data (Automatic Identification System, hereafter AIS) from the [UN Global Platform](https://unstats.un.org/wiki/display/AIS/AIS+Handbook+Outline), we propose a simple but replicable methodology to extract AIS messages from port visits and critical crossing areas (also referred to as "chokepoints"), approximate travel routes using historical routes data, and estimate CO2 emissions from distance traveled using average emissions factors from previous research.
 
@@ -16,7 +16,7 @@ The next step is to aggregate these AIS data points into port calls, or port vis
 
 ## 2. Sea Routes
 
-Since we don't have the exact route trajectory for all vessels, our strategy is to match the origin-destination trajectories we extracted with a dataset of historical routes. We processed sea routes derived from AIS data by [Mariquant (2019)](https://towardsdatascience.com/creating-sea-routes-from-the-sea-of-ais-data-30bc68d8530e). 
+Since we don't have the exact route trajectory for all vessels, our strategy is to match the origin-destination trajectories we extracted with a dataset of historical routes. We processed sea routes derived from AIS data by [Mariquant (2019)](https://towardsdatascience.com/creating-sea-routes-from-the-sea-of-ais-data-30bc68d8530e).
 
 Their output data was released under a creative commons license for public use. Their method to create sea routes relies on AIS data from 2016 to 2018. In summary, they use a Random Forest Classifier to remove the noise in AIS data (signals where ships are anchoring and loitering around port harbors). Then, they clusterize trajectories based on their distances and select the "best" trajectory using the Edit Distance with real Penalty (ERP) algorithm.
 
