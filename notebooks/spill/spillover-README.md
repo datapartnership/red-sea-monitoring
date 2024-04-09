@@ -55,7 +55,7 @@ For this analysis, we filtered the global dataset for exports to all Yemen ports
 
 In the above chart, we see that, again, Saudi Arabia has the most export value at-risk with a 90-day disruption at a Yemen port, with USD 125 million , followed by China, with USD 96 million.
 
-In terms of percentage of total export value, the impact on other countries is less than a percentage point of their total exports. 
+In terms of percentage of total export value, the impact on other countries is less than a percentage point of their total exports.
 
 ![](images/value-percent.png)
 
