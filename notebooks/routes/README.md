@@ -63,23 +63,23 @@ Case A: Shortest Route Calculated Between Phuket, Thailand and Suez Canal
 
 - [Trips Processing Notebook](3-process-routes.ipynb)
 
-## 4. Aggregation and GHG Estimation
+## 4. Aggregation and Percent Change Calculation
 
-From our final dataset of 1,761,090 trips, we further select vessels who have crossed the Red Sea during a reference period (January 2023 through October 2023), and have crossed any of our chokepoints of interest (Red Sea or Cape of Good Hope).
+From our final dataset of 1,761,090 trips, we further select vessels who have crossed the Red Sea during a reference period (January 2023 through October 2023), and have crossed any of our chokepoints of interest (Red Sea or Cape of Good Hope). **Critically, this represents only 15% of the 11,761,090 trips detected, and 12% of unique vessels in our dataset.**
 
 We then aggregate the total distance traveled (sum) and number of trips by origin-destination (ports) for each month. A sample of this aggregated data is shown below. The full table is available through the following [Sharepoint link](https://worldbankgroup.sharepoint.com/:x:/r/teams/DevelopmentDataPartnershipCommunity-WBGroup/Shared%20Documents/Projects/Data%20Lab/Red%20Sea%20Maritime%20Monitoring/tables/red-sea-distance-summary.csv?d=w415bcf6503464bde83b05803980a4b29&csf=1&web=1&e=Yc1MRD).
 
-|    |   year |   month | Vessel Type   | Previous Port     | Previous Country             | Country   | Port                   |   Total travel time (hrs.) |   Total distance |   No. of Vessels |
-|---:|-------:|--------:|:--------------|:------------------|:-----------------------------|:----------|:-----------------------|---------------------------:|-----------------:|-----------------:|
-|  0 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Angola    | Luanda                 |                    338.479 |          4844.86 |                3 |
-|  1 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | Campana                |                   1284.54  |          7704.48 |                2 |
-|  2 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | Puerto Ingeniero White |                    435.671 |          4088.88 |                1 |
-|  3 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | Rosario                |                   2431.08  |         23643.1  |                6 |
-|  4 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | San Nicolas            |                    915.36  |          7837.1  |                2 |
+|    |   year |   month | Vessel Type   | Previous Port     | Previous Country             | Country   | Port                   |   Total travel time (hrs.) |   Total distance (n. miles) |   No. of Vessels |
+|---:|-------:|--------:|:--------------|:------------------|:-----------------------------|:----------|:-----------------------|---------------------------:|----------------------------:|-----------------:|
+|  0 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Angola    | Luanda                 |                    338.479 |                     4844.86 |                3 |
+|  1 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | Campana                |                   1284.54  |                     7704.48 |                2 |
+|  2 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | Puerto Ingeniero White |                    435.671 |                     4088.88 |                1 |
+|  3 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | Rosario                |                   2431.08  |                    23643.1  |                6 |
+|  4 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | San Nicolas            |                    915.36  |                     7837.1  |                2 |
 
 ### Summary Charts
 
-Finally, we plot monthly sums of the data to examine aggregate changes in total distance traveled, as a proxy for emissions.
+In the figures below, we present monthly sums of the data to examine aggregate changes in total distance traveled, as a proxy for emissions. We observe a sharp increase in distance traveled caused by the trade diversion starting in January 2024, and most prominently in March 2024.
 
 ```{figure} ../../reports/routes/distance-traveled.jpeg
 ---
@@ -102,7 +102,68 @@ align: center
 Total Distance Traveled by Red Sea Vessels Crossing Cape of Good Hope
 ```
 
+### Percentage Change from Baseline
+
+Using the same data, we define a baseline average pre-conflict (February 2023 through September 2023), and express the monthly value as a percent change from that baseline. Through this calculation, we find that emissions from an increase in distance traveled have raised up to 53% from a pre-conflict baseline for Cargo, and 28% for Tanker.
+
+```{figure} ../../reports/routes/distance-traveled-pct.jpeg
+---
+align: center
+---
+Distance Traveled by Red Sea Vessels, % Change from Baseline
+```
+
+```{figure} ../../reports/routes/time-traveled-pct.jpeg
+---
+align: center
+---
+Time Traveled by Red Sea Vessels, % Change from Baseline
+```
+
+#### Cargo Vessels
+
+|                          | 2024-01   | 2024-02   | 2024-03   |
+|:-------------------------|:----------|:----------|:----------|
+| % Change Distance Travel | 38.6%     | 33.1%     | 53.6%     |
+| % Change Time Travel     | 31.9%     | 31.7%     | 51.5%     |
+
+### Tanker Vessels
+
+|                          | 2024-01   | 2024-02   | 2024-03   |
+|:-------------------------|:----------|:----------|:----------|
+| % Change Distance Travel | -0.6%     | 8.9%      | 28.7%     |
+| % Change Time Travel     | 5.8%      | 9.0%      | 39.4%     |
+
 - [Aggregation Notebook](4-aggregate.ipynb)
+
+```{note}
+We attempted to apply average fuel consumption factors to the shipping activity for a rough estimation of CO2 emitted, however, the simplified formulas identified in an [IPCC report](https://www.ipcc-nggip.iges.or.jp/public/gp/bgp/2_4_Water-borne_Navigation.pdf) require a multiplication of the consumption factor to the volume of a ship (gross tonnage), which we currently do not have. The [Fourth Greenhouse Gas Study](https://www.imo.org/en/ourwork/Environment/Pages/Fourth-IMO-Greenhouse-Gas-Study-2020.aspx) (2020) by the International Maritime Organization provides additional guidelines for bottom-up GHG estimation with AIS data, but requires more detailed analysis of individual vessel type, speed, and draught factors which are beyond the scope of this analysis.
+```
+
+## Global Emissions (OECD) Data
+
+The OECD has started reporting a monthly panel dataset of maritime transport CO2 emissions using the same AIS source data. We reviewed their dataset 2022 up to March 2024 and found that globally, emissions have remained constant despite the recent trade diversion caused by attacks in the red sea.
+
+Allocation to countries is based on the residence of the companies that operate the ships. Vessel-level emissions estimates are linked to information on operators and aggregated for all countries or territories represented in the estimates. More information on their methodology can be obtained through the [OECD Data Explorer website](https://data-explorer.oecd.org/vis?lc=en&tm=Maritime%20Transport%20CO2%20Emissions%20%28experimental%29&pg=0&hc[Measure]=Emissions&snb=1&vw=tb&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_MARITIME_TRANSPORT%40DF_MARITIME_TRANSPORT&df[ag]=OECD.SDD.NAD.SEEA&df[vs]=1.0&pd=2022-01%2C&dq=.M.EMISSIONS.....ALL_VESSELS&ly[rw]=REF_AREA&ly[cl]=TIME_PERIOD&to[TIME_PERIOD]=false). Notably, they reference using information from the Fourth IMO Greenhouse Gas Study 2020. 
+
+```{figure} ../../reports/routes/oecd.jpeg
+---
+align: center
+---
+Maritime transport CO2 emissions, OECD
+```
+
+```{figure} ../../reports/routes/oecd-historical.jpeg
+---
+align: center
+---
+Maritime transport CO2 emissions (historical from 2022), OECD
+```
+
+## Limitations
+
+- The proxy for increase in emissions presented assumes a linear relationship between time distance traveled and emissions, which omits many factors which influence the amount of fuel consumed (speed, type of engine, amount of power required relative to cargo).
+- The distances and time travel calculated represent a best guess estimation of sea routes based on origin-destination ports, historical routes data, and an assumption that ships navigate through the shortest route available (with the restriction of having to traverse certain certain chokepoints). Thus, they may not represent the exact journeys that the ships followed.
 
 ## References
 
