@@ -69,7 +69,7 @@
     <link rel="prev" title="CO2 Emissions Estimation" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 08, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 09, 2024"/>
   </head>
   
   
@@ -462,26 +462,12 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">import</span> <span class="nn">folium</span>
-<span class="kn">import</span> <span class="nn">h3.api.numpy_int</span> <span class="k">as</span> <span class="nn">h3int</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiPolygon</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">mapping</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
-<span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">parse</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">base64</span>  
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 
 <span class="kn">import</span> <span class="nn">pyspark.sql.functions</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">ais</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">af</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 </pre></div>
@@ -490,7 +476,10 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.core.interactiveshell</span> <span class="kn">import</span> <span class="n">InteractiveShell</span> <span class="c1">#allow multiple outputs in one jupyter cell</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.core.interactiveshell</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InteractiveShell</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># allow multiple outputs in one jupyter cell</span>
+
 <span class="n">InteractiveShell</span><span class="o">.</span><span class="n">ast_node_interactivity</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
 </pre></div>
 </div>
@@ -535,12 +524,21 @@ document.write(`
 <span class="n">project_id</span> <span class="o">=</span> <span class="mi">358</span>
 <span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;data/AIS_Jasper/port_boundaries.geojson&quot;</span>
 
-<span class="n">string</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">get_file_gitlab</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">project_id</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span>
-                    <span class="n">org_path</span> <span class="o">=</span> <span class="s2">&quot;https://code.officialstatistics.org&quot;</span><span class="p">,</span>
-                    <span class="n">branch</span><span class="o">=</span><span class="s1">&#39;main&#39;</span><span class="p">,</span>
-                    <span class="n">csv_df</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">string</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">get_file_gitlab</span><span class="p">(</span>
+    <span class="n">token</span><span class="p">,</span>
+    <span class="n">project_id</span><span class="p">,</span>
+    <span class="n">file_path</span><span class="p">,</span>
+    <span class="n">org_path</span><span class="o">=</span><span class="s2">&quot;https://code.officialstatistics.org&quot;</span><span class="p">,</span>
+    <span class="n">branch</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">,</span>
+    <span class="n">csv_df</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="n">imf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">string</span><span class="p">))</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;geometry&#39;</span><span class="p">:</span><span class="s1">&#39;port_boundary&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s1">&#39;port_boundary&#39;</span><span class="p">)</span>
+<span class="n">imf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="s2">&quot;port_boundary&quot;</span><span class="p">})</span>
+    <span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s2">&quot;port_boundary&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 <span class="n">imf</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 <span class="n">imf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -626,7 +624,7 @@ memory usage: 62.3+ KB
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imf</span> <span class="o">=</span> <span class="n">imf</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span><span class="s1">&#39;Port_name&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imf</span> <span class="o">=</span> <span class="n">imf</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Country&quot;</span><span class="p">,</span> <span class="s2">&quot;Port_name&quot;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -649,7 +647,11 @@ memory usage: 62.3+ KB
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_str</span> <span class="o">=</span> <span class="s1">&#39;{&quot;type&quot;:&quot;FeatureCollection&quot;,&quot;features&quot;:[{&quot;type&quot;:&quot;Feature&quot;,&quot;properties&quot;:{&quot;Port_name&quot;:&quot;Bab el-Mandeb Strait&quot;,&quot;Country&quot;:&quot;chokepoint&quot;},&quot;geometry&quot;:{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[43.309777,12.493873],[43.331355,12.474386],[43.514229,12.664987],[43.479704,12.669198],[43.479704,12.669198],[43.309777,12.493873]]]}},{&quot;type&quot;:&quot;Feature&quot;,&quot;properties&quot;:{&quot;Port_name&quot;:&quot;Suez Canal&quot;,&quot;Country&quot;:&quot;chokepoint&quot;},&quot;geometry&quot;:{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[32.553653,29.932182],[32.560088,29.926227],[32.583646,29.944185],[32.585828,29.955619],[32.580702,29.956848],[32.570668,29.942484],[32.570668,29.942484],[32.553653,29.932182]]]}},{&quot;type&quot;:&quot;Feature&quot;,&quot;properties&quot;:{&quot;Port_name&quot;:&quot;Cape of Good Hope&quot;,&quot;Country&quot;:&quot;chokepoint&quot;},&quot;geometry&quot;:{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[19.877499,-34.845363],[19.910717,-37.614427],[19.9628,-37.616709],[19.944734,-36.60437],[19.926568,-34.850397],[19.926568,-34.850397],[19.877499,-34.845363]]]}}]}&#39;</span>
-<span class="n">chokepoints_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">chokepoints_str</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;geometry&#39;</span><span class="p">:</span><span class="s1">&#39;port_boundary&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s1">&#39;port_boundary&#39;</span><span class="p">)</span>
+<span class="n">chokepoints_gdf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">chokepoints_str</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="s2">&quot;port_boundary&quot;</span><span class="p">})</span>
+    <span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s2">&quot;port_boundary&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -663,7 +665,13 @@ memory usage: 62.3+ KB
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query_polys</span> <span class="o">=</span> <span class="p">[(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">imf</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">imf</span><span class="o">.</span><span class="n">Port_name</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">mapping</span><span class="p">(</span><span class="n">imf</span><span class="o">.</span><span class="n">port_boundary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">imf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query_polys</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">imf</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">imf</span><span class="o">.</span><span class="n">Port_name</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">mapping</span><span class="p">(</span><span class="n">imf</span><span class="o">.</span><span class="n">port_boundary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">imf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="p">]</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">query_polys</span><span class="p">)</span>
 
 <span class="n">query_polys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -688,7 +696,7 @@ memory usage: 62.3+ KB
 <p>Use port boundaries to identify hexabins to query in the AIS data. We choose resolution 10 because some polygons are too small to be fitted a lower resolution.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imf_df_hex</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">polygon_to_hex_df</span><span class="p">(</span><span class="n">query_polys</span><span class="p">,</span> <span class="n">hex_resolution</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">overfill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imf_df_hex</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">polygon_to_hex_df</span><span class="p">(</span><span class="n">query_polys</span><span class="p">,</span> <span class="n">hex_resolution</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">overfill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">imf_df_hex</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -871,102 +879,104 @@ memory usage: 146.8+ MB
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span><span class="s2">&quot;2024-03-31&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;MS&quot;</span><span class="p">)</span>
-<span class="n">end_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span><span class="s2">&quot;2024-03-31&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2024-03-31&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;MS&quot;</span><span class="p">)</span>
+<span class="n">end_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2024-03-31&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
 
 <span class="n">keep_cols</span> <span class="o">=</span> <span class="p">[</span>
- <span class="s1">&#39;mmsi&#39;</span><span class="p">,</span>
- <span class="s1">&#39;dt_insert_utc&#39;</span><span class="p">,</span>
- <span class="s1">&#39;longitude&#39;</span><span class="p">,</span>
- <span class="s1">&#39;latitude&#39;</span><span class="p">,</span>
- <span class="s1">&#39;imo&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vessel_name&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vessel_type&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vessel_type_cargo&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vessel_class&#39;</span><span class="p">,</span>
- <span class="s1">&#39;length&#39;</span><span class="p">,</span>
- <span class="s1">&#39;width&#39;</span><span class="p">,</span>
- <span class="s1">&#39;flag_country&#39;</span><span class="p">,</span>
- <span class="s1">&#39;destination&#39;</span><span class="p">,</span>
- <span class="s1">&#39;draught&#39;</span><span class="p">,</span>
- <span class="s1">&#39;sog&#39;</span><span class="p">,</span>
- <span class="s1">&#39;cog&#39;</span><span class="p">,</span>
- <span class="s1">&#39;rot&#39;</span><span class="p">,</span>
- <span class="s1">&#39;heading&#39;</span><span class="p">,</span>
- <span class="s1">&#39;nav_status&#39;</span><span class="p">,</span>
- <span class="s1">&#39;dt_pos_utc&#39;</span><span class="p">,</span>
- <span class="s1">&#39;dt_static_utc&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vessel_type_main&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vessel_type_sub&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;mmsi&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dt_insert_utc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;imo&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_type&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_type_cargo&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_class&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;length&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;flag_country&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;destination&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;draught&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sog&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cog&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;heading&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nav_status&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dt_static_utc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_type_main&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_type_sub&quot;</span><span class="p">,</span>
 <span class="p">]</span>
-<span class="n">group_by_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mmsi&#39;</span><span class="p">,</span> <span class="s1">&#39;imo&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_name&#39;</span><span class="p">,</span><span class="s1">&#39;route_group&#39;</span><span class="p">]</span>
+<span class="n">group_by_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mmsi&quot;</span><span class="p">,</span> <span class="s2">&quot;imo&quot;</span><span class="p">,</span> <span class="s2">&quot;vessel_name&quot;</span><span class="p">,</span> <span class="s2">&quot;route_group&quot;</span><span class="p">]</span>
 
-<span class="n">ACCESS_KEY</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="n">ACCESS_KEY</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">start_dates</span><span class="p">))):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_dates</span><span class="p">))):</span>
     <span class="n">start_date</span> <span class="o">=</span> <span class="n">start_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">end_date</span> <span class="o">=</span> <span class="n">end_dates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">year</span><span class="p">,</span> <span class="n">month</span> <span class="o">=</span> <span class="n">start_date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">start_date</span><span class="o">.</span><span class="n">month</span>
     <span class="n">month_format</span> <span class="o">=</span> <span class="n">start_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">, Month: </span><span class="si">{</span><span class="n">month_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    
+
     <span class="c1"># Get all AIS data</span>
-    <span class="n">sdf</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">get_ais</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> 
-                     <span class="n">start_date</span> <span class="o">=</span> <span class="n">start_date</span><span class="p">,</span>
-                     <span class="n">end_date</span> <span class="o">=</span> <span class="n">end_date</span><span class="p">,</span>
-                     <span class="n">polygon_hex_df</span> <span class="o">=</span> <span class="n">imf_df_hex</span><span class="p">,</span>
-                     <span class="n">columns</span> <span class="o">=</span> <span class="n">keep_cols</span><span class="p">)</span>
-    
+    <span class="n">sdf</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">get_ais</span><span class="p">(</span>
+        <span class="n">spark</span><span class="p">,</span>
+        <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span>
+        <span class="n">polygon_hex_df</span><span class="o">=</span><span class="n">imf_df_hex</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="n">keep_cols</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="c1"># Group AIS Data by unique route within each port</span>
     <span class="n">sdf_route</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">assign_route</span><span class="p">(</span>
-                                <span class="n">sdf</span><span class="o">.</span><span class="n">na</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">,[</span><span class="s1">&#39;imo&#39;</span><span class="p">,</span><span class="s1">&#39;mmsi&#39;</span><span class="p">]),</span>
-                                <span class="n">ship_unique_identifier_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mmsi&#39;</span><span class="p">,</span> <span class="s1">&#39;imo&#39;</span><span class="p">,</span><span class="s1">&#39;vessel_name&#39;</span><span class="p">],</span>
-                                <span class="n">route_order_by_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dt_pos_utc&#39;</span><span class="p">,</span> <span class="s1">&#39;dt_static_utc&#39;</span><span class="p">],</span>
-                                <span class="n">polygon_col_name</span> <span class="o">=</span> <span class="s1">&#39;polygon_name&#39;</span><span class="p">,</span>
-                            <span class="p">)</span>
-    
+        <span class="n">sdf</span><span class="o">.</span><span class="n">na</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;imo&quot;</span><span class="p">,</span> <span class="s2">&quot;mmsi&quot;</span><span class="p">]),</span>
+        <span class="n">ship_unique_identifier_cols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mmsi&quot;</span><span class="p">,</span> <span class="s2">&quot;imo&quot;</span><span class="p">,</span> <span class="s2">&quot;vessel_name&quot;</span><span class="p">],</span>
+        <span class="n">route_order_by_cols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">,</span> <span class="s2">&quot;dt_static_utc&quot;</span><span class="p">],</span>
+        <span class="n">polygon_col_name</span><span class="o">=</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="c1"># Aggregate origin-destination data by route</span>
-    <span class="n">sdf_agg</span> <span class="o">=</span> <span class="n">sdf_route</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_longitude&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_latitude&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">min_by</span><span class="p">(</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">,</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_dt_pos_utc&quot;</span><span class="p">),</span>                                                
-                                            <span class="n">F</span><span class="o">.</span><span class="n">min_by</span><span class="p">(</span><span class="s2">&quot;draught&quot;</span><span class="p">,</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;arrival_draught&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">min_by</span><span class="p">(</span><span class="s2">&quot;destination&quot;</span><span class="p">,</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;arrival_destination&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">max_by</span><span class="p">(</span><span class="s2">&quot;draught&quot;</span><span class="p">,</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_draught&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">max_by</span><span class="p">(</span><span class="s2">&quot;destination&quot;</span><span class="p">,</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_destination&quot;</span><span class="p">),</span>                                                
-                                            <span class="n">F</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;sog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;mean_sog&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="s2">&quot;sog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;max_sog&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="s2">&quot;sog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;min_sog&quot;</span><span class="p">),</span>
-                                            <span class="n">F</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;mmsi&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;count_ais&quot;</span><span class="p">)</span>
-                                            <span class="p">)</span> \
-                    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">year</span><span class="p">(</span><span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">))</span> \
-                    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">month</span><span class="p">(</span><span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">))</span> \
-                    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;poly_split&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">,</span><span class="s2">&quot;:&quot;</span><span class="p">))</span> \
-                    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;Country&quot;</span><span class="p">,</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;poly_split&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> \
-                    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;Port&quot;</span><span class="p">,</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;poly_split&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> \
-                    <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">,</span><span class="s2">&quot;poly_split&quot;</span><span class="p">)</span>
-    
+    <span class="n">sdf_agg</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">sdf_route</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_longitude&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_latitude&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">min_by</span><span class="p">(</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">,</span> <span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_dt_pos_utc&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">min_by</span><span class="p">(</span><span class="s2">&quot;draught&quot;</span><span class="p">,</span> <span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;arrival_draught&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">min_by</span><span class="p">(</span><span class="s2">&quot;destination&quot;</span><span class="p">,</span> <span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;arrival_destination&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">max_by</span><span class="p">(</span><span class="s2">&quot;draught&quot;</span><span class="p">,</span> <span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_draught&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">max_by</span><span class="p">(</span><span class="s2">&quot;destination&quot;</span><span class="p">,</span> <span class="s2">&quot;dt_pos_utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;departure_destination&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;sog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;mean_sog&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="s2">&quot;sog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;max_sog&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="s2">&quot;sog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;min_sog&quot;</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;mmsi&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;count_ais&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">year</span><span class="p">(</span><span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">month</span><span class="p">(</span><span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;poly_split&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;Country&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;poly_split&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;Port&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;poly_split&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;polygon_name&quot;</span><span class="p">,</span> <span class="s2">&quot;poly_split&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
     <span class="n">df</span> <span class="o">=</span> <span class="n">sdf_agg</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
     <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;s3://wbgdecinternal-ntl/Andres_Temp/AIS/red-sea/portcalls_gdf_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">month_format</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">,</span>
         <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">storage_options</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="n">ACCESS_KEY</span><span class="p">,</span>
-            <span class="s2">&quot;secret&quot;</span><span class="p">:</span> <span class="n">SECRET_KEY</span>
-        <span class="p">},</span>
+        <span class="n">storage_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="n">ACCESS_KEY</span><span class="p">,</span> <span class="s2">&quot;secret&quot;</span><span class="p">:</span> <span class="n">SECRET_KEY</span><span class="p">},</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -1117,7 +1127,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 08, 2024.
+  Last updated on Apr 09, 2024.
   <br/>
 </p>
   </div>

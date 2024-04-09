@@ -69,7 +69,7 @@
     <link rel="prev" title="Sea Routes" href="2-prepare-sea-routes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 08, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 09, 2024"/>
   </head>
   
   
@@ -477,18 +477,11 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">expanduser</span><span class="p">,</span> <span class="n">basename</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
-<span class="kn">from</span> <span class="nn">shapely.wkt</span> <span class="kn">import</span> <span class="n">loads</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">MultiLineString</span>
-<span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">import</span> <span class="nn">folium</span> <span class="k">as</span> <span class="nn">flm</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">expanduser</span>
 <span class="kn">from</span> <span class="nn">geopy</span> <span class="kn">import</span> <span class="n">distance</span>
 <span class="kn">import</span> <span class="nn">boto3</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -496,7 +489,8 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">gn_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;Repos&#39;</span><span class="p">,</span> <span class="s1">&#39;GOSTnets&#39;</span><span class="p">)</span>
+
+<span class="n">gn_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;Repos&quot;</span><span class="p">,</span> <span class="s2">&quot;GOSTnets&quot;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gn_path</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -506,12 +500,7 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">GOSTnets</span> <span class="k">as</span> <span class="nn">gn</span>
 <span class="kn">import</span> <span class="nn">osmnx</span> <span class="k">as</span> <span class="nn">ox</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">LineString</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
@@ -527,6 +516,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandarallel</span> <span class="kn">import</span> <span class="n">pandarallel</span>
+
 <span class="n">pandarallel</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">progress_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nb_workers</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -543,14 +533,16 @@ INFO: Pandarallel will use Memory file system to transfer data between the main 
 <h2>Read Data<a class="headerlink" href="#read-data" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;s3&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">objects</span> <span class="o">=</span> <span class="n">s3_client</span><span class="o">.</span><span class="n">list_objects_v2</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="s1">&#39;wbgdecinternal-ntl&#39;</span><span class="p">,</span> <span class="n">Prefix</span><span class="o">=</span><span class="s1">&#39;Andres_Temp/AIS/red-sea&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">objects</span> <span class="o">=</span> <span class="n">s3_client</span><span class="o">.</span><span class="n">list_objects_v2</span><span class="p">(</span>
+    <span class="n">Bucket</span><span class="o">=</span><span class="s2">&quot;wbgdecinternal-ntl&quot;</span><span class="p">,</span> <span class="n">Prefix</span><span class="o">=</span><span class="s2">&quot;Andres_Temp/AIS/red-sea&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -558,9 +550,9 @@ INFO: Pandarallel will use Memory file system to transfer data between the main 
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_files</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">[</span><span class="s1">&#39;Contents&#39;</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;Key&#39;</span><span class="p">])</span>
-    <span class="n">s3_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;Key&#39;</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">[</span><span class="s2">&quot;Contents&quot;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s2">&quot;Key&quot;</span><span class="p">])</span>
+    <span class="n">s3_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s2">&quot;Key&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -586,7 +578,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_files</span> <span class="o">=</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="o">+</span><span class="n">s3_files</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span><span class="o">+</span><span class="n">s3_files</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span><span class="o">+</span><span class="n">s3_files</span><span class="p">[</span><span class="mi">12</span><span class="p">:]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_files</span> <span class="o">=</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">12</span><span class="p">:]</span>
 </pre></div>
 </div>
 </div>
@@ -671,16 +663,16 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_by_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mmsi&#39;</span><span class="p">,</span> <span class="s1">&#39;imo&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_name&#39;</span><span class="p">]</span> <span class="c1">#route_group</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_by_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mmsi&quot;</span><span class="p">,</span> <span class="s2">&quot;imo&quot;</span><span class="p">,</span> <span class="s2">&quot;vessel_name&quot;</span><span class="p">]</span>  <span class="c1"># route_group</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">del</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">dfs</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="k">del</span><span class="p">(</span><span class="n">df_all</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">df_all</span>
 </pre></div>
 </div>
 </div>
@@ -692,8 +684,8 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 <h3>Calculate Travel Time<a class="headerlink" href="#calculate-travel-time" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">])</span>
 <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;departure_dt_pos_utc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;departure_dt_pos_utc&quot;</span><span class="p">])</span>
 </pre></div>
@@ -702,25 +694,27 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prev_departure_dt_pos_utc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)[</span><span class="s1">&#39;departure_dt_pos_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_spent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;departure_dt_pos_utc&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;arrival_dt_pos_utc&#39;</span><span class="p">]</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;arrival_dt_pos_utc&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;prev_departure_dt_pos_utc&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;prev_departure_dt_pos_utc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)[</span>
+    <span class="s2">&quot;departure_dt_pos_utc&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_spent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;departure_dt_pos_utc&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;arrival_dt_pos_utc&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;prev_departure_dt_pos_utc&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_spent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_spent&#39;</span><span class="p">])</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_spent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_spent&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;days_spent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_spent&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span>
-<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;days_travel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;days_spent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_spent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;days_travel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span>
 </pre></div>
 </div>
 </div>
@@ -728,18 +722,20 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert to hours</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_spent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_spent&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">3600</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">3600</span>
-<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;unique_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;mmsi&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;imo&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;vessel_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_spent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_spent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">3600</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">3600</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;unique_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;mmsi&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;imo&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;vessel_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prev_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;prev_port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)[</span><span class="s1">&#39;Port&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;prev_country&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)[</span><span class="s1">&#39;Country&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;prev_geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;prev_port&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)[</span><span class="s2">&quot;Port&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;prev_country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_by_cols</span><span class="p">)[</span><span class="s2">&quot;Country&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -770,7 +766,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="p">[</span><span class="s1">&#39;days_travel&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="n">days_threshold</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="p">[</span><span class="s2">&quot;days_travel&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">days_threshold</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -799,7 +795,9 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;travel_distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">calc_geodesic_distance</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;travel_distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">calc_geodesic_distance</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -820,8 +818,15 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time_threshold</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">distance_threshold</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Drop unlikely observations where travel time is less than </span><span class="si">{</span><span class="n">time_threshold</span><span class="si">}</span><span class="s2"> hour and travel distance is greater than </span><span class="si">{</span><span class="n">distance_threshold</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
-<span class="n">df2</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">((</span><span class="n">df_filt</span><span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">time_threshold</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_filt</span><span class="p">[</span><span class="s1">&#39;travel_distance&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">distance_threshold</span><span class="p">))]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Drop unlikely observations where travel time is less than </span><span class="si">{</span><span class="n">time_threshold</span><span class="si">}</span><span class="s2"> hour and travel distance is greater than </span><span class="si">{</span><span class="n">distance_threshold</span><span class="si">}</span><span class="s2"> km&quot;</span>
+<span class="p">)</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="o">~</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">df_filt</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">time_threshold</span><span class="p">)</span>
+        <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_filt</span><span class="p">[</span><span class="s2">&quot;travel_distance&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">distance_threshold</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -890,14 +895,14 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 <h2>Load Sea Routes Graph<a class="headerlink" href="#load-sea-routes-graph" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">routes_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="s1">&#39;sea_routes&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">routes_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;sea_routes&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;G_sea_routes.gpickle&#39;</span><span class="p">),</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;G_sea_routes.gpickle&quot;</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">G</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -920,7 +925,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;crs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wgs</span> <span class="c1"># wgs</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;crs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wgs</span>  <span class="c1"># wgs</span>
 </pre></div>
 </div>
 </div>
@@ -929,12 +934,12 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">plot_graph</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">),</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
     <span class="n">node_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">edge_linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
     <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./sea_routes.png&#39;</span><span class="p">,</span>
-    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
+    <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;./sea_routes.png&quot;</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="c1"># plt.savefig(&#39;./sea_routes.png&#39;, dpi=300)</span>
 </pre></div>
@@ -949,24 +954,29 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 <h2>Snap to Graph<a class="headerlink" href="#snap-to-graph" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span> <span class="o">=</span> <span class="n">gn</span><span class="o">.</span><span class="n">pandana_snap_c</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">source_crs</span><span class="o">=</span><span class="n">wgs</span><span class="p">,</span> <span class="n">target_crs</span><span class="o">=</span><span class="n">azimuthal</span><span class="p">,</span> <span class="n">add_dist_to_node_col</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span> <span class="o">=</span> <span class="n">gn</span><span class="o">.</span><span class="n">pandana_snap_c</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">source_crs</span><span class="o">=</span><span class="n">wgs</span><span class="p">,</span> <span class="n">target_crs</span><span class="o">=</span><span class="n">azimuthal</span><span class="p">,</span> <span class="n">add_dist_to_node_col</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
-    <span class="s1">&#39;NN&#39;</span><span class="p">:</span><span class="s1">&#39;end_id&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;NN_dist&#39;</span><span class="p">:</span><span class="s1">&#39;end_port_dist&#39;</span><span class="p">,</span>
-<span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;NN&quot;</span><span class="p">:</span> <span class="s2">&quot;end_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;NN_dist&quot;</span><span class="p">:</span> <span class="s2">&quot;end_port_dist&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s1">&#39;prev_geometry&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s2">&quot;prev_geometry&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -996,24 +1006,29 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span> <span class="o">=</span> <span class="n">gn</span><span class="o">.</span><span class="n">pandana_snap_c</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">df_snapped</span><span class="p">,</span> <span class="n">source_crs</span><span class="o">=</span><span class="n">wgs</span><span class="p">,</span> <span class="n">target_crs</span><span class="o">=</span><span class="n">azimuthal</span><span class="p">,</span> <span class="n">add_dist_to_node_col</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span> <span class="o">=</span> <span class="n">gn</span><span class="o">.</span><span class="n">pandana_snap_c</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span> <span class="n">df_snapped</span><span class="p">,</span> <span class="n">source_crs</span><span class="o">=</span><span class="n">wgs</span><span class="p">,</span> <span class="n">target_crs</span><span class="o">=</span><span class="n">azimuthal</span><span class="p">,</span> <span class="n">add_dist_to_node_col</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
-    <span class="s1">&#39;NN&#39;</span><span class="p">:</span><span class="s1">&#39;start_id&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;NN_dist&#39;</span><span class="p">:</span><span class="s1">&#39;start_port_dist&#39;</span><span class="p">,</span>
-<span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_snapped</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;NN&quot;</span><span class="p">:</span> <span class="s2">&quot;start_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;NN_dist&quot;</span><span class="p">:</span> <span class="s2">&quot;start_port_dist&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df3</span> <span class="o">=</span> <span class="n">df_snapped</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_snapped</span><span class="o">.</span><span class="n">start_id</span><span class="o">!=</span><span class="n">df_snapped</span><span class="o">.</span><span class="n">end_id</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df3</span> <span class="o">=</span> <span class="n">df_snapped</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_snapped</span><span class="o">.</span><span class="n">start_id</span> <span class="o">!=</span> <span class="n">df_snapped</span><span class="o">.</span><span class="n">end_id</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1032,8 +1047,8 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">del</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
-<span class="k">del</span><span class="p">(</span><span class="n">df_snapped</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">df2</span>
+<span class="k">del</span> <span class="n">df_snapped</span>
 </pre></div>
 </div>
 </div>
@@ -1184,7 +1199,9 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_route</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    <span class="n">find_route</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">distances</span><span class="o">.</span><span class="n">u</span><span class="o">==</span><span class="n">row</span><span class="o">.</span><span class="n">start_id</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">v</span><span class="o">==</span><span class="n">row</span><span class="o">.</span><span class="n">end_id</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">find_route</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">u</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">start_id</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">v</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">end_id</span><span class="p">)</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">find_route</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1202,7 +1219,7 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df4</span><span class="p">[</span><span class="s1">&#39;sea_route&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df4</span><span class="p">[</span><span class="s2">&quot;sea_route&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1239,7 +1256,7 @@ Name: count, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df4</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="s1">&#39;ais&#39;</span><span class="p">,</span> <span class="s1">&#39;portcalls_v3.parquet&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df4</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v3.parquet&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1282,8 +1299,8 @@ Name: count, dtype: int64
 <h2>Routing<a class="headerlink" href="#routing" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_found</span> <span class="o">=</span> <span class="n">df4</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df4</span><span class="o">.</span><span class="n">sea_route</span><span class="o">==</span><span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">df_search</span> <span class="o">=</span> <span class="n">df4</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df4</span><span class="o">.</span><span class="n">sea_route</span><span class="o">==</span><span class="kc">False</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_found</span> <span class="o">=</span> <span class="n">df4</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df4</span><span class="o">.</span><span class="n">sea_route</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_search</span> <span class="o">=</span> <span class="n">df4</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df4</span><span class="o">.</span><span class="n">sea_route</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1304,7 +1321,7 @@ Name: count, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;u&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">,</span><span class="s1">&#39;distance&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1413,7 +1430,9 @@ Name: count, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_distance</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    <span class="n">distance</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">distances</span><span class="o">.</span><span class="n">u</span><span class="o">==</span><span class="n">row</span><span class="o">.</span><span class="n">start_id</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">v</span><span class="o">==</span><span class="n">row</span><span class="o">.</span><span class="n">end_id</span><span class="p">)]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">u</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">start_id</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">v</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">end_id</span><span class="p">)</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">distance</span>
 </pre></div>
 </div>
@@ -1421,15 +1440,15 @@ Name: count, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_found</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_found</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_distance</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
-<span class="c1"># df_found.loc[:, &quot;distance&quot;] = df_found.apply(lambda x: get_distance(x), axis=1) </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_found</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_found</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_distance</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># df_found.loc[:, &quot;distance&quot;] = df_found.apply(lambda x: get_distance(x), axis=1)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_found</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_found</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1445,6 +1464,7 @@ Name: count, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">multiprocessing</span>
+
 <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1464,7 +1484,7 @@ Name: count, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_search</span><span class="p">)</span> <span class="c1">#, len(df_sub)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_search</span><span class="p">)</span>  <span class="c1"># , len(df_sub)</span>
 </pre></div>
 </div>
 </div>
@@ -1478,7 +1498,9 @@ Name: count, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">routes</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_search</span><span class="o">.</span><span class="n">start_id</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_search</span><span class="o">.</span><span class="n">end_id</span><span class="p">),</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="n">cpus</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">routes</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_search</span><span class="o">.</span><span class="n">start_id</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_search</span><span class="o">.</span><span class="n">end_id</span><span class="p">),</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="n">cpus</span><span class="o">=</span><span class="mi">12</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1532,7 +1554,7 @@ Wall time: 19min 34s
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_distance_graph</span><span class="p">(</span><span class="n">route</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">route</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">route_distance</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">utils_graph</span><span class="o">.</span><span class="n">route_to_gdf</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">route</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">route_distance</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">route_distance</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
@@ -1541,14 +1563,16 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_search</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_distance_graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;route&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_search</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_distance_graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;route&quot;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_search</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_search</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1560,7 +1584,7 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_search</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_search</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()])</span>
 </pre></div>
 </div>
 </div>
@@ -1572,7 +1596,7 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_search</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_search</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_search</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_search</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1584,14 +1608,14 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row</span> <span class="o">=</span> <span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_search</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row</span> <span class="o">=</span> <span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_search</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">route</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">start_id</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">end_id</span><span class="p">),</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">route</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">start_id</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">end_id</span><span class="p">),</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;distance&quot;</span><span class="p">)</span>
 <span class="n">route</span>
 </pre></div>
 </div>
@@ -1599,7 +1623,7 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_new</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_found</span><span class="p">,</span> <span class="n">df_search</span><span class="p">])</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_new</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_found</span><span class="p">,</span> <span class="n">df_search</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1614,7 +1638,9 @@ Wall time: 19min 34s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df_new.to_csv(join(expanduser(&quot;~&quot;), &#39;tmp&#39;, &#39;ais&#39;, &#39;portcalls_v4.csv&#39;), index=False)</span>
-<span class="n">df_new</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="s1">&#39;ais&#39;</span><span class="p">,</span> <span class="s1">&#39;portcalls_v4.parquet&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_new</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v4.parquet&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1668,15 +1694,23 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_type&#39;</span><span class="p">,</span> <span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="s1">&#39;Port&#39;</span><span class="p">,</span> <span class="s1">&#39;prev_country&#39;</span><span class="p">,</span> <span class="s1">&#39;prev_port&#39;</span><span class="p">]</span>
-<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;year&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;month&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_type&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Country&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Port&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prev_country&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prev_port&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_new</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_new</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_new</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_new</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1695,32 +1729,40 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aois</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Bab el-Mandeb Strait&#39;</span><span class="p">,</span> <span class="s1">&#39;Cape of Good Hope&#39;</span><span class="p">,</span> <span class="s1">&#39;Suez Canal&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aois</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">,</span> <span class="s2">&quot;Cape of Good Hope&quot;</span><span class="p">,</span> <span class="s2">&quot;Suez Canal&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">Port</span><span class="o">==</span><span class="s1">&#39;Suez Canal&#39;</span><span class="p">,</span> <span class="s2">&quot;Country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Suez Canal&quot;</span>
-<span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">Port</span><span class="o">==</span><span class="s1">&#39;Cape of Good Hope&#39;</span><span class="p">,</span> <span class="s2">&quot;Country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Cape of Good Hope&quot;</span>
-<span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">Port</span><span class="o">==</span><span class="s1">&#39;Bab el-Mandeb Strait&#39;</span><span class="p">,</span> <span class="s2">&quot;Country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Bab el-Mandeb Strait&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Suez Canal&quot;</span><span class="p">,</span> <span class="s2">&quot;Country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Suez Canal&quot;</span>
+<span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">df_filt</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Cape of Good Hope&quot;</span><span class="p">,</span> <span class="s2">&quot;Country&quot;</span>
+<span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Cape of Good Hope&quot;</span>
+<span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">df_filt</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">,</span> <span class="s2">&quot;Country&quot;</span>
+<span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Bab el-Mandeb Strait&quot;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">prev_port</span><span class="o">==</span><span class="s1">&#39;Suez Canal&#39;</span><span class="p">,</span> <span class="s2">&quot;prev_country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Suez Canal&quot;</span>
-<span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">prev_port</span><span class="o">==</span><span class="s1">&#39;Cape of Good Hope&#39;</span><span class="p">,</span> <span class="s2">&quot;prev_country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Cape of Good Hope&quot;</span>
-<span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">prev_port</span><span class="o">==</span><span class="s1">&#39;Bab el-Mandeb Strait&#39;</span><span class="p">,</span> <span class="s2">&quot;prev_country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Bab el-Mandeb Strait&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Suez Canal&quot;</span><span class="p">,</span> <span class="s2">&quot;prev_country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Suez Canal&quot;</span>
+<span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">df_filt</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Cape of Good Hope&quot;</span><span class="p">,</span> <span class="s2">&quot;prev_country&quot;</span>
+<span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Cape of Good Hope&quot;</span>
+<span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">df_filt</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">,</span> <span class="s2">&quot;prev_country&quot;</span>
+<span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Chokepoint Bab el-Mandeb Strait&quot;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="p">[</span><span class="s1">&#39;Country&#39;</span><span class="p">]</span><span class="o">!=</span><span class="n">df_filt</span><span class="p">[</span><span class="s1">&#39;prev_country&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="p">[</span><span class="s2">&quot;Country&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">df_filt</span><span class="p">[</span><span class="s2">&quot;prev_country&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1751,14 +1793,16 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="s1">&#39;ais&#39;</span><span class="p">,</span> <span class="s1">&#39;portcalls_v5.parquet&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v5.parquet&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="s1">&#39;ais&#39;</span><span class="p">,</span> <span class="s1">&#39;portcalls_v5.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v5.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1798,7 +1842,7 @@ Wall time: 1.12 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="s1">&#39;ais&#39;</span><span class="p">,</span> <span class="s1">&#39;port_calls_agg_v3.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;port_calls_agg_v3.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1915,7 +1959,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 08, 2024.
+  Last updated on Apr 09, 2024.
   <br/>
 </p>
   </div>

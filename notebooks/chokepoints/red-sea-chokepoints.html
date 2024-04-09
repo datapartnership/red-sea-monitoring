@@ -69,7 +69,7 @@
     <link rel="prev" title="Maritime Choke Point Trends Monitor" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 08, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 09, 2024"/>
   </head>
   
   
@@ -954,7 +954,15 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chokepoints_sel</span><span class="o">.</span><span class="n">portid</span><span class="p">)</span>
 <span class="n">df_chokepoints</span> <span class="o">=</span> <span class="n">get_chokepoint_data</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
 <span class="n">df_chokepoints</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;ymd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_chokepoints</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">df_chokepoints</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;PortWatch-data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;chokepoints_data_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_chokepoints</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;chokepoints_data_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -969,7 +977,12 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df = pd.read_csv(join(output_dir, f&#39;chokepoints_data_{time.strftime(&quot;%m_%d_%Y&quot;)}.csv&#39;))</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;chokepoints_data_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
+    <span class="n">join</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;chokepoints_data_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2019-01-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1240,7 +1253,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">df_filt</span><span class="o">.</span><span class="n">ymd</span><span class="o">==</span><span class="s2">&quot;2024-02-29&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">df_filt</span><span class="o">.</span><span class="n">ymd</span> <span class="o">==</span> <span class="s2">&quot;2024-02-29&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1711,7 +1724,11 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span>
-    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;summary-tables-chokepoints-</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.xlsx&#39;</span><span class="p">)</span>
+    <span class="n">join</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="p">,</span>
+        <span class="s2">&quot;tables&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;summary-tables-chokepoints-</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.xlsx&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
     <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Chokepoints Summary&quot;</span><span class="p">)</span>
     <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Chokepoints % Change&quot;</span><span class="p">)</span>
@@ -1834,7 +1851,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 08, 2024.
+  Last updated on Apr 09, 2024.
   <br/>
 </p>
   </div>

@@ -69,7 +69,7 @@
     <link rel="prev" title="Process AIS Dataset" href="3-process-routes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 08, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 09, 2024"/>
   </head>
   
   
@@ -461,15 +461,12 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">exists</span><span class="p">,</span> <span class="n">expanduser</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">expanduser</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
 
 <span class="kn">import</span> <span class="nn">git</span>
-<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="n">git_repo</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">search_parent_directories</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">git_root</span> <span class="o">=</span> <span class="n">git_repo</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">rev_parse</span><span class="p">(</span><span class="s2">&quot;--show-toplevel&quot;</span><span class="p">)</span>
@@ -478,8 +475,7 @@ document.write(`
 
 <span class="c1"># For plotting</span>
 <span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">mizani.breaks</span> <span class="kn">import</span> <span class="n">date_breaks</span>
-<span class="kn">from</span> <span class="nn">mizani.formatters</span> <span class="kn">import</span> <span class="n">date_format</span><span class="p">,</span> <span class="n">comma_format</span><span class="p">,</span> <span class="n">percent_format</span>
+<span class="kn">from</span> <span class="nn">mizani.formatters</span> <span class="kn">import</span> <span class="n">comma_format</span>
 <span class="kn">import</span> <span class="nn">plotnine</span>
 
 <span class="n">plotnine</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">figure_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
@@ -494,7 +490,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="s1">&#39;ais&#39;</span><span class="p">,</span> <span class="s1">&#39;portcalls_v5.parquet&#39;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v5.parquet&quot;</span><span class="p">))</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -640,8 +636,8 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">arrival_dt_pos_utc</span><span class="o">&gt;=</span><span class="s2">&quot;2023-02-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">df_ref</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">arrival_dt_pos_utc</span><span class="o">&lt;</span><span class="s1">&#39;2023-10-01&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">arrival_dt_pos_utc</span> <span class="o">&gt;=</span> <span class="s2">&quot;2023-02-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_ref</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">arrival_dt_pos_utc</span> <span class="o">&lt;</span> <span class="s2">&quot;2023-10-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -651,7 +647,7 @@ document.write(`
 <h2>Get Vessels that crossed Red Sea in Reference Period<a class="headerlink" href="#get-vessels-that-crossed-red-sea-in-reference-period" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aois</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Bab el-Mandeb Strait&#39;</span><span class="p">,</span> <span class="s1">&#39;Suez Canal&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aois</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">,</span> <span class="s2">&quot;Suez Canal&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -699,8 +695,8 @@ document.write(`
 <p>Select only Cargo and Tanker for reporting</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">types_sel</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cargo&#39;</span><span class="p">,</span> <span class="s1">&#39;Tanker&#39;</span><span class="p">]</span>
-<span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;vessel_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">types_sel</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">types_sel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Cargo&quot;</span><span class="p">,</span> <span class="s2">&quot;Tanker&quot;</span><span class="p">]</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="n">df2</span><span class="p">[</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">types_sel</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -720,25 +716,31 @@ document.write(`
 <p>Filter out short trips</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df2</span><span class="o">.</span><span class="n">time_travel</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df2</span><span class="o">.</span><span class="n">time_travel</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;ymd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">month</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">],</span> <span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;ymd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span> <span class="n">month</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">],</span> <span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cape</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df2</span><span class="o">.</span><span class="n">Port</span><span class="o">==</span><span class="s1">&#39;Cape of Good Hope&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">prev_port</span><span class="o">==</span><span class="s1">&#39;Cape of Good Hope&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">df_bab</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df2</span><span class="o">.</span><span class="n">Port</span><span class="o">==</span><span class="s1">&#39;Bab el-Mandeb Strait&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">prev_port</span><span class="o">==</span><span class="s1">&#39;Bab el-Mandeb Strait&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cape</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Cape of Good Hope&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Cape of Good Hope&quot;</span><span class="p">)</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_bab</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">)</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_cape</span><span class="p">,</span> <span class="n">df_bab</span><span class="p">])</span>
-<span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ymd&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_type&#39;</span><span class="p">]</span>
-<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">]</span>
+<span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="s2">&quot;vessel_type&quot;</span><span class="p">]</span>
+<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span>
 <span class="n">df_agg</span> <span class="o">=</span> <span class="n">df3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)[</span><span class="n">data_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">df_agg_cape</span> <span class="o">=</span> <span class="n">df_cape</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)[</span><span class="n">data_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">df_agg_bab</span> <span class="o">=</span> <span class="n">df_bab</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)[</span><span class="n">data_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
@@ -758,7 +760,7 @@ document.write(`
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Distance (km)&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels&quot;</span><span class="p">,</span>
         <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period (January 2023 through October), </span><span class="se">\n</span><span class="s2">and have either crossed the Bab el-Mandeb Strait or the Cape of Good Hope in the period of interest.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
@@ -769,9 +771,7 @@ document.write(`
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span>
-<span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s1">&#39;routes&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;distance-traveled.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
-<span class="p">)</span>
+<span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;distance-traveled.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -798,7 +798,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Distance (km)&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels Crossing Bab el-Mandeb Strait&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels Crossing Bab el-Mandeb Strait&quot;</span><span class="p">,</span>
         <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period (January 2023 through October), </span><span class="se">\n</span><span class="s2">and have crossed the Bab el-Mandeb Strait&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
@@ -809,9 +809,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
-<span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s1">&#39;routes&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;distance-traveled-bab.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
-<span class="p">)</span>
+<span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;distance-traveled-bab.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -838,7 +836,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Distance (km)&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels Crossing Cape of Good Hope&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels Crossing Cape of Good Hope&quot;</span><span class="p">,</span>
         <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period (January 2023 through October), </span><span class="se">\n</span><span class="s2">and have crossed the Cape of Good Hope&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
@@ -847,9 +845,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
-<span class="n">p3</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s1">&#39;routes&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;distance-traveled-cape.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
-<span class="p">)</span>
+<span class="n">p3</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;distance-traveled-cape.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -869,23 +865,47 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 <h2>Data Table<a class="headerlink" href="#data-table" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;vessel_type&#39;</span><span class="p">,</span> <span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="s1">&#39;Port&#39;</span><span class="p">,</span> <span class="s1">&#39;prev_country&#39;</span><span class="p">,</span> <span class="s1">&#39;prev_port&#39;</span><span class="p">]</span>
-<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time_travel&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">]</span>
-<span class="n">df_agg_od</span> <span class="o">=</span> <span class="n">df3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">({</span>
-    <span class="s1">&#39;time_travel&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> 
-    <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> 
-    <span class="s1">&#39;unique_id&#39;</span><span class="p">:</span> <span class="s1">&#39;count&#39;</span>
-<span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">df_agg_od</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
-    <span class="s1">&#39;unique_id&#39;</span><span class="p">:</span> <span class="s1">&#39;No. of Vessels&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;prev_port&#39;</span><span class="p">:</span> <span class="s1">&#39;Previous Port&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;prev_country&#39;</span><span class="p">:</span> <span class="s1">&#39;Previous Country&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;vessel_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Vessel Type&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;time_travel&#39;</span><span class="p">:</span> <span class="s1">&#39;Total travel time (hrs.)&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="s1">&#39;Total distance&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;count_routes&#39;</span><span class="p">:</span> <span class="s1">&#39;No. of Vessels&#39;</span>
-    <span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df_agg_od</span> <span class="o">=</span> <span class="n">df_agg_od</span><span class="p">[[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;Vessel Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Previous Port&#39;</span><span class="p">,</span> <span class="s1">&#39;Previous Country&#39;</span><span class="p">,</span> <span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="s1">&#39;Port&#39;</span><span class="p">,</span> <span class="s1">&#39;Total travel time (hrs.)&#39;</span><span class="p">,</span> <span class="s1">&#39;Total distance&#39;</span><span class="p">,</span> <span class="s1">&#39;No. of Vessels&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;year&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;month&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_type&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Country&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Port&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prev_country&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prev_port&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span>
+<span class="n">df_agg_od</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">aggregate</span><span class="p">({</span><span class="s2">&quot;time_travel&quot;</span><span class="p">:</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">:</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="s2">&quot;unique_id&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">})</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">df_agg_od</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;unique_id&quot;</span><span class="p">:</span> <span class="s2">&quot;No. of Vessels&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prev_port&quot;</span><span class="p">:</span> <span class="s2">&quot;Previous Port&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prev_country&quot;</span><span class="p">:</span> <span class="s2">&quot;Previous Country&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vessel_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;time_travel&quot;</span><span class="p">:</span> <span class="s2">&quot;Total travel time (hrs.)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;distance&quot;</span><span class="p">:</span> <span class="s2">&quot;Total distance&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;count_routes&quot;</span><span class="p">:</span> <span class="s2">&quot;No. of Vessels&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">df_agg_od</span> <span class="o">=</span> <span class="n">df_agg_od</span><span class="p">[</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;year&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;month&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Previous Port&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Previous Country&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Country&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Port&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Total travel time (hrs.)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Total distance&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;No. of Vessels&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1017,7 +1037,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_od</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;tables&#39;</span><span class="p">,</span> <span class="s1">&#39;red-sea-distance-summary.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_od</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;red-sea-distance-summary.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1118,7 +1140,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 08, 2024.
+  Last updated on Apr 09, 2024.
   <br/>
 </p>
   </div>

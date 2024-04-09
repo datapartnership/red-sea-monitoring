@@ -69,7 +69,7 @@
     <link rel="prev" title="Port Call Trends Monitor" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 08, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 09, 2024"/>
   </head>
   
   
@@ -965,7 +965,13 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ports_red_sea</span><span class="o">.</span><span class="n">portid</span><span class="p">)</span>
 <span class="n">df_ports</span> <span class="o">=</span> <span class="n">get_port_data</span><span class="p">(</span><span class="n">ports</span><span class="p">)</span>
 <span class="n">df_ports</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
-    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;ports_data_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">join</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;ports_data_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -980,7 +986,12 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;ports_data_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
+    <span class="n">join</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PortWatch-data&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;ports_data_</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2019-01-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1289,8 +1300,10 @@ document.write(`
         <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span>
             <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;trade&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;direction&quot;</span><span class="p">),</span>
             <span class="n">data</span><span class="o">=</span><span class="n">df_port</span><span class="p">,</span>
-            <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;dodge2&quot;</span>
-            <span class="p">)</span>  <span class="c1">#  fill=&quot;lightblue&quot;</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
+            <span class="n">position</span><span class="o">=</span><span class="s2">&quot;dodge2&quot;</span><span class="p">,</span>
+        <span class="p">)</span>  <span class="c1">#  fill=&quot;lightblue&quot;</span>
         <span class="c1"># + geom_line(aes(x=&quot;date&quot;, y=&quot;export&quot;), alpha=1, color=&quot;darkred&quot;)</span>
         <span class="o">+</span> <span class="n">geom_smooth</span><span class="p">(</span>
             <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;import_ref&quot;</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#00BFC4&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span>
@@ -1315,7 +1328,9 @@ document.write(`
         <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="c1"># display(p0)</span>
-    <span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_by_port_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;estimated-trade-</span><span class="si">{</span><span class="n">port_id</span><span class="si">}</span><span class="s1">.jpeg&#39;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+    <span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+        <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_by_port_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;estimated-trade-</span><span class="si">{</span><span class="n">port_id</span><span class="si">}</span><span class="s2">.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2038,16 +2053,22 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_diff</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">df_agg_diff</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">period</span><span class="o">==</span><span class="s2">&quot;Red Sea Crisis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_agg_diff</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">period</span> <span class="o">==</span> <span class="s2">&quot;Red Sea Crisis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-<span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;import_direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="p">[</span><span class="s1">&#39;import&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Increase&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Decrease&quot;</span><span class="p">)</span> 
-<span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;export_direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="p">[</span><span class="s1">&#39;export&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Increase&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Decrease&quot;</span><span class="p">)</span> 
+<span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;import_direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="p">[</span><span class="s2">&quot;import&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Increase&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Decrease&quot;</span>
+<span class="p">)</span>
+<span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;export_direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="p">[</span><span class="s2">&quot;export&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Increase&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Decrease&quot;</span>
+<span class="p">)</span>
 
-<span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;import_absolute&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="p">[</span><span class="s1">&#39;import&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;export_absolute&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="p">[</span><span class="s1">&#39;export&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;import_absolute&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="p">[</span><span class="s2">&quot;import&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">df_agg_diff</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;export_absolute&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_diff</span><span class="p">[</span><span class="s2">&quot;export&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
 <span class="n">df_agg_diff</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;import_absolute&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df_agg_diff</span><span class="p">[</span><span class="s1">&#39;portname_cat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">))</span>
+<span class="n">df_agg_diff</span><span class="p">[</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>
+    <span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2064,8 +2085,8 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Difference in Import Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
-        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Difference in Import Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
+        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
@@ -2075,9 +2096,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
-<span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;import-difference.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
-<span class="p">)</span>
+<span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;import-difference.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2095,7 +2114,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;export_absolute&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df_agg_diff</span><span class="p">[</span><span class="s1">&#39;portname_cat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">))</span>
+<span class="n">df_agg_diff</span><span class="p">[</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>
+    <span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2112,8 +2133,8 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Difference in Export Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
-        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Difference in Export Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
+        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
@@ -2125,9 +2146,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
-<span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;export-difference.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
-<span class="p">)</span>
+<span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;export-difference.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2148,16 +2167,26 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_pct_raw</span> <span class="o">=</span> <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">df_agg_pct_raw</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">period</span><span class="o">==</span><span class="s2">&quot;Red Sea Crisis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_agg_pct_raw</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">period</span> <span class="o">==</span> <span class="s2">&quot;Red Sea Crisis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-<span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;import_direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s1">&#39;import&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Increase&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Decrease&quot;</span><span class="p">)</span> 
-<span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;export_direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s1">&#39;export&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Increase&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Decrease&quot;</span><span class="p">)</span> 
+<span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;import_direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s2">&quot;import&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Increase&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Decrease&quot;</span>
+<span class="p">)</span>
+<span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;export_direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s2">&quot;export&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;Increase&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;Decrease&quot;</span>
+<span class="p">)</span>
 
-<span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;import_absolute&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s1">&#39;import&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;export_absolute&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s1">&#39;export&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;import_absolute&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s2">&quot;import&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;export_absolute&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s2">&quot;export&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;import_absolute&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s1">&#39;portname_cat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">))</span>
+<span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>
+    <span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2165,7 +2194,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_agg_pct_raw</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;import&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;import_direction&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="n">ggplot</span><span class="p">(</span>
+        <span class="n">df_agg_pct_raw</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;import&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;import_direction&quot;</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1">#</span>
     <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span>
         <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
@@ -2174,8 +2205,8 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Percent Change in Import Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
-        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Percent Change in Import Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
+        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
@@ -2187,9 +2218,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
-<span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;import-pct-change.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
-<span class="p">)</span>
+<span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;import-pct-change.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2207,7 +2236,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg_pct_raw</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;export_absolute&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s1">&#39;portname_cat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">))</span>
+<span class="n">df_agg_pct_raw</span><span class="p">[</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>
+    <span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_agg_diff</span><span class="o">.</span><span class="n">portname</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2215,7 +2246,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_agg_pct_raw</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;export&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;export_direction&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="n">ggplot</span><span class="p">(</span>
+        <span class="n">df_agg_pct_raw</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;export&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;export_direction&quot;</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1">#</span>
     <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span>
         <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
@@ -2224,8 +2257,8 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Percent Change in Export Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
-        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Percent Change in Export Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
+        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
@@ -2237,9 +2270,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
-<span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-    <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;export-pct-change.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
-<span class="p">)</span>
+<span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;export-pct-change.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2260,7 +2291,19 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_agg</span> <span class="o">=</span> <span class="n">df_agg</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">df_agg_pct</span> <span class="o">=</span> <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
-<span class="n">df_agg_pct</span> <span class="o">=</span> <span class="n">df_agg_pct</span><span class="p">[[</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s1">&#39;import_cargo&#39;</span><span class="p">,</span> <span class="s1">&#39;export_cargo&#39;</span><span class="p">,</span> <span class="s1">&#39;import_tanker&#39;</span><span class="p">,</span> <span class="s1">&#39;export_tanker&#39;</span><span class="p">,</span> <span class="s1">&#39;import&#39;</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">]]</span>
+<span class="n">df_agg_pct</span> <span class="o">=</span> <span class="n">df_agg_pct</span><span class="p">[</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;country&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;portname&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;period&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;import_cargo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;export_cargo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;import_tanker&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;export_tanker&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;import&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;export&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -2301,11 +2344,13 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;summary-tables-ports-</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.xlsx&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>  
-    <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Ports Summary&#39;</span><span class="p">)</span>
-    <span class="n">table2</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Ports % Change&#39;</span><span class="p">)</span>
-    <span class="n">df_agg</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Ports Summary (Raw)&#39;</span><span class="p">)</span>
-    <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Ports % Change (Raw)&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;summary-tables-ports-</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">.xlsx&#39;</span><span class="p">)</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Ports Summary&quot;</span><span class="p">)</span>
+    <span class="n">table2</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Ports % Change&quot;</span><span class="p">)</span>
+    <span class="n">df_agg</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Ports Summary (Raw)&quot;</span><span class="p">)</span>
+    <span class="n">df_agg_pct</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Ports % Change (Raw)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2425,7 +2470,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 08, 2024.
+  Last updated on Apr 09, 2024.
   <br/>
 </p>
   </div>
