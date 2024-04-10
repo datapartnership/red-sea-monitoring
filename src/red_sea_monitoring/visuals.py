@@ -1,37 +1,12 @@
-import datetime
-import pandas as pd
-
+from bokeh.plotting import figure, ColumnDataSource
+from bokeh.models import Legend, Span, Label
+from bokeh.layouts import column
 from bokeh.core.validation import silence
 from bokeh.core.validation.warnings import EMPTY_LAYOUT
-from bokeh.layouts import column
-from bokeh.models import HoverTool, Label, Legend, Span, Title
-from bokeh.plotting import ColumnDataSource, figure
+
 
 # Use the silence function to ignore the EMPTY_LAYOUT warning
 silence(EMPTY_LAYOUT, True)
-
-COLORS = [
-    "#4E79A7",  # Blue
-    "#F28E2B",  # Orange
-    "#E15759",  # Red
-    "#76B7B2",  # Teal
-    "#59A14F",  # Green
-    "#EDC948",  # Yellow
-    "#B07AA1",  # Purple
-    "#FF9DA7",  # Pink
-    "#9C755F",  # Brown
-    "#BAB0AC",  # Gray
-    "#7C7C7C",  # Dark gray
-    "#6B4C9A",  # Violet
-    "#D55E00",  # Orange-red
-    "#CC61B0",  # Magenta
-    "#0072B2",  # Bright blue
-    "#329262",  # Peacock green
-    "#9E5B5A",  # Brick red
-    "#636363",  # Medium gray
-    "#CD9C00",  # Gold
-    "#5D69B1",  # Medium blue
-]
 
 
 def get_bar_chart(
@@ -269,93 +244,3 @@ def _create_title_figure(text, width, height, font_size, font_style="bold"):
     title_fig.axis.minor_tick_line_color = None
     title_fig.outline_line_color = None
     return title_fig
-
-
-def plot_visits(data: pd.DataFrame, title="Points of Interest Visit Trends"):
-    """Plot Points of Interest Visit Time Series
-
-    Attributes
-    ----------
-    bearer: pd.DataFrame
-        Time Series pivot table each column representing a line
-
-    title: str
-        Plot title
-    """
-
-    p = figure(
-        title=title,
-        width=750,
-        height=750,
-        x_axis_label="Date",
-        x_axis_type="datetime",
-        y_axis_label="Count of Devices",
-        y_axis_type="log",
-        y_range=(0.75, 5 * 10**3),
-        tools="pan,reset,save,box_select",
-    )
-    p.add_layout(Legend(), "right")
-    p.add_layout(
-        Title(
-            text="Count of Devices Identified with OpenStreetMap tag",
-            text_font_size="12pt",
-            text_font_style="italic",
-        ),
-        "above",
-    )
-    p.add_layout(
-        Title(
-            text=f"Source: Veraset Movement. Creation date: {datetime.datetime.today().strftime('%d %B %Y')}. Feedback: datalab@worldbank.org.",
-            text_font_size="10pt",
-            text_font_style="italic",
-        ),
-        "below",
-    )
-
-    # plot spans
-    p.renderers.extend(
-        [
-            Span(
-                location=datetime.datetime(2023, 10, 7),
-                dimension="height",
-                line_color="grey",
-                line_width=2,
-                line_dash=(4, 4),
-            ),
-            Span(
-                location=datetime.datetime(2023, 11, 17),
-                dimension="height",
-                line_color="grey",
-                line_width=2,
-                line_dash=(4, 4),
-            ),
-        ]
-    )
-
-    # plot lines
-    for i, (col, color) in enumerate(zip(data.columns, COLORS)):
-        try:
-            r = p.line(
-                data.index,
-                data[col],
-                legend_label=col,
-                line_color=color,
-                line_width=2,
-            )
-            if i != 0:
-                r.muted = True
-        except KeyError:
-            pass
-
-    p.add_tools(
-        HoverTool(
-            tooltips=[("Date", "@x{%F}"), ("Count", "@y")],
-            formatters={"@x": "datetime"},
-        )
-    )
-
-    p.legend.location = "bottom_left"
-    p.legend.click_policy = "mute"
-    p.title.text_font_size = "16pt"
-    p.sizing_mode = "scale_both"
-    return p
