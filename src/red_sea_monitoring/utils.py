@@ -47,7 +47,6 @@ def get_ports():
     return df
 
 
-# build function to get chokepoint data based on code above for multiple offests
 def get_port_data(ports):
     url_base = "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Trade_Data/FeatureServer/0/query?where="
     for port in ports:
