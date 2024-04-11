@@ -69,7 +69,7 @@
     <link rel="prev" title="Maritime Choke Point Trends Monitor" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 10, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 11, 2024"/>
   </head>
   
   
@@ -209,6 +209,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../routes/1-data-extraction.html">Data Extraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../routes/2-prepare-sea-routes.html">Sea Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../routes/3-process-routes.html">Process AIS Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../routes/4-aggregate.html">Data Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -480,7 +481,6 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">exists</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -492,8 +492,7 @@ document.write(`
 
 <span class="n">git_repo</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">search_parent_directories</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">git_root</span> <span class="o">=</span> <span class="n">git_repo</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">rev_parse</span><span class="p">(</span><span class="s2">&quot;--show-toplevel&quot;</span><span class="p">)</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">git_root</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;red-sea-monitoring&quot;</span><span class="p">))</span>
-<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">red_sea_monitoring.utils</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># For plotting</span>
 <span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
@@ -719,7 +718,7 @@ document.write(`
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_d4cb108b93406b6455c3356cd50f4ebb {
+                #map_bbd7e8d3e4123a185538746c2f0c6c4e {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -823,14 +822,14 @@ document.write(`
     &lt;/div&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_d4cb108b93406b6455c3356cd50f4ebb&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_bbd7e8d3e4123a185538746c2f0c6c4e&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_d4cb108b93406b6455c3356cd50f4ebb = L.map(
-                &quot;map_d4cb108b93406b6455c3356cd50f4ebb&quot;,
+            var map_bbd7e8d3e4123a185538746c2f0c6c4e = L.map(
+                &quot;map_bbd7e8d3e4123a185538746c2f0c6c4e&quot;,
                 {
                     center: [-2.166969785000001, 32.116140709999996],
                     crs: L.CRS.EPSG3857,
@@ -839,28 +838,28 @@ document.write(`
                     preferCanvas: false,
                 }
             );
-            L.control.scale().addTo(map_d4cb108b93406b6455c3356cd50f4ebb);
+            L.control.scale().addTo(map_bbd7e8d3e4123a185538746c2f0c6c4e);
 
             
 
         
     
-            var tile_layer_17dfd170be2dcf6a8b96bfa58918ce87 = L.tileLayer(
+            var tile_layer_164187c9e3ae05edec248dfc30993cf7 = L.tileLayer(
                 &quot;https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}&quot;,
                 {&quot;attribution&quot;: &quot;Tiles \u0026copy; Esri \u0026mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 13, &quot;maxZoom&quot;: 13, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
             );
         
     
-            tile_layer_17dfd170be2dcf6a8b96bfa58918ce87.addTo(map_d4cb108b93406b6455c3356cd50f4ebb);
+            tile_layer_164187c9e3ae05edec248dfc30993cf7.addTo(map_bbd7e8d3e4123a185538746c2f0c6c4e);
         
     
-            map_d4cb108b93406b6455c3356cd50f4ebb.fitBounds(
+            map_bbd7e8d3e4123a185538746c2f0c6c4e.fitBounds(
                 [[-34.92728556, 20.88273666], [30.59334599, 43.34954476]],
                 {}
             );
         
     
-        function geo_json_ac1dd916767f2acc649b245fc66ff6ab_styler(feature) {
+        function geo_json_a97b97067225ffdb99e7b6427c293399_styler(feature) {
             switch(feature.id) {
                 case &quot;0&quot;: 
                     return {&quot;color&quot;: &quot;#666666&quot;, &quot;fillColor&quot;: &quot;#666666&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
@@ -870,52 +869,52 @@ document.write(`
                     return {&quot;color&quot;: &quot;#66a61e&quot;, &quot;fillColor&quot;: &quot;#66a61e&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
             }
         }
-        function geo_json_ac1dd916767f2acc649b245fc66ff6ab_highlighter(feature) {
+        function geo_json_a97b97067225ffdb99e7b6427c293399_highlighter(feature) {
             switch(feature.id) {
                 default:
                     return {&quot;fillOpacity&quot;: 0.75};
             }
         }
-        function geo_json_ac1dd916767f2acc649b245fc66ff6ab_pointToLayer(feature, latlng) {
+        function geo_json_a97b97067225ffdb99e7b6427c293399_pointToLayer(feature, latlng) {
             var opts = {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3388ff&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3388ff&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 15, &quot;stroke&quot;: true, &quot;weight&quot;: 3};
             
-            let style = geo_json_ac1dd916767f2acc649b245fc66ff6ab_styler(feature)
+            let style = geo_json_a97b97067225ffdb99e7b6427c293399_styler(feature)
             Object.assign(opts, style)
             
             return new L.CircleMarker(latlng, opts)
         }
 
-        function geo_json_ac1dd916767f2acc649b245fc66ff6ab_onEachFeature(feature, layer) {
+        function geo_json_a97b97067225ffdb99e7b6427c293399_onEachFeature(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if(typeof e.target.setStyle === &quot;function&quot;){
-                        geo_json_ac1dd916767f2acc649b245fc66ff6ab.resetStyle(e.target);
+                        geo_json_a97b97067225ffdb99e7b6427c293399.resetStyle(e.target);
                     }
                 },
                 mouseover: function(e) {
                     if(typeof e.target.setStyle === &quot;function&quot;){
-                        const highlightStyle = geo_json_ac1dd916767f2acc649b245fc66ff6ab_highlighter(e.target.feature)
+                        const highlightStyle = geo_json_a97b97067225ffdb99e7b6427c293399_highlighter(e.target.feature)
                         e.target.setStyle(highlightStyle);
                     }
                 },
             });
         };
-        var geo_json_ac1dd916767f2acc649b245fc66ff6ab = L.geoJson(null, {
-                onEachFeature: geo_json_ac1dd916767f2acc649b245fc66ff6ab_onEachFeature,
+        var geo_json_a97b97067225ffdb99e7b6427c293399 = L.geoJson(null, {
+                onEachFeature: geo_json_a97b97067225ffdb99e7b6427c293399_onEachFeature,
             
-                style: geo_json_ac1dd916767f2acc649b245fc66ff6ab_styler,
-                pointToLayer: geo_json_ac1dd916767f2acc649b245fc66ff6ab_pointToLayer,
+                style: geo_json_a97b97067225ffdb99e7b6427c293399_styler,
+                pointToLayer: geo_json_a97b97067225ffdb99e7b6427c293399_pointToLayer,
         });
 
-        function geo_json_ac1dd916767f2acc649b245fc66ff6ab_add (data) {
-            geo_json_ac1dd916767f2acc649b245fc66ff6ab
+        function geo_json_a97b97067225ffdb99e7b6427c293399_add (data) {
+            geo_json_a97b97067225ffdb99e7b6427c293399
                 .addData(data);
         }
-            geo_json_ac1dd916767f2acc649b245fc66ff6ab_add({&quot;bbox&quot;: [20.88273666, -34.92728556, 43.34954476, 30.59334599], &quot;features&quot;: [{&quot;bbox&quot;: [32.43688221, 30.59334599, 32.43688221, 30.59334599], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.43688221, 30.59334599], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Suez Canal&quot;, &quot;vessel_count_RoRo&quot;: 876, &quot;vessel_count_container&quot;: 6455, &quot;vessel_count_dry_bulk&quot;: 5870, &quot;vessel_count_general_cargo&quot;: 2097, &quot;vessel_count_tanker&quot;: 6919, &quot;vessel_count_total&quot;: 22217}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [43.34954476, 12.78859715, 43.34954476, 12.78859715], &quot;geometry&quot;: {&quot;coordinates&quot;: [43.34954476, 12.78859715], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#1b9e77&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Bab el-Mandeb Strait&quot;, &quot;vessel_count_RoRo&quot;: 1074, &quot;vessel_count_container&quot;: 6280, &quot;vessel_count_dry_bulk&quot;: 5940, &quot;vessel_count_general_cargo&quot;: 1839, &quot;vessel_count_tanker&quot;: 7386, &quot;vessel_count_total&quot;: 22519}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [20.88273666, -34.92728556, 20.88273666, -34.92728556], &quot;geometry&quot;: {&quot;coordinates&quot;: [20.88273666, -34.92728556], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#66a61e&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Cape of Good Hope&quot;, &quot;vessel_count_RoRo&quot;: 355, &quot;vessel_count_container&quot;: 2018, &quot;vessel_count_dry_bulk&quot;: 10277, &quot;vessel_count_general_cargo&quot;: 709, &quot;vessel_count_tanker&quot;: 3973, &quot;vessel_count_total&quot;: 17332}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_a97b97067225ffdb99e7b6427c293399_add({&quot;bbox&quot;: [20.88273666, -34.92728556, 43.34954476, 30.59334599], &quot;features&quot;: [{&quot;bbox&quot;: [32.43688221, 30.59334599, 32.43688221, 30.59334599], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.43688221, 30.59334599], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Suez Canal&quot;, &quot;vessel_count_RoRo&quot;: 876, &quot;vessel_count_container&quot;: 6455, &quot;vessel_count_dry_bulk&quot;: 5870, &quot;vessel_count_general_cargo&quot;: 2097, &quot;vessel_count_tanker&quot;: 6919, &quot;vessel_count_total&quot;: 22217}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [43.34954476, 12.78859715, 43.34954476, 12.78859715], &quot;geometry&quot;: {&quot;coordinates&quot;: [43.34954476, 12.78859715], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#1b9e77&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Bab el-Mandeb Strait&quot;, &quot;vessel_count_RoRo&quot;: 1074, &quot;vessel_count_container&quot;: 6280, &quot;vessel_count_dry_bulk&quot;: 5940, &quot;vessel_count_general_cargo&quot;: 1839, &quot;vessel_count_tanker&quot;: 7386, &quot;vessel_count_total&quot;: 22519}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [20.88273666, -34.92728556, 20.88273666, -34.92728556], &quot;geometry&quot;: {&quot;coordinates&quot;: [20.88273666, -34.92728556], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#66a61e&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Cape of Good Hope&quot;, &quot;vessel_count_RoRo&quot;: 355, &quot;vessel_count_container&quot;: 2018, &quot;vessel_count_dry_bulk&quot;: 10277, &quot;vessel_count_general_cargo&quot;: 709, &quot;vessel_count_tanker&quot;: 3973, &quot;vessel_count_total&quot;: 17332}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-    geo_json_ac1dd916767f2acc649b245fc66ff6ab.bindTooltip(
+    geo_json_a97b97067225ffdb99e7b6427c293399.bindTooltip(
     function(layer){
     let div = L.DomUtil.create(&#x27;div&#x27;);
     
@@ -939,7 +938,7 @@ document.write(`
     ,{&quot;className&quot;: &quot;foliumtooltip&quot;, &quot;sticky&quot;: true});
                      
     
-            geo_json_ac1dd916767f2acc649b245fc66ff6ab.addTo(map_d4cb108b93406b6455c3356cd50f4ebb);
+            geo_json_a97b97067225ffdb99e7b6427c293399.addTo(map_bbd7e8d3e4123a185538746c2f0c6c4e);
         
 &lt;/script&gt;
 &lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div></div></div>
@@ -1027,28 +1026,28 @@ document.write(`
   </thead>
   <tbody>
     <tr>
-      <th>5695</th>
+      <th>5773</th>
       <td>chokepoint7</td>
       <td>Cape of Good Hope</td>
-      <td>2024-03-11 20:00:00</td>
-      <td>52</td>
-      <td>16</td>
-      <td>68</td>
-      <td>5.324244e+06</td>
-      <td>20888</td>
-      <td>2024-03-11</td>
+      <td>2024-04-06 20:00:00</td>
+      <td>47</td>
+      <td>13</td>
+      <td>60</td>
+      <td>5.385749e+06</td>
+      <td>42209</td>
+      <td>2024-04-06</td>
     </tr>
     <tr>
-      <th>5696</th>
+      <th>5774</th>
       <td>chokepoint7</td>
       <td>Cape of Good Hope</td>
-      <td>2024-03-12 20:00:00</td>
-      <td>72</td>
-      <td>20</td>
-      <td>92</td>
-      <td>1.002038e+07</td>
-      <td>20889</td>
-      <td>2024-03-12</td>
+      <td>2024-04-07 20:00:00</td>
+      <td>45</td>
+      <td>15</td>
+      <td>60</td>
+      <td>5.782211e+06</td>
+      <td>42210</td>
+      <td>2024-04-07</td>
     </tr>
   </tbody>
 </table>
@@ -1160,16 +1159,20 @@ document.write(`
     <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls in Key Areas&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
     <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;6 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
     <span class="o">+</span> <span class="n">scale_color_brewer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="o">+</span> <span class="n">facet_wrap</span><span class="p">(</span><span class="s2">&quot;~portname&quot;</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span>
@@ -1183,7 +1186,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/fefb883e9dbc9a956f97b9d7c54853185e46fc4ffeae5b67a22a8c8bf53cea98.png" src="../../_images/fefb883e9dbc9a956f97b9d7c54853185e46fc4ffeae5b67a22a8c8bf53cea98.png" />
+<img alt="../../_images/7a0dd42340379a6e770ace736ac6c7471ec756a130b1af728b548d070db54609.png" src="../../_images/7a0dd42340379a6e770ace736ac6c7471ec756a130b1af728b548d070db54609.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
 </pre></div>
 </div>
@@ -1269,16 +1272,21 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls in Key Areas&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;2 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
     <span class="o">+</span> <span class="n">scale_color_brewer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
 <span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
@@ -1288,7 +1296,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/81a2e4a9af2120c79aad6722a9ca783145c697a35b043fdf9103649a49d240f9.png" src="../../_images/81a2e4a9af2120c79aad6722a9ca783145c697a35b043fdf9103649a49d240f9.png" />
+<img alt="../../_images/b98602cd8471b165b4cd23094365152888e064032527633c94d87a70a93ee425.png" src="../../_images/b98602cd8471b165b4cd23094365152888e064032527633c94d87a70a93ee425.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
 </pre></div>
 </div>
@@ -1316,18 +1324,21 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Number of Vessels&quot;</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls Relative to Historical Average&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;2 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
     <span class="o">+</span> <span class="n">scale_color_brewer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="c1"># + scale_y_continuous(labels=comma_format())</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="n">facet_wrap</span><span class="p">(</span><span class="s2">&quot;~portname&quot;</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
 <span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
@@ -1338,7 +1349,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/36e6d13bb5ed6081f031a6bcf0d2d7fb307f1fe61cd4230160ae1fe71c631539.png" src="../../_images/36e6d13bb5ed6081f031a6bcf0d2d7fb307f1fe61cd4230160ae1fe71c631539.png" />
+<img alt="../../_images/06efb756bbb74dde44afc3ddff90a53b10044a571237616e066a7b0d1d7351b0.png" src="../../_images/06efb756bbb74dde44afc3ddff90a53b10044a571237616e066a7b0d1d7351b0.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
 </pre></div>
 </div>
@@ -1364,17 +1375,22 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="o">+</span> <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;%&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls in Key Areas, % Change&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;% Change&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;AIS Transit Calls in Key Areas&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Area of Interest&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
     <span class="o">+</span> <span class="n">scale_color_brewer</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">percent_format</span><span class="p">())</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="n">facet_wrap</span><span class="p">(</span><span class="s2">&quot;~portname&quot;</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
 <span class="n">p3</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
@@ -1385,7 +1401,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/86f31653a3cc22ada00b0ff020e2ec639053102efa8a1d15f3d9ccf36b138c5c.png" src="../../_images/86f31653a3cc22ada00b0ff020e2ec639053102efa8a1d15f3d9ccf36b138c5c.png" />
+<img alt="../../_images/6cac1bc1aadd86d3a00d52cd0b8669882ee1efb09e9d5cfcd5b7019c749d136d.png" src="../../_images/6cac1bc1aadd86d3a00d52cd0b8669882ee1efb09e9d5cfcd5b7019c749d136d.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
 </pre></div>
 </div>
@@ -1468,7 +1484,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_32444\467821549.py:3: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_32892\36468859.py:3: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1522,10 +1538,10 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     </tr>
     <tr>
       <th>Red Sea Crisis</th>
-      <td>16.61</td>
-      <td>29.66</td>
-      <td>46.27</td>
-      <td>2,827,859</td>
+      <td>15.34</td>
+      <td>27.61</td>
+      <td>42.95</td>
+      <td>2,585,144</td>
     </tr>
     <tr>
       <th rowspan="3" valign="top">Cape of Good Hope</th>
@@ -1544,10 +1560,10 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     </tr>
     <tr>
       <th>Red Sea Crisis</th>
-      <td>14.73</td>
-      <td>52.64</td>
-      <td>67.38</td>
-      <td>6,060,882</td>
+      <td>15.03</td>
+      <td>53.92</td>
+      <td>68.95</td>
+      <td>6,224,209</td>
     </tr>
     <tr>
       <th rowspan="3" valign="top">Suez Canal</th>
@@ -1566,14 +1582,36 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     </tr>
     <tr>
       <th>Red Sea Crisis</th>
-      <td>17.12</td>
-      <td>34.95</td>
-      <td>52.07</td>
-      <td>3,201,821</td>
+      <td>16.06</td>
+      <td>32.79</td>
+      <td>48.85</td>
+      <td>2,947,435</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;github&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| Area of Interest     | Period               |   Tankers |   Cargo |   Total | Capacity   |
+|----------------------|----------------------|-----------|---------|---------|------------|
+| Bab el-Mandeb Strait | Reference            |     23.91 |   46.86 |   70.77 | 4,823,326  |
+| Bab el-Mandeb Strait | Middle East Conflict |     25.95 |   51.58 |   77.53 | 5,305,603  |
+| Bab el-Mandeb Strait | Red Sea Crisis       |     15.34 |   27.61 |   42.95 | 2,585,144  |
+| Cape of Good Hope    | Reference            |      9.34 |   36.68 |   46.01 | 4,380,133  |
+| Cape of Good Hope    | Middle East Conflict |     10.03 |   39.2  |   49.23 | 4,813,646  |
+| Cape of Good Hope    | Red Sea Crisis       |     15.03 |   53.92 |   68.95 | 6,224,209  |
+| Suez Canal           | Reference            |     23.09 |   46.98 |   70.07 | 4,737,291  |
+| Suez Canal           | Middle East Conflict |     25.2  |   51.64 |   76.83 | 5,246,677  |
+| Suez Canal           | Red Sea Crisis       |     16.06 |   32.79 |   48.85 | 2,947,435  |
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1633,7 +1671,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_32444\3184510119.py:5: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_32892\3184510119.py:5: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1680,10 +1718,10 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     </tr>
     <tr>
       <th>Red Sea Crisis</th>
-      <td>-30.51%</td>
-      <td>-36.70%</td>
-      <td>-34.61%</td>
-      <td>-41.37%</td>
+      <td>-35.83%</td>
+      <td>-41.07%</td>
+      <td>-39.30%</td>
+      <td>-46.40%</td>
     </tr>
     <tr>
       <th rowspan="2" valign="top">Cape of Good Hope</th>
@@ -1695,10 +1733,10 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     </tr>
     <tr>
       <th>Red Sea Crisis</th>
-      <td>57.81%</td>
-      <td>43.53%</td>
-      <td>46.43%</td>
-      <td>38.37%</td>
+      <td>61.03%</td>
+      <td>47.01%</td>
+      <td>49.85%</td>
+      <td>42.10%</td>
     </tr>
     <tr>
       <th rowspan="2" valign="top">Suez Canal</th>
@@ -1710,14 +1748,33 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     </tr>
     <tr>
       <th>Red Sea Crisis</th>
-      <td>-25.86%</td>
-      <td>-25.61%</td>
-      <td>-25.69%</td>
-      <td>-32.41%</td>
+      <td>-30.46%</td>
+      <td>-30.20%</td>
+      <td>-30.29%</td>
+      <td>-37.78%</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df_agg_pct</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;github&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| Area of Interest     | Period               | Tankers   | Cargo   | Total   | Capacity   |
+|----------------------|----------------------|-----------|---------|---------|------------|
+| Bab el-Mandeb Strait | Middle East Conflict | 8.56%     | 10.08%  | 9.56%   | 10.00%     |
+| Bab el-Mandeb Strait | Red Sea Crisis       | -35.83%   | -41.07% | -39.30% | -46.40%    |
+| Cape of Good Hope    | Middle East Conflict | 7.42%     | 6.87%   | 6.98%   | 9.90%      |
+| Cape of Good Hope    | Red Sea Crisis       | 61.03%    | 47.01%  | 49.85%  | 42.10%     |
+| Suez Canal           | Middle East Conflict | 9.12%     | 9.91%   | 9.65%   | 10.75%     |
+| Suez Canal           | Red Sea Crisis       | -30.46%   | -30.20% | -30.29% | -37.78%    |
+</pre></div>
+</div>
+</div>
 </div>
 <p>Save tables to excel</p>
 <div class="cell docutils container">
@@ -1850,7 +1907,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 10, 2024.
+  Last updated on Apr 11, 2024.
   <br/>
 </p>
   </div>

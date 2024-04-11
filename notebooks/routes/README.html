@@ -69,7 +69,7 @@
     <link rel="prev" title="Estimating Activity Through Point of Interest Visits Using Mobility Data" href="../mobility/visits.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 10, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 11, 2024"/>
   </head>
   
   
@@ -209,6 +209,7 @@
 <li class="toctree-l2"><a class="reference internal" href="1-data-extraction.html">Data Extraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2-prepare-sea-routes.html">Sea Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="3-process-routes.html">Process AIS Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4-aggregate.html">Data Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -450,9 +451,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-charts">Summary Charts</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#percentage-change-from-baseline">Percentage Change from Baseline</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cargo-vessels">Cargo Vessels</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tanker-vessels">Tanker Vessels</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tanker-vessels">Tanker Vessels</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-emissions-oecd-data">Global Emissions (OECD) Data</a></li>
@@ -490,7 +491,7 @@ document.write(`
 <figure class="align-center" id="id10">
 <img alt="../../_images/sea_routes.png" src="../../_images/sea_routes.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 12 </span><span class="caption-text">Network of processed sea routes and ports</span><a class="headerlink" href="#id10" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Network of processed sea routes and ports</span><a class="headerlink" href="#id10" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <ul class="simple">
@@ -514,13 +515,13 @@ document.write(`
 <figure class="align-center" id="id11">
 <img alt="../../_images/sea_routes_a.png" src="../../_images/sea_routes_a.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 13 </span><span class="caption-text">Case A: Direct Route Between Ijmuiden, Netherlands and Cape of Good Hope</span><a class="headerlink" href="#id11" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Case A: Direct Route Between Ijmuiden, Netherlands and Cape of Good Hope</span><a class="headerlink" href="#id11" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-center" id="id12">
 <img alt="../../_images/sea_routes_b.png" src="../../_images/sea_routes_b.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Case A: Shortest Route Calculated Between Phuket, Thailand and Suez Canal</span><a class="headerlink" href="#id12" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">Case A: Shortest Route Calculated Between Phuket, Thailand and Suez Canal</span><a class="headerlink" href="#id12" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <ul class="simple">
@@ -616,19 +617,19 @@ document.write(`
 <figure class="align-center" id="id13">
 <img alt="../../_images/distance-traveled.jpeg" src="../../_images/distance-traveled.jpeg" />
 <figcaption>
-<p><span class="caption-number">Fig. 15 </span><span class="caption-text">Total Distance Traveled by Red Sea Vessels</span><a class="headerlink" href="#id13" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">Total Distance Traveled by Red Sea Vessels</span><a class="headerlink" href="#id13" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-center" id="id14">
 <img alt="../../_images/distance-traveled-bab.jpeg" src="../../_images/distance-traveled-bab.jpeg" />
 <figcaption>
-<p><span class="caption-number">Fig. 16 </span><span class="caption-text">Total Distance Traveled by Red Sea Vessels Crossing Bab el-Mandeb Strait</span><a class="headerlink" href="#id14" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Total Distance Traveled by Red Sea Vessels Crossing Bab el-Mandeb Strait</span><a class="headerlink" href="#id14" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-center" id="id15">
 <img alt="../../_images/distance-traveled-cape.jpeg" src="../../_images/distance-traveled-cape.jpeg" />
 <figcaption>
-<p><span class="caption-number">Fig. 17 </span><span class="caption-text">Total Distance Traveled by Red Sea Vessels Crossing Cape of Good Hope</span><a class="headerlink" href="#id15" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">Total Distance Traveled by Red Sea Vessels Crossing Cape of Good Hope</span><a class="headerlink" href="#id15" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -638,13 +639,13 @@ document.write(`
 <figure class="align-center" id="id16">
 <img alt="../../_images/distance-traveled-pct.jpeg" src="../../_images/distance-traveled-pct.jpeg" />
 <figcaption>
-<p><span class="caption-number">Fig. 18 </span><span class="caption-text">Distance Traveled by Red Sea Vessels, % Change from Baseline</span><a class="headerlink" href="#id16" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 16 </span><span class="caption-text">Distance Traveled by Red Sea Vessels, % Change from Baseline</span><a class="headerlink" href="#id16" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-center" id="id17">
 <img alt="../../_images/time-traveled-pct.jpeg" src="../../_images/time-traveled-pct.jpeg" />
 <figcaption>
-<p><span class="caption-number">Fig. 19 </span><span class="caption-text">Time Traveled by Red Sea Vessels, % Change from Baseline</span><a class="headerlink" href="#id17" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 17 </span><span class="caption-text">Time Traveled by Red Sea Vessels, % Change from Baseline</span><a class="headerlink" href="#id17" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <section id="cargo-vessels">
@@ -671,9 +672,8 @@ document.write(`
 </tbody>
 </table>
 </section>
-</section>
 <section id="tanker-vessels">
-<h3>Tanker Vessels<a class="headerlink" href="#tanker-vessels" title="Permalink to this heading">#</a></h3>
+<h4>Tanker Vessels<a class="headerlink" href="#tanker-vessels" title="Permalink to this heading">#</a></h4>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-left head"><p></p></th>
@@ -696,12 +696,13 @@ document.write(`
 </tbody>
 </table>
 <ul class="simple">
-<li><p><a class="reference internal" href="#4-aggregate.ipynb"><span class="xref myst">Aggregation Notebook</span></a></p></li>
+<li><p><a class="reference internal" href="4-aggregate.html"><span class="std std-doc">Aggregation Notebook</span></a></p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>We attempted to apply average fuel consumption factors to the shipping activity for a rough estimation of CO2 emitted, however, the simplified formulas identified in an <a class="reference external" href="https://www.ipcc-nggip.iges.or.jp/public/gp/bgp/2_4_Water-borne_Navigation.pdf">IPCC report</a> require a multiplication of the consumption factor to the volume of a ship (gross tonnage), which we currently do not have. The <a class="reference external" href="https://www.imo.org/en/ourwork/Environment/Pages/Fourth-IMO-Greenhouse-Gas-Study-2020.aspx">Fourth Greenhouse Gas Study</a> (2020) by the International Maritime Organization provides additional guidelines for bottom-up GHG estimation with AIS data, but requires more detailed analysis of individual vessel type, speed, and draught factors which are beyond the scope of this analysis.</p>
 </div>
+</section>
 </section>
 </section>
 <section id="global-emissions-oecd-data">
@@ -711,13 +712,13 @@ document.write(`
 <figure class="align-center" id="id18">
 <img alt="../../_images/oecd.jpeg" src="../../_images/oecd.jpeg" />
 <figcaption>
-<p><span class="caption-number">Fig. 20 </span><span class="caption-text">Maritime transport CO2 emissions, OECD</span><a class="headerlink" href="#id18" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 18 </span><span class="caption-text">Maritime transport CO2 emissions, OECD</span><a class="headerlink" href="#id18" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-center" id="id19">
 <img alt="../../_images/oecd-historical.jpeg" src="../../_images/oecd-historical.jpeg" />
 <figcaption>
-<p><span class="caption-number">Fig. 21 </span><span class="caption-text">Maritime transport CO2 emissions (historical from 2022), OECD</span><a class="headerlink" href="#id19" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 19 </span><span class="caption-text">Maritime transport CO2 emissions (historical from 2022), OECD</span><a class="headerlink" href="#id19" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -827,9 +828,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-charts">Summary Charts</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#percentage-change-from-baseline">Percentage Change from Baseline</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cargo-vessels">Cargo Vessels</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tanker-vessels">Tanker Vessels</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tanker-vessels">Tanker Vessels</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-emissions-oecd-data">Global Emissions (OECD) Data</a></li>
@@ -861,7 +862,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 10, 2024.
+  Last updated on Apr 11, 2024.
   <br/>
 </p>
   </div>

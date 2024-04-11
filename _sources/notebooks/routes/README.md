@@ -127,7 +127,7 @@ Time Traveled by Red Sea Vessels, % Change from Baseline
 | % Change Distance Travel | 38.6%     | 33.1%     | 53.6%     |
 | % Change Time Travel     | 31.9%     | 31.7%     | 51.5%     |
 
-### Tanker Vessels
+#### Tanker Vessels
 
 |                          | 2024-01   | 2024-02   | 2024-03   |
 |:-------------------------|:----------|:----------|:----------|

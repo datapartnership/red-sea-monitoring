@@ -69,7 +69,7 @@
     <link rel="prev" title="Port Call Trends Monitor" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 10, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 11, 2024"/>
   </head>
   
   
@@ -209,6 +209,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../routes/1-data-extraction.html">Data Extraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../routes/2-prepare-sea-routes.html">Sea Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../routes/3-process-routes.html">Process AIS Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../routes/4-aggregate.html">Data Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -481,7 +482,6 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">exists</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -492,8 +492,7 @@ document.write(`
 
 <span class="n">git_repo</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">search_parent_directories</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">git_root</span> <span class="o">=</span> <span class="n">git_repo</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">rev_parse</span><span class="p">(</span><span class="s2">&quot;--show-toplevel&quot;</span><span class="p">)</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">git_root</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;red-sea-monitoring&quot;</span><span class="p">))</span>
-<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">red_sea_monitoring.utils</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># For plotting</span>
 <span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span>
@@ -724,7 +723,7 @@ document.write(`
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_06b051581b17188a78969e1ba5083271 {
+                #map_cdab9b62409982718c38e12452d3b6fc {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -830,14 +829,14 @@ document.write(`
     &lt;/div&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_06b051581b17188a78969e1ba5083271&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_cdab9b62409982718c38e12452d3b6fc&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_06b051581b17188a78969e1ba5083271 = L.map(
-                &quot;map_06b051581b17188a78969e1ba5083271&quot;,
+            var map_cdab9b62409982718c38e12452d3b6fc = L.map(
+                &quot;map_cdab9b62409982718c38e12452d3b6fc&quot;,
                 {
                     center: [20.77423638, 40.75257589],
                     crs: L.CRS.EPSG3857,
@@ -846,28 +845,28 @@ document.write(`
                     preferCanvas: false,
                 }
             );
-            L.control.scale().addTo(map_06b051581b17188a78969e1ba5083271);
+            L.control.scale().addTo(map_cdab9b62409982718c38e12452d3b6fc);
 
             
 
         
     
-            var tile_layer_611d47605f123bff3178372dfd5cb0fe = L.tileLayer(
+            var tile_layer_171f834e01424e1ee9d9cb88b0091fca = L.tileLayer(
                 &quot;https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}&quot;,
                 {&quot;attribution&quot;: &quot;Tiles \u0026copy; Esri \u0026mdash; Esri, DeLorme, NAVTEQ&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 16, &quot;maxZoom&quot;: 16, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
             );
         
     
-            tile_layer_611d47605f123bff3178372dfd5cb0fe.addTo(map_06b051581b17188a78969e1ba5083271);
+            tile_layer_171f834e01424e1ee9d9cb88b0091fca.addTo(map_cdab9b62409982718c38e12452d3b6fc);
         
     
-            map_06b051581b17188a78969e1ba5083271.fitBounds(
+            map_cdab9b62409982718c38e12452d3b6fc.fitBounds(
                 [[11.59746443, 32.35392159], [29.95100833, 49.15123019]],
                 {}
             );
         
     
-        function geo_json_23655542fbc4bfb1fecef3f5c03a5293_styler(feature) {
+        function geo_json_aecbf89c74467eab4aefe5653bd0a713_styler(feature) {
             switch(feature.id) {
                 case &quot;0&quot;: 
                     return {&quot;color&quot;: &quot;#1b9e77&quot;, &quot;fillColor&quot;: &quot;#1b9e77&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
@@ -881,52 +880,52 @@ document.write(`
                     return {&quot;color&quot;: &quot;#a6761d&quot;, &quot;fillColor&quot;: &quot;#a6761d&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
             }
         }
-        function geo_json_23655542fbc4bfb1fecef3f5c03a5293_highlighter(feature) {
+        function geo_json_aecbf89c74467eab4aefe5653bd0a713_highlighter(feature) {
             switch(feature.id) {
                 default:
                     return {&quot;fillOpacity&quot;: 0.75};
             }
         }
-        function geo_json_23655542fbc4bfb1fecef3f5c03a5293_pointToLayer(feature, latlng) {
+        function geo_json_aecbf89c74467eab4aefe5653bd0a713_pointToLayer(feature, latlng) {
             var opts = {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3388ff&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3388ff&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3};
             
-            let style = geo_json_23655542fbc4bfb1fecef3f5c03a5293_styler(feature)
+            let style = geo_json_aecbf89c74467eab4aefe5653bd0a713_styler(feature)
             Object.assign(opts, style)
             
             return new L.CircleMarker(latlng, opts)
         }
 
-        function geo_json_23655542fbc4bfb1fecef3f5c03a5293_onEachFeature(feature, layer) {
+        function geo_json_aecbf89c74467eab4aefe5653bd0a713_onEachFeature(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if(typeof e.target.setStyle === &quot;function&quot;){
-                        geo_json_23655542fbc4bfb1fecef3f5c03a5293.resetStyle(e.target);
+                        geo_json_aecbf89c74467eab4aefe5653bd0a713.resetStyle(e.target);
                     }
                 },
                 mouseover: function(e) {
                     if(typeof e.target.setStyle === &quot;function&quot;){
-                        const highlightStyle = geo_json_23655542fbc4bfb1fecef3f5c03a5293_highlighter(e.target.feature)
+                        const highlightStyle = geo_json_aecbf89c74467eab4aefe5653bd0a713_highlighter(e.target.feature)
                         e.target.setStyle(highlightStyle);
                     }
                 },
             });
         };
-        var geo_json_23655542fbc4bfb1fecef3f5c03a5293 = L.geoJson(null, {
-                onEachFeature: geo_json_23655542fbc4bfb1fecef3f5c03a5293_onEachFeature,
+        var geo_json_aecbf89c74467eab4aefe5653bd0a713 = L.geoJson(null, {
+                onEachFeature: geo_json_aecbf89c74467eab4aefe5653bd0a713_onEachFeature,
             
-                style: geo_json_23655542fbc4bfb1fecef3f5c03a5293_styler,
-                pointToLayer: geo_json_23655542fbc4bfb1fecef3f5c03a5293_pointToLayer,
+                style: geo_json_aecbf89c74467eab4aefe5653bd0a713_styler,
+                pointToLayer: geo_json_aecbf89c74467eab4aefe5653bd0a713_pointToLayer,
         });
 
-        function geo_json_23655542fbc4bfb1fecef3f5c03a5293_add (data) {
-            geo_json_23655542fbc4bfb1fecef3f5c03a5293
+        function geo_json_aecbf89c74467eab4aefe5653bd0a713_add (data) {
+            geo_json_aecbf89c74467eab4aefe5653bd0a713
                 .addData(data);
         }
-            geo_json_23655542fbc4bfb1fecef3f5c03a5293_add({&quot;bbox&quot;: [32.35392159, 11.59746443, 49.15123019, 29.95100833], &quot;features&quot;: [{&quot;bbox&quot;: [43.10371866, 11.59746443, 43.10371866, 11.59746443], &quot;geometry&quot;: {&quot;coordinates&quot;: [43.10371866, 11.59746443], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#1b9e77&quot;, &quot;country&quot;: &quot;Djibouti&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Djibouti&quot;, &quot;share_country_maritime_export&quot;: 100.0, &quot;share_country_maritime_import&quot;: 100.0, &quot;vessel_count_RoRo&quot;: 151, &quot;vessel_count_container&quot;: 412, &quot;vessel_count_dry_bulk&quot;: 198, &quot;vessel_count_general_cargo&quot;: 175, &quot;vessel_count_tanker&quot;: 225, &quot;vessel_count_total&quot;: 1162}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [32.46211563, 29.90416291, 32.46211563, 29.90416291], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.46211563, 29.90416291], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;1&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#7570b3&quot;, &quot;country&quot;: &quot;Egypt&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Metal Products&quot;, &quot;portname&quot;: &quot;El-Adabiya&quot;, &quot;share_country_maritime_export&quot;: 7.26, &quot;share_country_maritime_import&quot;: 3.97, &quot;vessel_count_RoRo&quot;: 15, &quot;vessel_count_container&quot;: 43, &quot;vessel_count_dry_bulk&quot;: 101, &quot;vessel_count_general_cargo&quot;: 152, &quot;vessel_count_tanker&quot;: 167, &quot;vessel_count_total&quot;: 479}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [33.9422311, 26.72555551, 33.9422311, 26.72555551], &quot;geometry&quot;: {&quot;coordinates&quot;: [33.9422311, 26.72555551], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;2&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#7570b3&quot;, &quot;country&quot;: &quot;Egypt&quot;, &quot;industry_top1&quot;: &quot;Agriculture&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Safaga&quot;, &quot;share_country_maritime_export&quot;: 16.54, &quot;share_country_maritime_import&quot;: 2.01, &quot;vessel_count_RoRo&quot;: 159, &quot;vessel_count_container&quot;: 1, &quot;vessel_count_dry_bulk&quot;: 89, &quot;vessel_count_general_cargo&quot;: 14, &quot;vessel_count_tanker&quot;: 0, &quot;vessel_count_total&quot;: 265}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [32.35392159, 29.64742882, 32.35392159, 29.64742882], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.35392159, 29.64742882], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#7570b3&quot;, &quot;country&quot;: &quot;Egypt&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;North Ain Sukhna Port&quot;, &quot;share_country_maritime_export&quot;: 7.51, &quot;share_country_maritime_import&quot;: 17.53, &quot;vessel_count_RoRo&quot;: 2, &quot;vessel_count_container&quot;: 207, &quot;vessel_count_dry_bulk&quot;: 68, &quot;vessel_count_general_cargo&quot;: 29, &quot;vessel_count_tanker&quot;: 112, &quot;vessel_count_total&quot;: 418}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [32.53063921, 29.95100833, 32.53063921, 29.95100833], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.53063921, 29.95100833], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;4&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#7570b3&quot;, &quot;country&quot;: &quot;Egypt&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;As Suways&quot;, &quot;share_country_maritime_export&quot;: 2.04, &quot;share_country_maritime_import&quot;: 2.64, &quot;vessel_count_RoRo&quot;: 24, &quot;vessel_count_container&quot;: 3, &quot;vessel_count_dry_bulk&quot;: 4, &quot;vessel_count_general_cargo&quot;: 42, &quot;vessel_count_tanker&quot;: 52, &quot;vessel_count_total&quot;: 127}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [34.95864074, 29.45171189, 34.95864074, 29.45171189], &quot;geometry&quot;: {&quot;coordinates&quot;: [34.95864074, 29.45171189], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;5&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#66a61e&quot;, &quot;country&quot;: &quot;Jordan&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Al Aqabah&quot;, &quot;share_country_maritime_export&quot;: 100.0, &quot;share_country_maritime_import&quot;: 100.0, &quot;vessel_count_RoRo&quot;: 85, &quot;vessel_count_container&quot;: 131, &quot;vessel_count_dry_bulk&quot;: 217, &quot;vessel_count_general_cargo&quot;: 109, &quot;vessel_count_tanker&quot;: 71, &quot;vessel_count_total&quot;: 614}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [35.73491023, 27.32760527, 35.73491023, 27.32760527], &quot;geometry&quot;: {&quot;coordinates&quot;: [35.73491023, 27.32760527], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Duba Bulk Plant Tanker Terminal&quot;, &quot;share_country_maritime_export&quot;: 0.03, &quot;share_country_maritime_import&quot;: 0.98, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 0, &quot;vessel_count_dry_bulk&quot;: 0, &quot;vessel_count_general_cargo&quot;: 0, &quot;vessel_count_tanker&quot;: 45, &quot;vessel_count_total&quot;: 45}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [39.05376029, 22.63873353, 39.05376029, 22.63873353], &quot;geometry&quot;: {&quot;coordinates&quot;: [39.05376029, 22.63873353], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;7&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Rabigh&quot;, &quot;share_country_maritime_export&quot;: 4.39, &quot;share_country_maritime_import&quot;: 11.36, &quot;vessel_count_RoRo&quot;: 5, &quot;vessel_count_container&quot;: 785, &quot;vessel_count_dry_bulk&quot;: 83, &quot;vessel_count_general_cargo&quot;: 27, &quot;vessel_count_tanker&quot;: 370, &quot;vessel_count_total&quot;: 1272}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [38.27170365, 23.95087468, 38.27170365, 23.95087468], &quot;geometry&quot;: {&quot;coordinates&quot;: [38.27170365, 23.95087468], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;8&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Metal Products&quot;, &quot;portname&quot;: &quot;King Fahd Port&quot;, &quot;share_country_maritime_export&quot;: 14.57, &quot;share_country_maritime_import&quot;: 13.01, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 2, &quot;vessel_count_dry_bulk&quot;: 72, &quot;vessel_count_general_cargo&quot;: 15, &quot;vessel_count_tanker&quot;: 1049, &quot;vessel_count_total&quot;: 1140}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [35.5465967, 27.55991231, 35.5465967, 27.55991231], &quot;geometry&quot;: {&quot;coordinates&quot;: [35.5465967, 27.55991231], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;9&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Duba&quot;, &quot;share_country_maritime_export&quot;: 0.67, &quot;share_country_maritime_import&quot;: 0.29, &quot;vessel_count_RoRo&quot;: 20, &quot;vessel_count_container&quot;: 1, &quot;vessel_count_dry_bulk&quot;: 23, &quot;vessel_count_general_cargo&quot;: 23, &quot;vessel_count_tanker&quot;: 0, &quot;vessel_count_total&quot;: 68}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [38.07030618, 24.07715154, 38.07030618, 24.07715154], &quot;geometry&quot;: {&quot;coordinates&quot;: [38.07030618, 24.07715154], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;10&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Yanbu&quot;, &quot;share_country_maritime_export&quot;: 0.41, &quot;share_country_maritime_import&quot;: 1.98, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 1, &quot;vessel_count_dry_bulk&quot;: 62, &quot;vessel_count_general_cargo&quot;: 39, &quot;vessel_count_tanker&quot;: 24, &quot;vessel_count_total&quot;: 127}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [39.16640594, 21.46079659, 39.16640594, 21.46079659], &quot;geometry&quot;: {&quot;coordinates&quot;: [39.16640594, 21.46079659], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;11&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Jiddah&quot;, &quot;share_country_maritime_export&quot;: 4.45, &quot;share_country_maritime_import&quot;: 25.12, &quot;vessel_count_RoRo&quot;: 640, &quot;vessel_count_container&quot;: 1708, &quot;vessel_count_dry_bulk&quot;: 195, &quot;vessel_count_general_cargo&quot;: 364, &quot;vessel_count_tanker&quot;: 501, &quot;vessel_count_total&quot;: 3410}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [39.54249452, 20.65258296, 39.54249452, 20.65258296], &quot;geometry&quot;: {&quot;coordinates&quot;: [39.54249452, 20.65258296], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;12&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Jiddah Oil&quot;, &quot;share_country_maritime_export&quot;: 0.06, &quot;share_country_maritime_import&quot;: 6.0, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 0, &quot;vessel_count_dry_bulk&quot;: 0, &quot;vessel_count_general_cargo&quot;: 0, &quot;vessel_count_tanker&quot;: 100, &quot;vessel_count_total&quot;: 100}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [49.15123019, 14.52061091, 49.15123019, 14.52061091], &quot;geometry&quot;: {&quot;coordinates&quot;: [49.15123019, 14.52061091], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;13&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;country&quot;: &quot;Yemen&quot;, &quot;industry_top1&quot;: &quot;Agriculture&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Al Mukalla&quot;, &quot;share_country_maritime_export&quot;: 11.07, &quot;share_country_maritime_import&quot;: 19.85, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 32, &quot;vessel_count_dry_bulk&quot;: 32, &quot;vessel_count_general_cargo&quot;: 56, &quot;vessel_count_tanker&quot;: 42, &quot;vessel_count_total&quot;: 164}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [42.94343741, 14.8331155, 42.94343741, 14.8331155], &quot;geometry&quot;: {&quot;coordinates&quot;: [42.94343741, 14.8331155], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;14&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;country&quot;: &quot;Yemen&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Agriculture&quot;, &quot;industry_top3&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;portname&quot;: &quot;Al Ahmadi&quot;, &quot;share_country_maritime_export&quot;: 34.53, &quot;share_country_maritime_import&quot;: 24.79, &quot;vessel_count_RoRo&quot;: 1, &quot;vessel_count_container&quot;: 25, &quot;vessel_count_dry_bulk&quot;: 93, &quot;vessel_count_general_cargo&quot;: 53, &quot;vessel_count_tanker&quot;: 61, &quot;vessel_count_total&quot;: 234}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [44.95494325, 12.78186553, 44.95494325, 12.78186553], &quot;geometry&quot;: {&quot;coordinates&quot;: [44.95494325, 12.78186553], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;15&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;country&quot;: &quot;Yemen&quot;, &quot;industry_top1&quot;: &quot;Agriculture&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Aden&quot;, &quot;share_country_maritime_export&quot;: 54.4, &quot;share_country_maritime_import&quot;: 55.36, &quot;vessel_count_RoRo&quot;: 8, &quot;vessel_count_container&quot;: 124, &quot;vessel_count_dry_bulk&quot;: 129, &quot;vessel_count_general_cargo&quot;: 88, &quot;vessel_count_tanker&quot;: 55, &quot;vessel_count_total&quot;: 406}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_aecbf89c74467eab4aefe5653bd0a713_add({&quot;bbox&quot;: [32.35392159, 11.59746443, 49.15123019, 29.95100833], &quot;features&quot;: [{&quot;bbox&quot;: [43.10371866, 11.59746443, 43.10371866, 11.59746443], &quot;geometry&quot;: {&quot;coordinates&quot;: [43.10371866, 11.59746443], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#1b9e77&quot;, &quot;country&quot;: &quot;Djibouti&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Djibouti&quot;, &quot;share_country_maritime_export&quot;: 100.0, &quot;share_country_maritime_import&quot;: 100.0, &quot;vessel_count_RoRo&quot;: 151, &quot;vessel_count_container&quot;: 412, &quot;vessel_count_dry_bulk&quot;: 198, &quot;vessel_count_general_cargo&quot;: 175, &quot;vessel_count_tanker&quot;: 225, &quot;vessel_count_total&quot;: 1162}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [32.46211563, 29.90416291, 32.46211563, 29.90416291], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.46211563, 29.90416291], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;1&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#7570b3&quot;, &quot;country&quot;: &quot;Egypt&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Metal Products&quot;, &quot;portname&quot;: &quot;El-Adabiya&quot;, &quot;share_country_maritime_export&quot;: 7.26, &quot;share_country_maritime_import&quot;: 3.97, &quot;vessel_count_RoRo&quot;: 15, &quot;vessel_count_container&quot;: 43, &quot;vessel_count_dry_bulk&quot;: 101, &quot;vessel_count_general_cargo&quot;: 152, &quot;vessel_count_tanker&quot;: 167, &quot;vessel_count_total&quot;: 479}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [33.9422311, 26.72555551, 33.9422311, 26.72555551], &quot;geometry&quot;: {&quot;coordinates&quot;: [33.9422311, 26.72555551], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;2&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#7570b3&quot;, &quot;country&quot;: &quot;Egypt&quot;, &quot;industry_top1&quot;: &quot;Agriculture&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Safaga&quot;, &quot;share_country_maritime_export&quot;: 16.54, &quot;share_country_maritime_import&quot;: 2.01, &quot;vessel_count_RoRo&quot;: 159, &quot;vessel_count_container&quot;: 1, &quot;vessel_count_dry_bulk&quot;: 89, &quot;vessel_count_general_cargo&quot;: 14, &quot;vessel_count_tanker&quot;: 0, &quot;vessel_count_total&quot;: 265}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [32.35392159, 29.64742882, 32.35392159, 29.64742882], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.35392159, 29.64742882], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#7570b3&quot;, &quot;country&quot;: &quot;Egypt&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;North Ain Sukhna Port&quot;, &quot;share_country_maritime_export&quot;: 7.51, &quot;share_country_maritime_import&quot;: 17.53, &quot;vessel_count_RoRo&quot;: 2, &quot;vessel_count_container&quot;: 207, &quot;vessel_count_dry_bulk&quot;: 68, &quot;vessel_count_general_cargo&quot;: 29, &quot;vessel_count_tanker&quot;: 112, &quot;vessel_count_total&quot;: 418}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [32.53063921, 29.95100833, 32.53063921, 29.95100833], &quot;geometry&quot;: {&quot;coordinates&quot;: [32.53063921, 29.95100833], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;4&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#7570b3&quot;, &quot;country&quot;: &quot;Egypt&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;As Suways&quot;, &quot;share_country_maritime_export&quot;: 2.04, &quot;share_country_maritime_import&quot;: 2.64, &quot;vessel_count_RoRo&quot;: 24, &quot;vessel_count_container&quot;: 3, &quot;vessel_count_dry_bulk&quot;: 4, &quot;vessel_count_general_cargo&quot;: 42, &quot;vessel_count_tanker&quot;: 52, &quot;vessel_count_total&quot;: 127}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [34.95864074, 29.45171189, 34.95864074, 29.45171189], &quot;geometry&quot;: {&quot;coordinates&quot;: [34.95864074, 29.45171189], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;5&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#66a61e&quot;, &quot;country&quot;: &quot;Jordan&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Al Aqabah&quot;, &quot;share_country_maritime_export&quot;: 100.0, &quot;share_country_maritime_import&quot;: 100.0, &quot;vessel_count_RoRo&quot;: 85, &quot;vessel_count_container&quot;: 131, &quot;vessel_count_dry_bulk&quot;: 217, &quot;vessel_count_general_cargo&quot;: 109, &quot;vessel_count_tanker&quot;: 71, &quot;vessel_count_total&quot;: 614}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [35.73491023, 27.32760527, 35.73491023, 27.32760527], &quot;geometry&quot;: {&quot;coordinates&quot;: [35.73491023, 27.32760527], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Duba Bulk Plant Tanker Terminal&quot;, &quot;share_country_maritime_export&quot;: 0.03, &quot;share_country_maritime_import&quot;: 0.98, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 0, &quot;vessel_count_dry_bulk&quot;: 0, &quot;vessel_count_general_cargo&quot;: 0, &quot;vessel_count_tanker&quot;: 45, &quot;vessel_count_total&quot;: 45}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [39.05376029, 22.63873353, 39.05376029, 22.63873353], &quot;geometry&quot;: {&quot;coordinates&quot;: [39.05376029, 22.63873353], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;7&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top2&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Rabigh&quot;, &quot;share_country_maritime_export&quot;: 4.39, &quot;share_country_maritime_import&quot;: 11.36, &quot;vessel_count_RoRo&quot;: 5, &quot;vessel_count_container&quot;: 785, &quot;vessel_count_dry_bulk&quot;: 83, &quot;vessel_count_general_cargo&quot;: 27, &quot;vessel_count_tanker&quot;: 370, &quot;vessel_count_total&quot;: 1272}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [38.27170365, 23.95087468, 38.27170365, 23.95087468], &quot;geometry&quot;: {&quot;coordinates&quot;: [38.27170365, 23.95087468], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;8&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Metal Products&quot;, &quot;portname&quot;: &quot;King Fahd Port&quot;, &quot;share_country_maritime_export&quot;: 14.57, &quot;share_country_maritime_import&quot;: 13.01, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 2, &quot;vessel_count_dry_bulk&quot;: 72, &quot;vessel_count_general_cargo&quot;: 15, &quot;vessel_count_tanker&quot;: 1049, &quot;vessel_count_total&quot;: 1140}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [35.5465967, 27.55991231, 35.5465967, 27.55991231], &quot;geometry&quot;: {&quot;coordinates&quot;: [35.5465967, 27.55991231], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;9&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Duba&quot;, &quot;share_country_maritime_export&quot;: 0.67, &quot;share_country_maritime_import&quot;: 0.29, &quot;vessel_count_RoRo&quot;: 20, &quot;vessel_count_container&quot;: 1, &quot;vessel_count_dry_bulk&quot;: 23, &quot;vessel_count_general_cargo&quot;: 23, &quot;vessel_count_tanker&quot;: 0, &quot;vessel_count_total&quot;: 68}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [38.07030618, 24.07715154, 38.07030618, 24.07715154], &quot;geometry&quot;: {&quot;coordinates&quot;: [38.07030618, 24.07715154], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;10&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Yanbu&quot;, &quot;share_country_maritime_export&quot;: 0.41, &quot;share_country_maritime_import&quot;: 1.98, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 1, &quot;vessel_count_dry_bulk&quot;: 62, &quot;vessel_count_general_cargo&quot;: 39, &quot;vessel_count_tanker&quot;: 24, &quot;vessel_count_total&quot;: 127}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [39.16640594, 21.46079659, 39.16640594, 21.46079659], &quot;geometry&quot;: {&quot;coordinates&quot;: [39.16640594, 21.46079659], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;11&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Jiddah&quot;, &quot;share_country_maritime_export&quot;: 4.45, &quot;share_country_maritime_import&quot;: 25.12, &quot;vessel_count_RoRo&quot;: 640, &quot;vessel_count_container&quot;: 1708, &quot;vessel_count_dry_bulk&quot;: 195, &quot;vessel_count_general_cargo&quot;: 364, &quot;vessel_count_tanker&quot;: 501, &quot;vessel_count_total&quot;: 3410}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [39.54249452, 20.65258296, 39.54249452, 20.65258296], &quot;geometry&quot;: {&quot;coordinates&quot;: [39.54249452, 20.65258296], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;12&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#a6761d&quot;, &quot;country&quot;: &quot;Saudi Arabia&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Agriculture&quot;, &quot;portname&quot;: &quot;Jiddah Oil&quot;, &quot;share_country_maritime_export&quot;: 0.06, &quot;share_country_maritime_import&quot;: 6.0, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 0, &quot;vessel_count_dry_bulk&quot;: 0, &quot;vessel_count_general_cargo&quot;: 0, &quot;vessel_count_tanker&quot;: 100, &quot;vessel_count_total&quot;: 100}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [49.15123019, 14.52061091, 49.15123019, 14.52061091], &quot;geometry&quot;: {&quot;coordinates&quot;: [49.15123019, 14.52061091], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;13&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;country&quot;: &quot;Yemen&quot;, &quot;industry_top1&quot;: &quot;Agriculture&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Al Mukalla&quot;, &quot;share_country_maritime_export&quot;: 11.07, &quot;share_country_maritime_import&quot;: 19.85, &quot;vessel_count_RoRo&quot;: 0, &quot;vessel_count_container&quot;: 32, &quot;vessel_count_dry_bulk&quot;: 32, &quot;vessel_count_general_cargo&quot;: 56, &quot;vessel_count_tanker&quot;: 42, &quot;vessel_count_total&quot;: 164}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [42.94343741, 14.8331155, 42.94343741, 14.8331155], &quot;geometry&quot;: {&quot;coordinates&quot;: [42.94343741, 14.8331155], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;14&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;country&quot;: &quot;Yemen&quot;, &quot;industry_top1&quot;: &quot;Mining and Quarrying&quot;, &quot;industry_top2&quot;: &quot;Agriculture&quot;, &quot;industry_top3&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;portname&quot;: &quot;Al Ahmadi&quot;, &quot;share_country_maritime_export&quot;: 34.53, &quot;share_country_maritime_import&quot;: 24.79, &quot;vessel_count_RoRo&quot;: 1, &quot;vessel_count_container&quot;: 25, &quot;vessel_count_dry_bulk&quot;: 93, &quot;vessel_count_general_cargo&quot;: 53, &quot;vessel_count_tanker&quot;: 61, &quot;vessel_count_total&quot;: 234}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [44.95494325, 12.78186553, 44.95494325, 12.78186553], &quot;geometry&quot;: {&quot;coordinates&quot;: [44.95494325, 12.78186553], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;15&quot;, &quot;properties&quot;: {&quot;__folium_color&quot;: &quot;#666666&quot;, &quot;country&quot;: &quot;Yemen&quot;, &quot;industry_top1&quot;: &quot;Agriculture&quot;, &quot;industry_top2&quot;: &quot;Petroleum, Chemical and Non-Metallic Mineral Products&quot;, &quot;industry_top3&quot;: &quot;Food \u0026 Beverages&quot;, &quot;portname&quot;: &quot;Aden&quot;, &quot;share_country_maritime_export&quot;: 54.4, &quot;share_country_maritime_import&quot;: 55.36, &quot;vessel_count_RoRo&quot;: 8, &quot;vessel_count_container&quot;: 124, &quot;vessel_count_dry_bulk&quot;: 129, &quot;vessel_count_general_cargo&quot;: 88, &quot;vessel_count_tanker&quot;: 55, &quot;vessel_count_total&quot;: 406}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-    geo_json_23655542fbc4bfb1fecef3f5c03a5293.bindTooltip(
+    geo_json_aecbf89c74467eab4aefe5653bd0a713.bindTooltip(
     function(layer){
     let div = L.DomUtil.create(&#x27;div&#x27;);
     
@@ -950,7 +949,7 @@ document.write(`
     ,{&quot;className&quot;: &quot;foliumtooltip&quot;, &quot;sticky&quot;: true});
                      
     
-            geo_json_23655542fbc4bfb1fecef3f5c03a5293.addTo(map_06b051581b17188a78969e1ba5083271);
+            geo_json_aecbf89c74467eab4aefe5653bd0a713.addTo(map_cdab9b62409982718c38e12452d3b6fc);
         
 &lt;/script&gt;
 &lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div></div></div>
@@ -1045,32 +1044,32 @@ document.write(`
   </thead>
   <tbody>
     <tr>
-      <th>30334</th>
-      <td>2024-03-08 19:00:00</td>
+      <th>30782</th>
+      <td>2024-04-05 20:00:00</td>
       <td>2024</td>
-      <td>3</td>
-      <td>9</td>
+      <td>4</td>
+      <td>6</td>
       <td>port9</td>
       <td>Aden</td>
       <td>Yemen</td>
       <td>YEM</td>
-      <td>1</td>
-      <td>1</td>
-      <td>2</td>
-      <td>8586.354497</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>0.0</td>
-      <td>5269.182384</td>
       <td>0.0</td>
-      <td>13855.536881</td>
       <td>0.0</td>
-      <td>2427506</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2472344</td>
     </tr>
     <tr>
-      <th>30335</th>
-      <td>2024-03-09 19:00:00</td>
+      <th>30783</th>
+      <td>2024-04-06 20:00:00</td>
       <td>2024</td>
-      <td>3</td>
-      <td>10</td>
+      <td>4</td>
+      <td>7</td>
       <td>port9</td>
       <td>Aden</td>
       <td>Yemen</td>
@@ -1078,13 +1077,13 @@ document.write(`
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0.000000</td>
       <td>0.0</td>
-      <td>0.000000</td>
       <td>0.0</td>
-      <td>0.000000</td>
       <td>0.0</td>
-      <td>2427507</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2472345</td>
     </tr>
   </tbody>
 </table>
@@ -1095,6 +1094,7 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span>
     <span class="p">[</span>
+        <span class="s2">&quot;portid&quot;</span><span class="p">,</span>
         <span class="s2">&quot;portname&quot;</span><span class="p">,</span>
         <span class="s2">&quot;portcalls_cargo&quot;</span><span class="p">,</span>
         <span class="s2">&quot;portcalls_tanker&quot;</span><span class="p">,</span>
@@ -1111,7 +1111,7 @@ document.write(`
 <span class="n">df_raw</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;portname&quot;</span><span class="p">)[</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;portid&quot;</span><span class="p">])[</span>
         <span class="p">[</span>
             <span class="s2">&quot;portcalls_cargo&quot;</span><span class="p">,</span>
             <span class="s2">&quot;portcalls_tanker&quot;</span><span class="p">,</span>
@@ -1162,6 +1162,7 @@ document.write(`
     <tr style="text-align: right;">
       <th></th>
       <th>portname</th>
+      <th>portid</th>
       <th>date</th>
       <th>portcalls_cargo</th>
       <th>portcalls_tanker</th>
@@ -1180,6 +1181,7 @@ document.write(`
     <tr>
       <th>0</th>
       <td>Aden</td>
+      <td>port9</td>
       <td>2019-01-07</td>
       <td>9</td>
       <td>1</td>
@@ -1196,6 +1198,7 @@ document.write(`
     <tr>
       <th>1</th>
       <td>Aden</td>
+      <td>port9</td>
       <td>2019-01-14</td>
       <td>9</td>
       <td>0</td>
@@ -1245,7 +1248,7 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_reference_date</span> <span class="o">=</span> <span class="s2">&quot;2022-01-01&quot;</span>
 <span class="n">df_ref</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">start_reference_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">conflict_date</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">df_ref</span> <span class="o">=</span> <span class="n">df_ref</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">])[</span>
+<span class="n">df_ref</span> <span class="o">=</span> <span class="n">df_ref</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;portid&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">])[</span>
     <span class="p">[</span>
         <span class="s2">&quot;portcalls_cargo&quot;</span><span class="p">,</span>
         <span class="s2">&quot;portcalls_tanker&quot;</span><span class="p">,</span>
@@ -1273,20 +1276,21 @@ document.write(`
     <span class="p">},</span>
     <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_ref</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">&quot;m:1&quot;</span><span class="p">)</span>
+<span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">df_ref</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;portid&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">&quot;m:1&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">portname</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
-    <span class="n">port_info</span> <span class="o">=</span> <span class="n">ports_red_sea</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ports_red_sea</span><span class="o">.</span><span class="n">portname</span> <span class="o">==</span> <span class="n">port</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">port_id</span> <span class="ow">in</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">portid</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">port_info</span> <span class="o">=</span> <span class="n">ports_red_sea</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ports_red_sea</span><span class="o">.</span><span class="n">portid</span> <span class="o">==</span> <span class="n">port_id</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">country</span> <span class="o">=</span> <span class="n">port_info</span><span class="o">.</span><span class="n">country</span>
-    <span class="n">port_id</span> <span class="o">=</span> <span class="n">port_info</span><span class="o">.</span><span class="n">portid</span>
-    <span class="n">country</span> <span class="o">=</span> <span class="n">ports_red_sea</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ports_red_sea</span><span class="o">.</span><span class="n">portname</span> <span class="o">==</span> <span class="n">port</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">df_port</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">portname</span> <span class="o">==</span> <span class="n">port</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df_port</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">portid</span> <span class="o">==</span> <span class="n">port_id</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">df_port_copy</span> <span class="o">=</span> <span class="n">df_port</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="n">df_port_copy</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">portname</span>
     <span class="n">df_port</span> <span class="o">=</span> <span class="n">df_port</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span>
         <span class="n">id_vars</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span>
         <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;import&quot;</span><span class="p">,</span> <span class="s2">&quot;export&quot;</span><span class="p">],</span>
@@ -1302,8 +1306,7 @@ document.write(`
             <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
             <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
             <span class="n">position</span><span class="o">=</span><span class="s2">&quot;dodge2&quot;</span><span class="p">,</span>
-        <span class="p">)</span>  <span class="c1">#  fill=&quot;lightblue&quot;</span>
-        <span class="c1"># + geom_line(aes(x=&quot;date&quot;, y=&quot;export&quot;), alpha=1, color=&quot;darkred&quot;)</span>
+        <span class="p">)</span>
         <span class="o">+</span> <span class="n">geom_smooth</span><span class="p">(</span>
             <span class="n">mapping</span><span class="o">=</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;import_ref&quot;</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#00BFC4&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span>
         <span class="p">)</span>
@@ -1314,17 +1317,20 @@ document.write(`
         <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
             <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
             <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Weekly Trade Volume - </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Trade Flow&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-        <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+            <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+            <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;2 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
         <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
-        <span class="c1"># + scale_fill_brewer(type=&#39;qual&#39;, palette=1)</span>
-        <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="c1"># display(p0)</span>
     <span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
@@ -1339,7 +1345,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports\estimated-trade-port18.jpeg
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports\estimated-trade-port321.jpeg
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
@@ -1348,6 +1354,10 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports\estimated-trade-port27.jpeg
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports\estimated-trade-port18.jpeg
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
@@ -1367,7 +1377,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports\estimated-trade-port321.jpeg
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports\estimated-trade-port828.jpeg
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
@@ -1380,10 +1390,6 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports\estimated-trade-port570.jpeg
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports\estimated-trade-port828.jpeg
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
@@ -1408,7 +1414,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">df_raw</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;portname&quot;</span><span class="p">)[</span>
+    <span class="n">df_raw</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;portid&quot;</span><span class="p">])[</span>
         <span class="p">[</span>
             <span class="s2">&quot;portcalls_cargo&quot;</span><span class="p">,</span>
             <span class="s2">&quot;portcalls_tanker&quot;</span><span class="p">,</span>
@@ -1434,80 +1440,10 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="s2">&quot;2024-04-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>portname</th>
-      <th>date</th>
-      <th>portcalls_cargo</th>
-      <th>portcalls_tanker</th>
-      <th>portcalls</th>
-      <th>import_cargo</th>
-      <th>export_cargo</th>
-      <th>import_tanker</th>
-      <th>export_tanker</th>
-      <th>import</th>
-      <th>export</th>
-      <th>ymd</th>
-      <th>m</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Aden</td>
-      <td>2019-01-01</td>
-      <td>35</td>
-      <td>7</td>
-      <td>42</td>
-      <td>211348.052875</td>
-      <td>1848.225266</td>
-      <td>61496.118007</td>
-      <td>3160.095388</td>
-      <td>272844.170882</td>
-      <td>5008.320654</td>
-      <td>2019-01-01</td>
-      <td>01</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Aden</td>
-      <td>2019-02-01</td>
-      <td>43</td>
-      <td>5</td>
-      <td>48</td>
-      <td>306744.763449</td>
-      <td>10160.227084</td>
-      <td>42407.618684</td>
-      <td>6320.190776</td>
-      <td>349152.382132</td>
-      <td>16480.417860</td>
-      <td>2019-02-01</td>
-      <td>02</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 <section id="calculate-reference-values">
@@ -1531,7 +1467,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_ref</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">start_reference_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">conflict_date</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df_ref</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">df_ref</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">])[</span>
+    <span class="n">df_ref</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;portid&quot;</span><span class="p">,</span> <span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">])[</span>
         <span class="p">[</span>
             <span class="s2">&quot;portcalls_cargo&quot;</span><span class="p">,</span>
             <span class="s2">&quot;portcalls_tanker&quot;</span><span class="p">,</span>
@@ -1569,7 +1505,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2023-01-01&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_ref</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">&quot;m:1&quot;</span><span class="p">)</span>
+<span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">df_ref</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;portid&quot;</span><span class="p">,</span> <span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">&quot;m:1&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1588,12 +1526,11 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 <h3>Plot Monthly Trade Volume and Historical Average<a class="headerlink" href="#plot-monthly-trade-volume-and-historical-average" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">portname</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
-    <span class="n">port_info</span> <span class="o">=</span> <span class="n">ports_red_sea</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ports_red_sea</span><span class="o">.</span><span class="n">portname</span> <span class="o">==</span> <span class="n">port</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">port_id</span> <span class="ow">in</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">portid</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">port_info</span> <span class="o">=</span> <span class="n">ports_red_sea</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ports_red_sea</span><span class="o">.</span><span class="n">portid</span> <span class="o">==</span> <span class="n">port_id</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">country</span> <span class="o">=</span> <span class="n">port_info</span><span class="o">.</span><span class="n">country</span>
-    <span class="n">port_id</span> <span class="o">=</span> <span class="n">port_info</span><span class="o">.</span><span class="n">portid</span>
-    <span class="n">country</span> <span class="o">=</span> <span class="n">ports_red_sea</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ports_red_sea</span><span class="o">.</span><span class="n">portname</span> <span class="o">==</span> <span class="n">port</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">df_port</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">portname</span> <span class="o">==</span> <span class="n">port</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df_port</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_filt</span><span class="o">.</span><span class="n">portid</span> <span class="o">==</span> <span class="n">port_id</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="n">df_port</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">portname</span>
     <span class="n">df_port_copy</span> <span class="o">=</span> <span class="n">df_port</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">df_port</span> <span class="o">=</span> <span class="n">df_port</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span>
         <span class="n">id_vars</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span>
@@ -1622,19 +1559,23 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
         <span class="o">+</span> <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span> <span class="n">linetype</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
             <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
             <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Monthly Trade Volume - </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Trade Flow&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-        <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+            <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+            <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;2 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
         <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
         <span class="c1"># + scale_fill_brewer(type=&#39;qual&#39;, palette=1)</span>
-        <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="c1"># display(p0)</span>
+    <span class="c1"># display(p1)</span>
     <span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
         <span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_by_port_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;estimated-trade-</span><span class="si">{</span><span class="n">port_id</span><span class="si">}</span><span class="s2">.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
     <span class="p">)</span>
@@ -1647,7 +1588,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports-ref-monthly\estimated-trade-port18.jpeg
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports-ref-monthly\estimated-trade-port321.jpeg
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
@@ -1656,6 +1597,10 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports-ref-monthly\estimated-trade-port27.jpeg
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports-ref-monthly\estimated-trade-port18.jpeg
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
@@ -1675,7 +1620,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports-ref-monthly\estimated-trade-port321.jpeg
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports-ref-monthly\estimated-trade-port828.jpeg
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
@@ -1688,10 +1633,6 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports-ref-monthly\estimated-trade-port570.jpeg
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\ports-ref-monthly\estimated-trade-port828.jpeg
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: PlotnineWarning: Confidence intervals are not yet implemented for lowess smoothings.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 10 x 8 in image.
@@ -1737,7 +1678,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
     <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">conflict_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">crisis_date</span><span class="p">),</span> <span class="s2">&quot;period&quot;</span>
 <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Middle East Conflict&quot;</span>
 <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">crisis_date</span><span class="p">),</span> <span class="s2">&quot;period&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Red Sea Crisis&quot;</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ports_red_sea</span><span class="p">[[</span><span class="s2">&quot;portname&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;portname&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ports_red_sea</span><span class="p">[[</span><span class="s2">&quot;portid&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;portid&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1807,7 +1748,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_28960\528398492.py:2: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_19952\528398492.py:2: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
 </pre></div>
 </div>
 <div class="output text_html"><div class="itables">
@@ -1835,7 +1776,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 
 .itables { font-size: medium; }
 </style>
-<table id="itables_69a4cfb0_207c_44eb_ac31_a1a1e25124bd" class="display nowrap" data-quarto-disable-processing="true" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom">
+<table id="itables_29e45d18_24ed_4361_bbe4_f054656033c5" class="display nowrap" data-quarto-disable-processing="true" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom">
 <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -1867,9 +1808,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
     dt($);
 
     $(document).ready(function () {
-        document.querySelectorAll("#itables_69a4cfb0_207c_44eb_ac31_a1a1e25124bd:not(.dataTable)").forEach(table => {
+        document.querySelectorAll("#itables_29e45d18_24ed_4361_bbe4_f054656033c5:not(.dataTable)").forEach(table => {
             // Define the table data
-            const data = [["Djibouti", "Djibouti", "Reference", "496,308", "36,533", "159,960", "12,919", "656,268", "49,452"], ["Djibouti", "Djibouti", "Middle East Conflict", "508,484", "50,242", "120,205", "4,083", "628,689", "54,325"], ["Djibouti", "Djibouti", "Red Sea Crisis", "384,636", "74,381", "152,592", "13,001", "537,228", "87,382"], ["Egypt", "As Suways", "Reference", "5,323", "5,134", "783", "1,127", "6,106", "6,261"], ["Egypt", "As Suways", "Middle East Conflict", "5,706", "0", "0", "0", "5,706", "0"], ["Egypt", "As Suways", "Red Sea Crisis", "7,381", "2,905", "0", "7,549", "7,381", "10,455"], ["Egypt", "El-Adabiya", "Reference", "56,300", "108,608", "69,385", "3,448", "125,684", "112,056"], ["Egypt", "El-Adabiya", "Middle East Conflict", "63,403", "151,129", "83,762", "0", "147,165", "151,129"], ["Egypt", "El-Adabiya", "Red Sea Crisis", "22,053", "76,748", "57,387", "9,767", "79,440", "86,516"], ["Egypt", "North Ain Sukhna Port", "Reference", "417,759", "71,873", "308,919", "72,642", "726,678", "144,514"], ["Egypt", "North Ain Sukhna Port", "Middle East Conflict", "478,392", "161,099", "173,284", "33,503", "651,676", "194,602"], ["Egypt", "North Ain Sukhna Port", "Red Sea Crisis", "266,075", "142,836", "152,228", "19,214", "418,303", "162,049"], ["Egypt", "Safaga", "Reference", "73,389", "75,320", "93", "0", "73,482", "75,320"], ["Egypt", "Safaga", "Middle East Conflict", "87,906", "84,162", "0", "0", "87,906", "84,162"], ["Egypt", "Safaga", "Red Sea Crisis", "94,155", "46,008", "0", "0", "94,155", "46,008"], ["Jordan", "Al Aqabah", "Reference", "505,924", "392,235", "120,238", "34,849", "626,162", "427,084"], ["Jordan", "Al Aqabah", "Middle East Conflict", "323,583", "190,369", "94,285", "33,673", "417,868", "224,042"], ["Jordan", "Al Aqabah", "Red Sea Crisis", "210,940", "191,433", "37,276", "9,668", "248,216", "201,102"], ["Saudi Arabia", "Duba", "Reference", "11,470", "12,741", "0", "0", "11,470", "12,741"], ["Saudi Arabia", "Duba", "Middle East Conflict", "9,502", "0", "0", "0", "9,502", "0"], ["Saudi Arabia", "Duba", "Red Sea Crisis", "14,450", "10,774", "0", "0", "14,450", "10,774"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Reference", "0", "0", "66,841", "6,994", "66,841", "6,994"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Middle East Conflict", "0", "0", "24,267", "0", "24,267", "0"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Red Sea Crisis", "0", "0", "36,849", "5,732", "36,849", "5,732"], ["Saudi Arabia", "Jiddah", "Reference", "1,115,921", "433,517", "304,615", "17,406", "1,420,536", "450,923"], ["Saudi Arabia", "Jiddah", "Middle East Conflict", "1,247,488", "493,791", "309,616", "37,136", "1,557,104", "530,927"], ["Saudi Arabia", "Jiddah", "Red Sea Crisis", "651,185", "244,468", "285,083", "24,684", "936,268", "269,152"], ["Saudi Arabia", "Jiddah Oil", "Reference", "0", "0", "336,431", "4,674", "336,431", "4,674"], ["Saudi Arabia", "Jiddah Oil", "Middle East Conflict", "0", "0", "428,958", "0", "428,958", "0"], ["Saudi Arabia", "Jiddah Oil", "Red Sea Crisis", "0", "0", "208,204", "8,953", "208,204", "8,953"], ["Saudi Arabia", "King Fahd Port", "Reference", "72,768", "134,102", "486,412", "1,929,825", "559,180", "2,063,927"], ["Saudi Arabia", "King Fahd Port", "Middle East Conflict", "44,789", "104,329", "249,356", "1,865,137", "294,144", "1,969,466"], ["Saudi Arabia", "King Fahd Port", "Red Sea Crisis", "64,949", "105,075", "331,145", "1,137,825", "396,093", "1,242,900"], ["Saudi Arabia", "Rabigh", "Reference", "516,192", "384,667", "219,344", "305,007", "735,537", "689,675"], ["Saudi Arabia", "Rabigh", "Middle East Conflict", "443,722", "364,038", "165,869", "353,272", "609,591", "717,310"], ["Saudi Arabia", "Rabigh", "Red Sea Crisis", "167,878", "123,893", "140,593", "158,812", "308,470", "282,705"], ["Saudi Arabia", "Yanbu", "Reference", "127,704", "76,367", "9,543", "346", "137,247", "76,713"], ["Saudi Arabia", "Yanbu", "Middle East Conflict", "89,140", "20,167", "8,558", "0", "97,699", "20,167"], ["Saudi Arabia", "Yanbu", "Red Sea Crisis", "95,902", "27,714", "6,827", "0", "102,730", "27,714"], ["Yemen", "Aden", "Reference", "216,989", "9,666", "39,819", "5,311", "256,807", "14,976"], ["Yemen", "Aden", "Middle East Conflict", "163,033", "3,116", "28,444", "1,143", "191,477", "4,259"], ["Yemen", "Aden", "Red Sea Crisis", "124,287", "2,239", "17,327", "0", "141,614", "2,239"], ["Yemen", "Al Ahmadi", "Reference", "135,216", "16,457", "48,057", "3,093", "183,273", "19,549"], ["Yemen", "Al Ahmadi", "Middle East Conflict", "231,536", "12,617", "61,260", "18,770", "292,796", "31,387"], ["Yemen", "Al Ahmadi", "Red Sea Crisis", "204,261", "4,747", "25,844", "1,976", "230,105", "6,723"], ["Yemen", "Al Mukalla", "Reference", "18,541", "3,350", "7,397", "1,223", "25,938", "4,574"], ["Yemen", "Al Mukalla", "Middle East Conflict", "17,786", "531", "19,324", "0", "37,110", "531"], ["Yemen", "Al Mukalla", "Red Sea Crisis", "6,998", "272", "7,267", "0", "14,266", "272"]];
+            const data = [["Djibouti", "Djibouti", "Reference", "496,269", "36,533", "159,986", "12,919", "656,255", "49,452"], ["Djibouti", "Djibouti", "Middle East Conflict", "511,838", "50,242", "120,205", "4,083", "632,042", "54,325"], ["Djibouti", "Djibouti", "Red Sea Crisis", "472,440", "91,265", "186,992", "13,978", "659,432", "105,242"], ["Egypt", "Al Adabiyah", "Reference", "56,229", "108,674", "69,385", "3,448", "125,613", "112,122"], ["Egypt", "Al Adabiyah", "Middle East Conflict", "63,403", "151,315", "83,762", "0", "147,165", "151,315"], ["Egypt", "Al Adabiyah", "Red Sea Crisis", "26,799", "105,202", "68,470", "9,767", "95,269", "114,969"], ["Egypt", "As Suways", "Reference", "5,835", "5,134", "783", "1,127", "6,617", "6,261"], ["Egypt", "As Suways", "Middle East Conflict", "5,706", "0", "0", "0", "5,706", "0"], ["Egypt", "As Suways", "Red Sea Crisis", "9,033", "3,382", "0", "7,852", "9,033", "11,234"], ["Egypt", "El Sokhna", "Reference", "417,759", "71,860", "308,919", "72,642", "726,678", "144,502"], ["Egypt", "El Sokhna", "Middle East Conflict", "478,392", "161,099", "173,284", "33,503", "651,676", "194,602"], ["Egypt", "El Sokhna", "Red Sea Crisis", "329,101", "112,001", "259,856", "19,596", "588,956", "131,597"], ["Egypt", "Safaga", "Reference", "73,389", "75,320", "93", "0", "73,482", "75,320"], ["Egypt", "Safaga", "Middle East Conflict", "87,906", "84,162", "0", "0", "87,906", "84,162"], ["Egypt", "Safaga", "Red Sea Crisis", "107,375", "57,140", "0", "0", "107,375", "57,140"], ["Jordan", "Al Aqabah", "Reference", "505,921", "392,257", "120,288", "34,868", "626,208", "427,126"], ["Jordan", "Al Aqabah", "Middle East Conflict", "323,557", "190,369", "96,017", "33,885", "419,574", "224,253"], ["Jordan", "Al Aqabah", "Red Sea Crisis", "278,091", "226,851", "63,990", "18,315", "342,081", "245,166"], ["Saudi Arabia", "Duba", "Reference", "11,470", "12,741", "0", "0", "11,470", "12,741"], ["Saudi Arabia", "Duba", "Middle East Conflict", "9,502", "0", "0", "0", "9,502", "0"], ["Saudi Arabia", "Duba", "Red Sea Crisis", "22,662", "15,202", "0", "0", "22,662", "15,202"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Reference", "0", "0", "66,802", "6,994", "66,802", "6,994"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Middle East Conflict", "0", "0", "24,267", "0", "24,267", "0"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Red Sea Crisis", "0", "0", "48,973", "10,821", "48,973", "10,821"], ["Saudi Arabia", "Jeddah", "Reference", "1,116,052", "433,241", "304,847", "17,406", "1,420,898", "450,647"], ["Saudi Arabia", "Jeddah", "Middle East Conflict", "1,251,841", "493,777", "309,616", "37,136", "1,561,456", "530,913"], ["Saudi Arabia", "Jeddah", "Red Sea Crisis", "786,722", "293,545", "399,222", "27,904", "1,185,943", "321,449"], ["Saudi Arabia", "Jeddah Oil", "Reference", "0", "0", "336,464", "4,674", "336,464", "4,674"], ["Saudi Arabia", "Jeddah Oil", "Middle East Conflict", "0", "0", "428,958", "0", "428,958", "0"], ["Saudi Arabia", "Jeddah Oil", "Red Sea Crisis", "0", "0", "281,805", "8,953", "281,805", "8,953"], ["Saudi Arabia", "King Fahd Port", "Reference", "72,768", "134,102", "486,398", "1,931,656", "559,166", "2,065,758"], ["Saudi Arabia", "King Fahd Port", "Middle East Conflict", "44,789", "104,329", "249,356", "1,860,412", "294,144", "1,964,741"], ["Saudi Arabia", "King Fahd Port", "Red Sea Crisis", "83,337", "129,738", "258,463", "1,609,014", "341,800", "1,738,752"], ["Saudi Arabia", "Rabigh", "Reference", "516,192", "384,707", "219,687", "305,208", "735,879", "689,915"], ["Saudi Arabia", "Rabigh", "Middle East Conflict", "443,722", "364,038", "165,869", "353,272", "609,591", "717,310"], ["Saudi Arabia", "Rabigh", "Red Sea Crisis", "196,222", "149,322", "200,079", "230,481", "396,301", "379,804"], ["Saudi Arabia", "Yanbu", "Reference", "127,704", "76,367", "9,543", "346", "137,247", "76,713"], ["Saudi Arabia", "Yanbu", "Middle East Conflict", "89,140", "20,167", "8,558", "0", "97,699", "20,167"], ["Saudi Arabia", "Yanbu", "Red Sea Crisis", "124,738", "40,457", "9,631", "0", "134,369", "40,457"], ["Yemen", "Aden", "Reference", "216,969", "9,666", "39,819", "5,311", "256,788", "14,976"], ["Yemen", "Aden", "Middle East Conflict", "163,033", "3,116", "28,444", "1,143", "191,477", "4,259"], ["Yemen", "Aden", "Red Sea Crisis", "151,553", "4,477", "22,415", "0", "173,967", "4,477"], ["Yemen", "Al Mukalla", "Reference", "18,541", "3,396", "7,397", "1,223", "25,938", "4,619"], ["Yemen", "Al Mukalla", "Middle East Conflict", "17,786", "531", "19,324", "0", "37,110", "531"], ["Yemen", "Al Mukalla", "Red Sea Crisis", "8,580", "880", "9,078", "0", "17,658", "880"], ["Yemen", "Al-hudaydah", "Reference", "135,298", "16,457", "48,057", "3,093", "183,355", "19,549"], ["Yemen", "Al-hudaydah", "Middle East Conflict", "231,470", "12,617", "61,260", "18,770", "292,731", "31,387"], ["Yemen", "Al-hudaydah", "Red Sea Crisis", "228,635", "10,789", "36,378", "2,032", "265,012", "12,821"]];
 
             // Define the dt_args
             let dt_args = {"order": []};
@@ -1943,7 +1884,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_28960\1744506812.py:5: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WB514197\AppData\Local\Temp\ipykernel_19952\1744506812.py:5: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
 </pre></div>
 </div>
 <div class="output text_html"><div class="itables">
@@ -1971,7 +1912,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 
 .itables { font-size: medium; }
 </style>
-<table id="itables_a96f682e_4fa0_4cdc_b339_2b8c23f656ca" class="display nowrap" data-quarto-disable-processing="true" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom">
+<table id="itables_a71825d5_7e65_47ec_898e_aa200adccd65" class="display nowrap" data-quarto-disable-processing="true" style="table-layout:auto;width:auto;margin:auto;caption-side:bottom">
 <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -2003,9 +1944,9 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
     dt($);
 
     $(document).ready(function () {
-        document.querySelectorAll("#itables_a96f682e_4fa0_4cdc_b339_2b8c23f656ca:not(.dataTable)").forEach(table => {
+        document.querySelectorAll("#itables_a71825d5_7e65_47ec_898e_aa200adccd65:not(.dataTable)").forEach(table => {
             // Define the table data
-            const data = [["Yemen", "Aden", "Middle East Conflict", "-24.87%", "-67.76%", "-28.57%", "-78.48%", "-25.44%", "-71.56%"], ["Yemen", "Aden", "Red Sea Crisis", "-42.72%", "-76.83%", "-56.49%", "-100.00%", "-44.86%", "-85.05%"], ["Yemen", "Al Ahmadi", "Middle East Conflict", "71.23%", "-23.33%", "27.47%", "506.90%", "59.76%", "60.55%"], ["Yemen", "Al Ahmadi", "Red Sea Crisis", "51.06%", "-71.15%", "-46.22%", "-36.11%", "25.55%", "-65.61%"], ["Yemen", "Al Mukalla", "Middle East Conflict", "-4.07%", "-84.15%", "161.25%", "-100.00%", "43.08%", "-88.39%"], ["Yemen", "Al Mukalla", "Red Sea Crisis", "-62.25%", "-91.88%", "-1.75%", "-100.00%", "-45.00%", "-94.05%"], ["Jordan", "Al Aqabah", "Middle East Conflict", "-36.04%", "-51.47%", "-21.58%", "-3.37%", "-33.27%", "-47.54%"], ["Jordan", "Al Aqabah", "Red Sea Crisis", "-58.31%", "-51.19%", "-69.00%", "-72.26%", "-60.36%", "-52.91%"], ["Egypt", "As Suways", "Middle East Conflict", "7.20%", "-100.00%", "-100.00%", "-100.00%", "-6.54%", "-100.00%"], ["Egypt", "As Suways", "Red Sea Crisis", "38.66%", "-43.41%", "-100.00%", "570.09%", "20.88%", "66.98%"], ["Egypt", "El-Adabiya", "Middle East Conflict", "12.62%", "39.15%", "20.72%", "-100.00%", "17.09%", "34.87%"], ["Egypt", "El-Adabiya", "Red Sea Crisis", "-60.83%", "-29.33%", "-17.29%", "183.29%", "-36.79%", "-22.79%"], ["Egypt", "North Ain Sukhna Port", "Middle East Conflict", "14.51%", "124.15%", "-43.91%", "-53.88%", "-10.32%", "34.66%"], ["Egypt", "North Ain Sukhna Port", "Red Sea Crisis", "-36.31%", "98.73%", "-50.72%", "-73.55%", "-42.44%", "12.13%"], ["Egypt", "Safaga", "Middle East Conflict", "19.78%", "11.74%", "-100.00%", "nan%", "19.63%", "11.74%"], ["Egypt", "Safaga", "Red Sea Crisis", "28.30%", "-38.92%", "-100.00%", "nan%", "28.13%", "-38.92%"], ["Djibouti", "Djibouti", "Middle East Conflict", "2.45%", "37.52%", "-24.85%", "-68.40%", "-4.20%", "9.85%"], ["Djibouti", "Djibouti", "Red Sea Crisis", "-22.50%", "103.60%", "-4.61%", "0.63%", "-18.14%", "76.70%"], ["Saudi Arabia", "Duba", "Middle East Conflict", "-17.15%", "-100.00%", "nan%", "nan%", "-17.15%", "-100.00%"], ["Saudi Arabia", "Duba", "Red Sea Crisis", "25.98%", "-15.44%", "nan%", "nan%", "25.98%", "-15.44%"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Middle East Conflict", "nan%", "nan%", "-63.69%", "-100.00%", "-63.69%", "-100.00%"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Red Sea Crisis", "nan%", "nan%", "-44.87%", "-18.05%", "-44.87%", "-18.05%"], ["Saudi Arabia", "Jiddah", "Middle East Conflict", "11.79%", "13.90%", "1.64%", "113.36%", "9.61%", "17.74%"], ["Saudi Arabia", "Jiddah", "Red Sea Crisis", "-41.65%", "-43.61%", "-6.41%", "41.82%", "-34.09%", "-40.31%"], ["Saudi Arabia", "Jiddah Oil", "Middle East Conflict", "nan%", "nan%", "27.50%", "-100.00%", "27.50%", "-100.00%"], ["Saudi Arabia", "Jiddah Oil", "Red Sea Crisis", "nan%", "nan%", "-38.11%", "91.56%", "-38.11%", "91.56%"], ["Saudi Arabia", "King Fahd Port", "Middle East Conflict", "-38.45%", "-22.20%", "-48.74%", "-3.35%", "-47.40%", "-4.58%"], ["Saudi Arabia", "King Fahd Port", "Red Sea Crisis", "-10.75%", "-21.65%", "-31.92%", "-41.04%", "-29.17%", "-39.78%"], ["Saudi Arabia", "Rabigh", "Middle East Conflict", "-14.04%", "-5.36%", "-24.38%", "15.82%", "-17.12%", "4.01%"], ["Saudi Arabia", "Rabigh", "Red Sea Crisis", "-67.48%", "-67.79%", "-35.90%", "-47.93%", "-58.06%", "-59.01%"], ["Saudi Arabia", "Yanbu", "Middle East Conflict", "-30.20%", "-73.59%", "-10.32%", "-100.00%", "-28.82%", "-73.71%"], ["Saudi Arabia", "Yanbu", "Red Sea Crisis", "-24.90%", "-63.71%", "-28.46%", "-100.00%", "-25.15%", "-63.87%"]];
+            const data = [["Yemen", "Aden", "Middle East Conflict", "-24.86%", "-67.76%", "-28.57%", "-78.48%", "-25.43%", "-71.56%"], ["Yemen", "Aden", "Red Sea Crisis", "-30.15%", "-53.68%", "-43.71%", "-100.00%", "-32.25%", "-70.11%"], ["Yemen", "Al Mukalla", "Middle East Conflict", "-4.07%", "-84.36%", "161.25%", "-100.00%", "43.08%", "-88.50%"], ["Yemen", "Al Mukalla", "Red Sea Crisis", "-53.73%", "-74.09%", "22.73%", "-100.00%", "-31.92%", "-80.95%"], ["Yemen", "Al-hudaydah", "Middle East Conflict", "71.08%", "-23.33%", "27.47%", "506.90%", "59.65%", "60.55%"], ["Yemen", "Al-hudaydah", "Red Sea Crisis", "68.99%", "-34.44%", "-24.30%", "-34.29%", "44.53%", "-34.41%"], ["Egypt", "Al Adabiyah", "Middle East Conflict", "12.76%", "39.24%", "20.72%", "-100.00%", "17.16%", "34.96%"], ["Egypt", "Al Adabiyah", "Red Sea Crisis", "-52.34%", "-3.19%", "-1.32%", "183.29%", "-24.16%", "2.54%"], ["Egypt", "As Suways", "Middle East Conflict", "-2.21%", "-100.00%", "-100.00%", "-100.00%", "-13.77%", "-100.00%"], ["Egypt", "As Suways", "Red Sea Crisis", "54.82%", "-34.13%", "-100.00%", "596.97%", "36.51%", "79.43%"], ["Egypt", "El Sokhna", "Middle East Conflict", "14.51%", "124.18%", "-43.91%", "-53.88%", "-10.32%", "34.67%"], ["Egypt", "El Sokhna", "Red Sea Crisis", "-21.22%", "55.86%", "-15.88%", "-73.02%", "-18.95%", "-8.93%"], ["Egypt", "Safaga", "Middle East Conflict", "19.78%", "11.74%", "-100.00%", "nan%", "19.63%", "11.74%"], ["Egypt", "Safaga", "Red Sea Crisis", "46.31%", "-24.14%", "-100.00%", "nan%", "46.12%", "-24.14%"], ["Jordan", "Al Aqabah", "Middle East Conflict", "-36.05%", "-51.47%", "-20.18%", "-2.82%", "-33.00%", "-47.50%"], ["Jordan", "Al Aqabah", "Red Sea Crisis", "-45.03%", "-42.17%", "-46.80%", "-47.47%", "-45.37%", "-42.60%"], ["Djibouti", "Djibouti", "Middle East Conflict", "3.14%", "37.52%", "-24.87%", "-68.40%", "-3.69%", "9.85%"], ["Djibouti", "Djibouti", "Red Sea Crisis", "-4.80%", "149.81%", "16.88%", "8.19%", "0.48%", "112.82%"], ["Saudi Arabia", "Duba", "Middle East Conflict", "-17.15%", "-100.00%", "nan%", "nan%", "-17.15%", "-100.00%"], ["Saudi Arabia", "Duba", "Red Sea Crisis", "97.58%", "19.31%", "nan%", "nan%", "97.58%", "19.31%"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Middle East Conflict", "nan%", "nan%", "-63.67%", "-100.00%", "-63.67%", "-100.00%"], ["Saudi Arabia", "Duba Bulk Plant Tanker Terminal", "Red Sea Crisis", "nan%", "nan%", "-26.69%", "54.72%", "-26.69%", "54.72%"], ["Saudi Arabia", "Jeddah", "Middle East Conflict", "12.17%", "13.97%", "1.56%", "113.36%", "9.89%", "17.81%"], ["Saudi Arabia", "Jeddah", "Red Sea Crisis", "-29.51%", "-32.24%", "30.96%", "60.32%", "-16.54%", "-28.67%"], ["Saudi Arabia", "Jeddah Oil", "Middle East Conflict", "nan%", "nan%", "27.49%", "-100.00%", "27.49%", "-100.00%"], ["Saudi Arabia", "Jeddah Oil", "Red Sea Crisis", "nan%", "nan%", "-16.25%", "91.56%", "-16.25%", "91.56%"], ["Saudi Arabia", "King Fahd Port", "Middle East Conflict", "-38.45%", "-22.20%", "-48.73%", "-3.69%", "-47.40%", "-4.89%"], ["Saudi Arabia", "King Fahd Port", "Red Sea Crisis", "14.52%", "-3.25%", "-46.86%", "-16.70%", "-38.87%", "-15.83%"], ["Saudi Arabia", "Rabigh", "Middle East Conflict", "-14.04%", "-5.37%", "-24.50%", "15.75%", "-17.16%", "3.97%"], ["Saudi Arabia", "Rabigh", "Red Sea Crisis", "-61.99%", "-61.19%", "-8.93%", "-24.48%", "-46.15%", "-44.95%"], ["Saudi Arabia", "Yanbu", "Middle East Conflict", "-30.20%", "-73.59%", "-10.32%", "-100.00%", "-28.82%", "-73.71%"], ["Saudi Arabia", "Yanbu", "Red Sea Crisis", "-2.32%", "-47.02%", "0.91%", "-100.00%", "-2.10%", "-47.26%"]];
 
             // Define the dt_args
             let dt_args = {"order": []};
@@ -2083,16 +2024,20 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Difference in Import Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
-        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Difference in Metric Tons Relative to Baseline (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
+        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages up to March 2024&quot;</span><span class="p">,</span>
+        <span class="c1"># caption=&quot;Calculated using monthly averages during Red Sea Crisis \n(Oct, 2023 - Mar 2024) and baseline period (Jan 2022 - Oct 2023)&quot;,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
     <span class="o">+</span> <span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;#d73027&quot;</span><span class="p">,</span> <span class="s2">&quot;#1a9850&quot;</span><span class="p">])</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
 <span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;import-difference.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
@@ -2100,7 +2045,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\stats\smoothers.py:330: P
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6783d3f4db199914278cfef547b21b806dc0a2fd17c77ebd9e55fc12c0a25c9e.png" src="../../_images/6783d3f4db199914278cfef547b21b806dc0a2fd17c77ebd9e55fc12c0a25c9e.png" />
+<img alt="../../_images/2b9a2dd17fe10bbadf82249dcae2ac150e252cfd60c237f36152d634103e34d9.png" src="../../_images/2b9a2dd17fe10bbadf82249dcae2ac150e252cfd60c237f36152d634103e34d9.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
 </pre></div>
 </div>
@@ -2131,18 +2076,21 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="p">)</span>  <span class="c1">#  fill=&quot;lightblue&quot;</span>
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Difference in Metric Tons Relative to Baseline (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Difference in Export Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
-        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
+        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages up to March 2024&quot;</span><span class="p">,</span>
+        <span class="c1"># caption=&quot;Calculated using monthly averages during Red Sea Crisis \n(Oct, 2023 - Mar 2024) and baseline period (Jan 2022 - Oct 2023)&quot;,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
     <span class="o">+</span> <span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;#d73027&quot;</span><span class="p">,</span> <span class="s2">&quot;#1a9850&quot;</span><span class="p">])</span>
-    <span class="c1"># + scale_fill_distiller(type=&quot;div&quot;, palette=&quot;RdYlGn&quot;, direction=1)</span>
-    <span class="c1"># + scale_fill_brewer(type=&#39;div&#39;, palette=&#39;RdYlGn&#39;)</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
 <span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;export-difference.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
@@ -2150,7 +2098,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/43153ea634fd09a1cb4309b98ff9714006948641748f18db0fa053ecec48778b.png" src="../../_images/43153ea634fd09a1cb4309b98ff9714006948641748f18db0fa053ecec48778b.png" />
+<img alt="../../_images/d9b7d2f4b0846035ee38c1539c35cfa9b00a512bad6057ad20a2eec621a66e62.png" src="../../_images/d9b7d2f4b0846035ee38c1539c35cfa9b00a512bad6057ad20a2eec621a66e62.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
 </pre></div>
 </div>
@@ -2192,7 +2140,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p3</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">ggplot</span><span class="p">(</span>
         <span class="n">df_agg_pct_raw</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;import&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;import_direction&quot;</span><span class="p">)</span>
     <span class="p">)</span>  <span class="c1">#</span>
@@ -2203,26 +2151,28 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="p">)</span>  <span class="c1">#  fill=&quot;lightblue&quot;</span>
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Percent Change in Import Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
-        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Percent Change in Import Volume during Red Sea Crisis)&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;% Change Relative to Baseline (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
+        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages up to March 2024&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">percent_format</span><span class="p">())</span>
     <span class="o">+</span> <span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;#d73027&quot;</span><span class="p">,</span> <span class="s2">&quot;#1a9850&quot;</span><span class="p">])</span>
-    <span class="c1"># + scale_fill_distiller(type=&quot;div&quot;, palette=&quot;RdYlGn&quot;, direction=1)</span>
-    <span class="c1"># + scale_fill_brewer(type=&#39;div&#39;, palette=&#39;RdYlGn&#39;)</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
-<span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;import-pct-change.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
+<span class="n">p3</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;import-pct-change.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/19a3fd07dc3b46be57d4b249edac9cc011311b74a9dd02ffdd93ebbaeef97319.png" src="../../_images/19a3fd07dc3b46be57d4b249edac9cc011311b74a9dd02ffdd93ebbaeef97319.png" />
+<img alt="../../_images/fc5defe72770bfab4be6b691f1c41d9d44504cca750dc0b8000f91fd8fb7d0c8.png" src="../../_images/fc5defe72770bfab4be6b691f1c41d9d44504cca750dc0b8000f91fd8fb7d0c8.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
 </pre></div>
 </div>
@@ -2244,7 +2194,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">ggplot</span><span class="p">(</span>
         <span class="n">df_agg_pct_raw</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;portname_cat&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;export&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;export_direction&quot;</span><span class="p">)</span>
     <span class="p">)</span>  <span class="c1">#</span>
@@ -2255,26 +2205,29 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
     <span class="p">)</span>  <span class="c1">#  fill=&quot;lightblue&quot;</span>
     <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Percent Change in Export Volume during Red Sea Crisis&quot;</span><span class="p">,</span>
-        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages during Red Sea Crisis and baseline period (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;% Change Relative to Baseline (Jan 2022 - Oct 2023)&quot;</span><span class="p">,</span>
+        <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Calculated using monthly averages up to March 2024&quot;</span><span class="p">,</span>
+        <span class="c1"># caption=&quot;Calculated using monthly averages during Red Sea Crisis \n(Oct, 2023 - Mar 2024) and baseline period (Jan 2022 - Oct 2023)&quot;</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">percent_format</span><span class="p">())</span>
     <span class="o">+</span> <span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;#d73027&quot;</span><span class="p">,</span> <span class="s2">&quot;#1a9850&quot;</span><span class="p">])</span>
-    <span class="c1"># + scale_fill_distiller(type=&quot;div&quot;, palette=&quot;RdYlGn&quot;, direction=1)</span>
-    <span class="c1"># + scale_fill_brewer(type=&#39;div&#39;, palette=&#39;RdYlGn&#39;)</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
-<span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;export-pct-change.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">p4</span><span class="p">)</span>
+<span class="n">p4</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;export-pct-change.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/dfe0b1c69da4aa7ce07b3726bdf8e10e077f7b688233c01b252811107cf81c34.png" src="../../_images/dfe0b1c69da4aa7ce07b3726bdf8e10e077f7b688233c01b252811107cf81c34.png" />
+<img alt="../../_images/dbd402c4d1ff774748cc26c00d0c91e7e5d9f0aac022badd09de26c04a6fbc18.png" src="../../_images/dbd402c4d1ff774748cc26c00d0c91e7e5d9f0aac022badd09de26c04a6fbc18.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (1000 x 800)&gt;
 </pre></div>
 </div>
@@ -2469,7 +2422,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 10, 2024.
+  Last updated on Apr 11, 2024.
   <br/>
 </p>
   </div>
