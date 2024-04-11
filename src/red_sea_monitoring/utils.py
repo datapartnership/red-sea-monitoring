@@ -2,11 +2,13 @@ import requests
 import pandas as pd
 from datetime import datetime
 
+
 def get_chokepoints():
     chokepoints_url = "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_chokepoints_database/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json"
     res = requests.get(chokepoints_url)
     df_chokepoints = pd.DataFrame([d["attributes"] for d in res.json()["features"]])
     return df_chokepoints
+
 
 # build function to get chokepoint data based on code above for multiple offests
 def get_chokepoint_data(chokepoints):
@@ -30,6 +32,7 @@ def get_chokepoint_data(chokepoints):
     df.sort_values(["portid", "date"], inplace=True)
     return df
 
+
 def get_ports():
     base_url = "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_ports_database/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json&resultOffset=0"
     res = requests.get(base_url)
@@ -42,6 +45,7 @@ def get_ports():
         offset += 1000
     df.reset_index(inplace=True, drop=True)
     return df
+
 
 def get_port_data(ports):
     url_base = "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Trade_Data/FeatureServer/0/query?where="
