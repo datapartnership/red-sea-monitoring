@@ -20,7 +20,7 @@ The following data products have been prepared:
 
 * **Spillover Monitor** for trade arriving in ports in Egypt, Djibouti, and Yemen
 
-* **Missing Ships Estimator** for ships that may have disabled their transponders
+* **Missing Ships Estimator** for ships that may have disabled their transponders (forthcoming)
 
 * **Conflict Location and Trends Monitor** derived from ACLED data
 
@@ -32,9 +32,9 @@ Time and resources pending, the team may also investigate datasets and methods f
 
 The team is combining these data products to prepare high-level analytics and indicators, such as:
 
-* Combined conflict and maritime traffic diverstion trends analysis
+* Combined conflict and maritime traffic diversion trends analysis
+* Combined maritime traffic diversion and global shipping price trends analysis
 
-* *to be determined*
 
 ## License
 
