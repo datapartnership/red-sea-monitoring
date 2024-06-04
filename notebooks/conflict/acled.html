@@ -444,7 +444,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insights">Insights</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-conflict-fatalities-between-january-1st-2023-and-april-9th-2024">Visualizing conflict fatalities between January 1st 2023 and April 9th 2024</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ports-of-interest-in-the-red-sea-region">Ports of Interest in the Red Sea Region</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weekly-conflict-events-in-the-red-sea-region-excluding-protests">Weekly Conflict Events in the Red Sea Region (excluding protests)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weekly-conflict-events-in-the-south-red-sea-region-excluding-protests">Weekly Conflict Events in the South Red Sea Region (excluding protests)</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#observations-and-limitations">Observations and Limitations</a></li>
 </ul>
 </li>
@@ -477,7 +477,12 @@ document.write(`
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">grouped_data</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
-    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;nr_fatalities&quot;</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span> <span class="n">marker_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span><span class="s1">&#39;viridis&#39;</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;nr_fatalities&quot;</span><span class="p">,</span>
+    <span class="n">zoom_start</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span>
+    <span class="n">marker_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">m</span>
 </pre></div>
@@ -1417,8 +1422,8 @@ if (force === true) {
 })(window);</script></div>
 </div>
 </section>
-<section id="weekly-conflict-events-in-the-red-sea-region-excluding-protests">
-<h3>Weekly Conflict Events in the Red Sea Region (excluding protests)<a class="headerlink" href="#weekly-conflict-events-in-the-red-sea-region-excluding-protests" title="Permalink to this heading">#</a></h3>
+<section id="weekly-conflict-events-in-the-south-red-sea-region-excluding-protests">
+<h3>Weekly Conflict Events in the South Red Sea Region (excluding protests)<a class="headerlink" href="#weekly-conflict-events-in-the-south-red-sea-region-excluding-protests" title="Permalink to this heading">#</a></h3>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <div class="output text_html"><div class="bk-root">
@@ -2045,51 +2050,7 @@ if (force === true) {
   }
 })(window);</script></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">show</span><span class="p">,</span> <span class="n">output_notebook</span>
-<span class="kn">import</span> <span class="nn">bokeh</span>
-<span class="kn">from</span> <span class="nn">bokeh.core.validation.warnings</span> <span class="kn">import</span> <span class="n">EMPTY_LAYOUT</span><span class="p">,</span> <span class="n">MISSING_RENDERERS</span>
-<span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="kn">import</span> <span class="n">Panel</span><span class="p">,</span> <span class="n">Tabs</span>
-
-<span class="n">output_notebook</span><span class="p">()</span>
-
-<span class="n">bokeh</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">validation</span><span class="o">.</span><span class="n">silence</span><span class="p">(</span><span class="n">EMPTY_LAYOUT</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">bokeh</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">validation</span><span class="o">.</span><span class="n">silence</span><span class="p">(</span><span class="n">MISSING_RENDERERS</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-
-<span class="n">conflict_by_country</span> <span class="o">=</span> <span class="n">conflict_by_country</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">tabs</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">measure_names</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;nrEvents&quot;</span><span class="p">:</span> <span class="s2">&quot;Number of Conflict Events&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;nrFatalities&quot;</span><span class="p">:</span> <span class="s2">&quot;Number of Fatalities&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-<span class="n">measure_colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;nrEvents&quot;</span><span class="p">:</span> <span class="s2">&quot;#4E79A7&quot;</span><span class="p">,</span> <span class="s2">&quot;nrFatalities&quot;</span><span class="p">:</span> <span class="s2">&quot;#F28E2B&quot;</span><span class="p">}</span>
-<span class="c1"># acled_adm0 = get_acled_by_admin(syria_adm2_crs, acled, columns = [&#39;ADM2_EN&#39;, &#39;ADM1_EN&#39;])</span>
-<span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">conflict_by_country</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
-    <span class="n">tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="n">Panel</span><span class="p">(</span>
-            <span class="n">child</span><span class="o">=</span><span class="n">visuals</span><span class="o">.</span><span class="n">get_bar_chart</span><span class="p">(</span>
-                <span class="n">conflict_by_country</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;Weekly Conflict Fatality Trend in </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Source: ACLED&quot;</span><span class="p">,</span>
-                <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-                <span class="n">category</span><span class="o">=</span><span class="s2">&quot;country&quot;</span><span class="p">,</span>
-                <span class="n">measure</span><span class="o">=</span><span class="s2">&quot;nrFatalities&quot;</span><span class="p">,</span>
-                <span class="n">color_code</span><span class="o">=</span><span class="n">measure_colors</span><span class="p">[</span><span class="s2">&quot;nrFatalities&quot;</span><span class="p">],</span>
-                <span class="n">category_value</span><span class="o">=</span><span class="n">country</span><span class="p">,</span>
-                <span class="n">crisis_date</span><span class="o">=</span><span class="n">crisis_date</span><span class="p">,</span>
-                <span class="n">conflict_date</span><span class="o">=</span><span class="n">conflict_date</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">country</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-
-<span class="n">tabs</span> <span class="o">=</span> <span class="n">Tabs</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;scale_both&quot;</span><span class="p">)</span>
-<span class="n">show</span><span class="p">(</span><span class="n">tabs</span><span class="p">,</span> <span class="n">warn_on_missing_glyphs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <div class="output text_html"><div class="bk-root">
         <a href="https://bokeh.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
@@ -2471,7 +2432,7 @@ if (force === true) {
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insights">Insights</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-conflict-fatalities-between-january-1st-2023-and-april-9th-2024">Visualizing conflict fatalities between January 1st 2023 and April 9th 2024</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ports-of-interest-in-the-red-sea-region">Ports of Interest in the Red Sea Region</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weekly-conflict-events-in-the-red-sea-region-excluding-protests">Weekly Conflict Events in the Red Sea Region (excluding protests)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weekly-conflict-events-in-the-south-red-sea-region-excluding-protests">Weekly Conflict Events in the South Red Sea Region (excluding protests)</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#observations-and-limitations">Observations and Limitations</a></li>
 </ul>
 </li>
