@@ -24,7 +24,7 @@ The following data products have been prepared:
 
 * **Conflict Location and Trends Monitor** derived from ACLED data
 
-* [](notebooks/mobility/README.md) for Egypt's Red Sea Riviera through OpenStreetMap point of interest visits using GPS mobility data
+* [**Tourism Trends Monitor**](notebooks/mobility/README.md) for Egypt's Red Sea Riviera through OpenStreetMap point of interest visits using GPS mobility data
 
 Time and resources pending, the team may also investigate datasets and methods for monitoring ancillary air cargo trends.
 
