@@ -182,11 +182,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="docs/1-intro-to-data-lab.html">Introduction to the Data Lab</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/2-data.html">Data</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reusable Data Products</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytics</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="notebooks/README.html">Reusable Data Science Products</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="notebooks/chokepoints/README.html">Maritime Choke Point Trends Monitor</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -222,16 +218,13 @@
 <li class="toctree-l1"><a class="reference internal" href="notebooks/indicators/conflict-and-trade.html">Shipping and Conflict</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/houthis/houthis-tax.html">Shipping and Freight Rate</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="docs/3-add-resources.html">Additional Resources</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Acknowledgements</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="docs/6-team.html">Data Goods Team and Acknowedgements</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference external" href="https://datapartnership.org">Development Data Partnership</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://wbdatalab.org">World Bank Data Lab</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://www.worldbank.org/en/about/unit/unit-dec">World Bank DEC</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://www.worldbank.org/en/research/dime">World Bank DIME</a></li>
 </ul>
 
     </div>
@@ -445,10 +438,16 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assignment">Assignment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reusable-data-science-products">Reusable Data Science Products</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-and-indicators">Insights and Indicators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a><ul class="nav section-nav flex-column">
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-availability-statement">Data Availability Statement</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#license">License</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-of-conduct">Code of Conduct</a></li>
 </ul>
             </nav>
         </div>
@@ -464,50 +463,68 @@ document.write(`
 <h1>Monitoring the Red Sea Shipping Crisis<a class="headerlink" href="#monitoring-the-red-sea-shipping-crisis" title="Permalink to this heading">#</a></h1>
 <section id="assignment">
 <h2>Assignment<a class="headerlink" href="#assignment" title="Permalink to this heading">#</a></h2>
-<p>The Red Sea shipping crisis is a global crisis that began in October 2023, when missile attacks on ships and tankers traversing the Red Sea caused hundreds of vessels to avoid the Suez Canal. The attacks are concentrated near the Bab al-Mandab Strait, a 20-mile-wide chokepoint for maritime traffic.</p>
-<p>The World Bank Country Economics teams in Egypt, Yemen, and Djibouti seek to monitor the status and impacts of the crisis on their respective and regional economies. To support these efforts, a Bank team comprised of colleagues from the Data Lab and the Geospatial Operations Support Team (GOST) are using a combinat</p>
+<p>The Red Sea shipping crisis is a global crisis that began in October 2023, when missile attacks on ships and tankers traversing the Red Sea caused hundreds of vessels to avoid the Suez Canal. The attacks are concentrated near the Bab al-Mandab Strait, a 20-mile-wide chokepoint for maritime traffic. The World Bank Country Economics teams in Egypt, Yemen, and Djibouti seek to monitor the status and impacts of the crisis on their respective and regional economies.</p>
+</section>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Data Goods</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/1-intro-to-data-lab.html">Introduction to the Data Lab</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/README.html">Reusable Data Science Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/chokepoints/README.html">Maritime Choke Point Trends Monitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ports/README.html">Port Call Trends Monitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/conflict/README.html">Conflict Location and Trends Monitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/spill/spillover-README.html">Port Disruption Spillover Estimates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/mobility/README.html">Economic Impacts on Tourism</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/routes/README.html">CO2 Emissions Estimation</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Insights and Indicators</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/indicators/conflict-and-trade.html">Shipping and Conflict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/houthis/houthis-tax.html">Shipping and Freight Rate</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/3-add-resources.html">Additional Resources</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/6-team.html">Data Goods Team and Acknowedgements</a></li>
+</ul>
+</div>
+</section>
+<section id="id1">
+<h2><a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="data">
 <h2>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h2>
 <p>Most of the data science products in thie repository are derived using maritime Automatic Identification System (AIS) data pulled from the <a class="reference external" href="https://portwatch.imf.org/">IMF PortWatch</a> system and from the <a class="reference external" href="https://unstats.un.org/bigdata/task-teams/ais/index.cshtml">UN Committee of Experts on Big Data and Data Science for Official Statistics</a>, as well as conflict statistics provided by the <a class="reference external" href="https://acleddata.com/">Armed Conflict Location and Event Data project</a>.</p>
+<p>Additional details about each dataset—such as licensing, update frequency, and access instructions—are provided within the respective data products.</p>
+<section id="data-availability-statement">
+<h3>Data Availability Statement<a class="headerlink" href="#data-availability-statement" title="Permalink to this heading">#</a></h3>
+<p>Restrictions may apply to the data that support the findings of this study. Data received from the private sector through the Development Data Partnership are subject to the terms and conditions of the data license agreement and the “Official Use Only” data classification. These data are available upon request through the <a class="reference external" href="https://datapartnership.org/">Development Data Partnership</a>. Licensing and access information for all other datasets are included in the documentation.</p>
 </section>
-<section id="reusable-data-science-products">
-<h2>Reusable Data Science Products<a class="headerlink" href="#reusable-data-science-products" title="Permalink to this heading">#</a></h2>
-<p>The following data products have been prepared:</p>
-<ul class="simple">
-<li><p><strong>Maritime Choke Point Trends Monitor</strong> for the Suez Canal, Bab el-Mandreb Straight, and the Cape of Good Hope</p></li>
-<li><p><strong>Port Call Trends Monitor</strong> for the following ports: Aden, Al Ahmadi, Al Aqabah, Al Mukalla, As Suways, Djibouti, Duba. Duba Bulk Plant Tanker Terminal, El-Adabiya, Jiddah, Jiddah Oil, King Fahd Port, North Ain Sukhna Port, Rabigh, Safaga, and Yanbu</p></li>
-<li><p><strong>Spillover Monitor</strong> for trade arriving in ports in Egypt, Djibouti, and Yemen</p></li>
-<li><p><strong>Missing Ships Estimator</strong> for ships that may have disabled their transponders (forthcoming)</p></li>
-<li><p><strong>Conflict Location and Trends Monitor</strong> derived from ACLED data</p></li>
-<li><p><a class="reference internal" href="notebooks/mobility/README.html"><span class="std std-doc"><strong>Tourism Trends Monitor</strong></span></a> for Egypt’s Red Sea Riviera through OpenStreetMap point of interest visits using GPS mobility data</p></li>
-</ul>
-<p>Time and resources pending, the team may also investigate datasets and methods for monitoring ancillary air cargo trends.</p>
-</section>
-<section id="insights-and-indicators">
-<h2>Insights and Indicators<a class="headerlink" href="#insights-and-indicators" title="Permalink to this heading">#</a></h2>
-<p>The team is combining these data products to prepare high-level analytics and indicators, such as:</p>
-<ul class="simple">
-<li><p>Combined conflict and maritime traffic diversion trends analysis</p></li>
-<li><p>Combined maritime traffic diversion and global shipping price trends analysis</p></li>
-</ul>
 </section>
 <section id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this heading">#</a></h2>
 <p>This projects is licensed under the <a class="reference external" href="https://opensource.org/license/mpl-2-0/"><strong>Mozilla Public License</strong></a> - see the <a class="reference download internal" download="" href="_downloads/9879d6db96fd29134fc802214163b95a/LICENSE"><span class="xref download myst">LICENSE</span></a> file for details.</p>
 </section>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
+<section id="code-of-conduct">
+<h2>Code of Conduct<a class="headerlink" href="#code-of-conduct" title="Permalink to this heading">#</a></h2>
+<p>The World Bank Data Lab <span style="color:#3EACAD">template</span> used to create this project maintains a <span class="xref myst">Code of Conduct</span> to ensure an inclusive and respectful environment for everyone. Please adhere to it in all interactions within our community.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -566,10 +583,16 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assignment">Assignment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reusable-data-science-products">Reusable Data Science Products</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-and-indicators">Insights and Indicators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a><ul class="nav section-nav flex-column">
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-availability-statement">Data Availability Statement</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#license">License</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-of-conduct">Code of Conduct</a></li>
 </ul>
   </nav></div>
 
