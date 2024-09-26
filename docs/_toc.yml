@@ -5,10 +5,9 @@ parts:
   - caption: Introduction to Data Goods
     chapters:
       - file: docs/1-intro-to-data-lab.md
-  - caption: Data
+  - caption: Analytics
     chapters:
-      - file: docs/2-data
-  - caption: Reusable Data Products
+      - file: docs/2-analytics
     chapters:
       - file: notebooks/README
       - file: notebooks/chokepoints/README
@@ -36,16 +35,9 @@ parts:
     chapters:
       - file: notebooks/indicators/conflict-and-trade.ipynb
       - file: notebooks/houthis/houthis-tax.ipynb
+  - caption: Additional Resources
+    chapters:
+      - file: docs/3-add-resources
   - caption: Acknowledgements
     chapters:
       - file: docs/6-team
-  - caption: Additional Resources
-    chapters:
-      - url: https://datapartnership.org
-        title: Development Data Partnership
-      - url: https://wbdatalab.org
-        title: World Bank Data Lab
-      - url: https://www.worldbank.org/en/about/unit/unit-dec
-        title: World Bank DEC
-      - url: https://www.worldbank.org/en/research/dime
-        title: World Bank DIME
