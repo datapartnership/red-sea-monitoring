@@ -2,7 +2,7 @@ format: jb-book
 root: README
 
 parts:
-  - caption: Introduction to Data Goods
+  - caption: Introduction to the Data Lab
     chapters:
       - file: docs/1-intro-to-data-lab.md
   - caption: Analytics
