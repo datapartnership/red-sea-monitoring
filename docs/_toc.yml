@@ -8,8 +8,6 @@ parts:
   - caption: Analytics
     chapters:
       - file: docs/2-analytics
-    chapters:
-      - file: notebooks/README
       - file: notebooks/chokepoints/README
         sections:
           - file: notebooks/chokepoints/red-sea-chokepoints.ipynb

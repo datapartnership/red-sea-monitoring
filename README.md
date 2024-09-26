@@ -12,8 +12,6 @@ The Red Sea shipping crisis is a global crisis that began in October 2023, when
 
 ```
 
-## 
-
 ## Data
 
 Most of the data science products in thie repository are derived using maritime Automatic Identification System (AIS) data pulled from the [IMF PortWatch](https://portwatch.imf.org/) system and from the [UN Committee of Experts on Big Data and Data Science for Official Statistics](https://unstats.un.org/bigdata/task-teams/ais/index.cshtml), as well as conflict statistics provided by the [Armed Conflict Location and Event Data project](https://acleddata.com/).
