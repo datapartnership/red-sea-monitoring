@@ -69,7 +69,7 @@
     <link rel="prev" title="Data Extraction" href="1-data-extraction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 26, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 03, 2024"/>
   </head>
   
   
@@ -436,6 +436,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-datasets">Load Datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-routes-with-geometry">Merge Routes with Geometry</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-geometries">Clean Geometries</a></li>
@@ -443,6 +444,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-rotues">Clean Rotues</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-routes">Plot Routes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#split-by-chokepoint">Split by Chokepoint</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-graph-network">Convert to Graph Network</a></li>
 </ul>
             </nav>
@@ -463,15 +465,16 @@ document.write(`
 <li><p><a class="reference external" href="http://worldroutes.s3.amazonaws.com/distances.csv">http://worldroutes.s3.amazonaws.com/distances.csv</a></p></li>
 <li><p><a class="reference external" href="http://worldroutes.s3.amazonaws.com/ports.csv">http://worldroutes.s3.amazonaws.com/ports.csv</a></p></li>
 </ul>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">expanduser</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
 <span class="kn">from</span> <span class="nn">shapely.wkt</span> <span class="kn">import</span> <span class="n">loads</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">MultiLineString</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 </pre></div>
@@ -480,7 +483,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="n">gn_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;Repos&quot;</span><span class="p">,</span> <span class="s2">&quot;GOSTnets&quot;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gn_path</span><span class="p">)</span>
@@ -490,7 +493,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">GOSTnets</span> <span class="k">as</span> <span class="nn">gn</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">GOSTnets</span> <span class="k">as</span> <span class="nn">gn</span>
 <span class="kn">import</span> <span class="nn">osmnx</span> <span class="k">as</span> <span class="nn">ox</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -501,17 +504,18 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
-<span class="o">%</span><span class="k">autoreload</span> 2
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">autoreload</span>
+<span class="o">%</span><span class="n">autoreload</span> <span class="mi">2</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 <section id="load-datasets">
 <h2>Load Datasets<a class="headerlink" href="#load-datasets" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">routes_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;sea_routes&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;sea_routes&quot;</span><span class="p">)</span>
 <span class="n">ports</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;ports.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">distances</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;distances.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">routes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;routes.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -521,7 +525,24 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">routes</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandarallel</span> <span class="kn">import</span> <span class="n">pandarallel</span>
+
+<span class="n">pandarallel</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">progress_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nb_workers</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO: Pandarallel will run on 60 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">routes</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
 <span class="n">routes</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">routes</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -529,7 +550,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -598,7 +619,195 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ports</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">routes</span><span class="o">.</span><span class="n">trip_count</span> <span class="o">==</span> <span class="mi">793298</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_count</th>
+      <th>prev_port</th>
+      <th>next_port</th>
+      <th>lat</th>
+      <th>lon</th>
+      <th>frequency</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>10505995</th>
+      <td>793298</td>
+      <td>842</td>
+      <td>1594</td>
+      <td>39.996088</td>
+      <td>26.134098</td>
+      <td>0.02</td>
+      <td>POINT (26.13410 39.99609)</td>
+    </tr>
+    <tr>
+      <th>10505996</th>
+      <td>793298</td>
+      <td>842</td>
+      <td>1594</td>
+      <td>40.011167</td>
+      <td>26.160333</td>
+      <td>0.02</td>
+      <td>POINT (26.16033 40.01117)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">routes</span><span class="o">.</span><span class="n">trip_count</span> <span class="o">==</span> <span class="mi">793574</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_count</th>
+      <th>prev_port</th>
+      <th>next_port</th>
+      <th>lat</th>
+      <th>lon</th>
+      <th>frequency</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>10506002</th>
+      <td>793574</td>
+      <td>2866</td>
+      <td>842</td>
+      <td>51.334010</td>
+      <td>3.787823</td>
+      <td>0.02</td>
+      <td>POINT (3.78782 51.33401)</td>
+    </tr>
+    <tr>
+      <th>10506003</th>
+      <td>793574</td>
+      <td>2866</td>
+      <td>842</td>
+      <td>40.013000</td>
+      <td>26.160500</td>
+      <td>0.02</td>
+      <td>POINT (26.16050 40.01300)</td>
+    </tr>
+    <tr>
+      <th>10506004</th>
+      <td>793574</td>
+      <td>2866</td>
+      <td>842</td>
+      <td>39.996088</td>
+      <td>26.134098</td>
+      <td>0.02</td>
+      <td>POINT (26.13410 39.99609)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">distances</span><span class="o">.</span><span class="n">trip_count</span> <span class="o">==</span> <span class="mi">793298</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_count</th>
+      <th>prev_port</th>
+      <th>next_port</th>
+      <th>distance</th>
+      <th>frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>10505997</th>
+      <td>793298</td>
+      <td>2866</td>
+      <td>842</td>
+      <td>3.015057</td>
+      <td>0.02</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">routes</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="mi">2866</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">routes</span><span class="o">.</span><span class="n">next_port</span> <span class="o">==</span> <span class="mi">842</span><span class="p">)][</span>
+    <span class="s2">&quot;trip_count&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 791366,  791569,  791704,  793090,  793161,  793163,  793404,
+        793574,  793601, 2676969])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ports</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">ports</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">ports</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -606,7 +815,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -654,6 +863,59 @@ document.write(`
 </table>
 </div></div></div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_count</th>
+      <th>prev_port</th>
+      <th>next_port</th>
+      <th>distance</th>
+      <th>frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7682</th>
+      <td>1984063</td>
+      <td>4410</td>
+      <td>3658</td>
+      <td>460.638148</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>7062</th>
+      <td>1948666</td>
+      <td>3658</td>
+      <td>7083</td>
+      <td>372.753814</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 </section>
 <section id="merge-routes-with-geometry">
 <h2>Merge Routes with Geometry<a class="headerlink" href="#merge-routes-with-geometry" title="Permalink to this heading">#</a></h2>
@@ -662,17 +924,17 @@ document.write(`
 <p>Split geometry if it passes the international dateline (180 longitude)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pdc</span> <span class="o">=</span> <span class="s2">&quot;EPSG:3832&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pdc</span> <span class="o">=</span> <span class="s2">&quot;EPSG:3832&quot;</span>
 <span class="n">wgs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>
 <span class="n">azimuthal</span> <span class="o">=</span> <span class="s2">&quot;ESRI:54032&quot;</span>
-<span class="n">wgs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="n">rob</span> <span class="o">=</span> <span class="s2">&quot;ESRI:54030&quot;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check if signs of two numbers are different</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># check if signs of two numbers are different</span>
 <span class="k">def</span> <span class="nf">sign_diff</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">0</span>
 
@@ -704,40 +966,49 @@ document.write(`
 
 
 <span class="k">def</span> <span class="nf">get_line</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    <span class="n">route</span> <span class="o">=</span> <span class="n">routes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">routes</span><span class="p">[</span><span class="s2">&quot;trip_count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">trip_count</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">coords</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">coord</span><span class="o">.</span><span class="n">x</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">]</span>
-    <span class="c1"># check if route crosses dateline</span>
-    <span class="n">n_components</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">sign_diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xs</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span>
-        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xs</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xs</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="mi">180</span>
-    <span class="p">):</span>
-        <span class="n">components</span> <span class="o">=</span> <span class="n">split_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">geom</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">n_components</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
-            <span class="n">geom</span> <span class="o">=</span> <span class="n">MultiLineString</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
+    <span class="n">route</span> <span class="o">=</span> <span class="n">routes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="n">routes</span><span class="p">[</span><span class="s2">&quot;trip_count&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">trip_count</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="p">(</span><span class="n">routes</span><span class="p">[</span><span class="s2">&quot;prev_port&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">prev_port</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="p">(</span><span class="n">routes</span><span class="p">[</span><span class="s2">&quot;next_port&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">next_port</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">route</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">coord</span><span class="o">.</span><span class="n">x</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">]</span>
+        <span class="c1"># check if route crosses dateline</span>
+        <span class="n">n_components</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">sign_diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xs</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xs</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xs</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="mi">180</span>
+        <span class="p">):</span>
+            <span class="n">components</span> <span class="o">=</span> <span class="n">split_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">geom</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">n_components</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
+                <span class="n">geom</span> <span class="o">=</span> <span class="n">MultiLineString</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">geom</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">n_components</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">geom</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">n_components</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">geom</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">n_components</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">LineString</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">n_components</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">distances</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">!=</span> <span class="n">distances</span><span class="o">.</span><span class="n">next_port</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">distances</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">!=</span> <span class="n">distances</span><span class="o">.</span><span class="n">next_port</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -749,43 +1020,171 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
-    <span class="n">geom</span><span class="p">,</span> <span class="n">n_components</span> <span class="o">=</span> <span class="n">get_line</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-    <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geom</span>
-    <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;n_components&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_components</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># route = routes.loc[((routes[&quot;trip_count&quot;] == row.trip_count) &amp; (routes[&quot;prev_port&quot;] == row.prev_port) &amp; (routes[&#39;next_port&#39;] == row.next_port))].copy()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># for idx, row in tqdm(distances.iterrows()):</span>
+<span class="c1">#     geom, n_components = get_line(row)</span>
+<span class="c1">#     distances.loc[idx, &quot;geometry&quot;] = geom</span>
+<span class="c1">#     distances.loc[idx, &quot;n_components&quot;] = n_components</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># d = distances.head(100)</span>
+<span class="c1"># d</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_line</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">result_type</span><span class="o">=</span><span class="s2">&quot;expand&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;n_components&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>54464it [14:08, 64.16it/s]
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+      <th>n_components</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7682</th>
+      <td>LINESTRING (-87.05328753692308 45.764835, -87....</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>7062</th>
+      <td>LINESTRING (-87.49138600094876 41.674835, -87....</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2712</th>
+      <td>LINESTRING (-83.98649742848713 46.056966407419...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>7248</th>
+      <td>LINESTRING (-84.24103337782078 46.401167342082...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>9021</th>
+      <td>LINESTRING (-84.37628495982278 46.51214, -84.3...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>14004962</th>
+      <td>LINESTRING (129.4345365315 35.420577800000004,...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>14005987</th>
+      <td>LINESTRING (140.83933433227966 51.461370019242...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>14006777</th>
+      <td>LINESTRING (140.7279770176368 35.9373607719317...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>14006449</th>
+      <td>LINESTRING (129.4414099450023 35.4347456475, 1...</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>14006517</th>
+      <td>LINESTRING (140.83933433227966 51.461370019242...</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>54464 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;distances_processed.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">distances</span><span class="o">.</span><span class="n">n_components</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;distances_processed.csv&quot;</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;distances_processed_v2.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances_filt</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">isna</span><span class="p">())]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distances = pd.read_csv(join(routes_dir, &quot;distances_processed_v2.csv&quot;))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distances_filt</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances_filt</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">isna</span><span class="p">())]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distances_filt</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">loads</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="p">)</span>
 </pre></div>
@@ -794,20 +1193,20 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances_filt</span><span class="o">.</span><span class="n">n_components</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances_filt</span><span class="o">.</span><span class="n">n_components</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n_components
-1.0    52753
+1.0    51962
 2.0     1705
 4.0        2
 3.0        2
@@ -818,7 +1217,7 @@ Name: count, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">distances_filt</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">distances_filt</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -830,14 +1229,14 @@ Name: count, dtype: int64
 <p>Remove routes with too many segments</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">distances</span><span class="o">.</span><span class="n">n_components</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">distances</span><span class="o">.</span><span class="n">n_components</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">wgs</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">wgs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -845,26 +1244,21 @@ Name: count, dtype: int64
 <p>Remove long routes that intersect land (likely errors)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">land</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ne&quot;</span><span class="p">,</span> <span class="s2">&quot;ne_50m_land.shp&quot;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR 1: PROJ: proj_create_from_database: Open of /home/jupyter-wb514197/.conda/envs/move/share/proj failed
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">land</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ne&quot;</span><span class="p">,</span> <span class="s2">&quot;ne_50m_land.shp&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">land_geom</span> <span class="o">=</span> <span class="n">land</span><span class="o">.</span><span class="n">unary_union</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">land_geom</span> <span class="o">=</span> <span class="n">land</span><span class="o">.</span><span class="n">unary_union</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_intersect_pct</span><span class="p">(</span><span class="n">geom</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_intersect_pct</span><span class="p">(</span><span class="n">geom</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">land_geom</span><span class="p">):</span>
         <span class="n">length</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">length</span>
         <span class="n">length_land</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">land_geom</span><span class="p">)</span><span class="o">.</span><span class="n">length</span>
@@ -877,7 +1271,7 @@ Name: count, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;land_intersect&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;land_intersect&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">parallel_apply</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_intersect_pct</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="p">)</span>
 </pre></div>
@@ -886,18 +1280,18 @@ Name: count, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">land_intersect</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">land_intersect</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    54458.000000
-mean         0.061974
-std          0.197872
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    53667.000000
+mean         0.060815
+std          0.195913
 min          0.000000
 25%          0.000000
-50%          0.000110
-75%          0.008023
+50%          0.000135
+75%          0.007999
 max          1.000000
 Name: land_intersect, dtype: float64
 </pre></div>
@@ -906,19 +1300,19 @@ Name: land_intersect, dtype: float64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">distances</span><span class="o">.</span><span class="n">land_intersect</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">distances</span><span class="o">.</span><span class="n">land_intersect</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2597
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2504
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">intersect_thresh</span> <span class="o">=</span> <span class="mf">0.1</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">intersect_thresh</span> <span class="o">=</span> <span class="mf">0.1</span>
 <span class="n">length_thresh</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>  <span class="c1"># 10 #</span>
 <span class="n">distances2</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
     <span class="o">~</span><span class="p">(</span>
@@ -930,24 +1324,156 @@ Name: land_intersect, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_394997/3263271145.py:3: UserWarning: Geometry is in a geographic CRS. Results from &#39;length&#39; are likely incorrect. Use &#39;GeoSeries.to_crs()&#39; to re-project geometries to a projected CRS before this operation.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_4000684/2524201493.py:2: UserWarning: Geometry is in a geographic CRS. Results from &#39;length&#39; are likely incorrect. Use &#39;GeoSeries.to_crs()&#39; to re-project geometries to a projected CRS before this operation.
 
-  length_thresh = distances.length.median() # 10 #
-/tmp/ipykernel_394997/3263271145.py:4: UserWarning: Geometry is in a geographic CRS. Results from &#39;length&#39; are likely incorrect. Use &#39;GeoSeries.to_crs()&#39; to re-project geometries to a projected CRS before this operation.
+  length_thresh = distances.length.median()  # 10 #
+/tmp/ipykernel_4000684/2524201493.py:6: UserWarning: Geometry is in a geographic CRS. Results from &#39;length&#39; are likely incorrect. Use &#39;GeoSeries.to_crs()&#39; to re-project geometries to a projected CRS before this operation.
 
-  distances2 = distances.loc[~((distances.land_intersect&gt;intersect_thresh) &amp; (distances.length&gt;length_thresh))].copy()
+  &amp; (distances.length &gt; length_thresh)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">distances2</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">distances2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>53293
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>52581
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distances2</span><span class="o">.</span><span class="n">index</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_n_vertices</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span> <span class="o">==</span> <span class="n">LineString</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span> <span class="o">==</span> <span class="n">MultiLineString</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">geoms</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># row = distances2.loc[1390]</span>
+<span class="c1"># row = distances2.iloc[0]</span>
+<span class="c1"># get_n_vertices(row)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distances2.[:, &quot;n_vertices&quot;] = distances2.parallel_apply(get_n_vertices, axis=1)</span>
+<span class="n">distances2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;n_vertices&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distances2</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_n_vertices</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distances2.to_file(join(routes_dir, &quot;distances2.gpkg&quot;), driver=&quot;GPKG&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances2</span><span class="p">[</span><span class="s2">&quot;n_vertices&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    52581.000000
+mean       204.802704
+std        302.280853
+min          2.000000
+25%         24.000000
+50%         81.000000
+75%        247.000000
+max       3156.000000
+Name: n_vertices, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances2</span> <span class="o">=</span> <span class="n">distances2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">distances2</span><span class="p">[</span><span class="s2">&quot;n_vertices&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="mi">51240</span><span class="p">,</span> <span class="mi">19656</span><span class="p">,</span> <span class="mi">43777</span><span class="p">,</span> <span class="mi">44592</span><span class="p">,</span> <span class="mi">27546</span><span class="p">,</span> <span class="mi">40347</span><span class="p">,</span> <span class="mi">30619</span><span class="p">,</span> <span class="mi">43181</span><span class="p">,</span> <span class="mi">6817</span><span class="p">,</span> <span class="mi">19896</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distances2.loc[51240]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances2</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">distances2</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">to_remove</span><span class="p">))]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_count</th>
+      <th>prev_port</th>
+      <th>next_port</th>
+      <th>distance</th>
+      <th>frequency</th>
+      <th>geometry</th>
+      <th>n_components</th>
+      <th>land_intersect</th>
+      <th>index</th>
+      <th>n_vertices</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances2</span> <span class="o">=</span> <span class="n">distances2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">distances2</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">to_remove</span><span class="p">))]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -957,7 +1483,7 @@ Name: land_intersect, dtype: float64
 <h2>Plot Routes<a class="headerlink" href="#plot-routes" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span>
 <span class="n">distances2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
 </pre></div>
@@ -967,7 +1493,966 @@ Name: land_intersect, dtype: float64
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-208.73408508695817, 200.2372267536647, -62.9315025035, 83.9357858335)
 </pre></div>
 </div>
-<img alt="../../_images/2c2b0366eba840a500d5f145719e9519cdac8b549b87a9cf1a5075b61dec9e93.png" src="../../_images/2c2b0366eba840a500d5f145719e9519cdac8b549b87a9cf1a5075b61dec9e93.png" />
+<img alt="../../_images/eb75e02ebb99d0a2d8d079761861369cd0a9b00e6b4112d36be4029525e8c39b.png" src="../../_images/eb75e02ebb99d0a2d8d079761861369cd0a9b00e6b4112d36be4029525e8c39b.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ports</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>PORT_NAME</th>
+      <th>INDEX_NO</th>
+      <th>coords</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>49159</td>
+      <td>Terminal Pesquero Cta. Quiane</td>
+      <td>NaN</td>
+      <td>((-70.31722387298942, -18.513597026467323),)</td>
+      <td>POINT (-70.31722 -18.51360)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>49164</td>
+      <td>Oil Berth</td>
+      <td>NaN</td>
+      <td>((-61.86886473007713, 17.150384410999997),)</td>
+      <td>POINT (-61.86886 17.15038)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>16</td>
+      <td>Port of Basamuk</td>
+      <td>NaN</td>
+      <td>((146.14295817405977, -5.53913255687803),)</td>
+      <td>POINT (146.14296 -5.53913)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>26</td>
+      <td>Victoria</td>
+      <td>NaN</td>
+      <td>((-123.32715191091728, 48.402783083729446),)</td>
+      <td>POINT (-123.32715 48.40278)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>34</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>((126.50786074843957, 36.333661512471735),)</td>
+      <td>POINT (126.50786 36.33366)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">distances2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">distances2</span><span class="o">.</span><span class="n">land_intersect</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>924
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distances2.loc[distances2.land_intersect ==1].explore()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># import git</span>
+<span class="c1"># import os</span>
+<span class="c1"># git_repo = git.Repo(join(expanduser(&quot;~&quot;), &quot;Repos&quot;, &quot;red-sea-monitoring&quot;, &quot;notebooks&quot;), search_parent_directories=True)</span>
+<span class="c1"># git_root = git_repo.git.rev_parse(&quot;--show-toplevel&quot;)</span>
+<span class="c1"># sys.path.append(join(git_root, &quot;src&quot;))</span>
+<span class="c1"># from red_sea_monitoring.utils import *</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chokepoints = get_chokepoints()</span>
+<span class="c1"># chokepoints.loc[:, &quot;geometry&quot;] = chokepoints.apply(</span>
+<span class="c1">#     lambda x: Point(x.lon, x.lat), axis=1</span>
+<span class="c1"># )</span>
+<span class="c1"># chokepoints = gpd.GeoDataFrame(</span>
+<span class="c1">#     chokepoints, geometry=&quot;geometry&quot;, crs=&quot;EPSG:4326&quot;</span>
+<span class="c1"># )</span>
+<span class="c1"># # List areas of interest</span>
+<span class="c1"># aois = [&quot;Bab el-Mandeb Strait&quot;, &quot;Cape of Good Hope&quot;, &quot;Suez Canal&quot;, &quot;Strait of Hormuz&quot;]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># azimuthal = &quot;ESRI:54032&quot;</span>
+<span class="c1"># chokepoints_sel = chokepoints.loc[chokepoints.portname.isin(aois)].copy()</span>
+<span class="c1"># # chokepoints_sel</span>
+<span class="c1"># chokepoints_sel = chokepoints_sel.to_crs(azimuthal)</span>
+<span class="c1"># chokepoints_sel.loc[:, &quot;geometry&quot;] = chokepoints_sel.buffer(500000)</span>
+<span class="c1"># chokepoints_sel = chokepoints_sel.to_crs(wgs)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chokepoints_sel</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># circle = chokepoints_sel.geometry.values[0]</span>
+<span class="c1"># circle</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># center_x, center_y = circle.centroid.x, circle.centroid.y</span>
+<span class="c1"># radius = circle.bounds[2] - center_x  # Calculate radius</span>
+<span class="c1"># import shapely.geometry as sg</span>
+<span class="c1"># line = sg.LineString([(center_x, center_y - radius), (center_x, center_y + radius)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="split-by-chokepoint">
+<h2>Split by Chokepoint<a class="headerlink" href="#split-by-chokepoint" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">chokepoints_str</span> <span class="o">=</span> <span class="s1">&#39;{&quot;type&quot;:&quot;FeatureCollection&quot;,&quot;features&quot;:[{&quot;type&quot;:&quot;Feature&quot;,&quot;properties&quot;:{&quot;Port_name&quot;:&quot;Bab el-Mandeb Strait&quot;,&quot;Country&quot;:&quot;chokepoint&quot;},&quot;geometry&quot;:{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[43.309777,12.493873],[43.331355,12.474386],[43.514229,12.664987],[43.479704,12.669198],[43.479704,12.669198],[43.309777,12.493873]]]}},{&quot;type&quot;:&quot;Feature&quot;,&quot;properties&quot;:{&quot;Port_name&quot;:&quot;Suez Canal&quot;,&quot;Country&quot;:&quot;chokepoint&quot;},&quot;geometry&quot;:{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[32.553653,29.932182],[32.560088,29.926227],[32.583646,29.944185],[32.585828,29.955619],[32.580702,29.956848],[32.570668,29.942484],[32.570668,29.942484],[32.553653,29.932182]]]}},{&quot;type&quot;:&quot;Feature&quot;,&quot;properties&quot;:{&quot;Port_name&quot;:&quot;Cape of Good Hope&quot;,&quot;Country&quot;:&quot;chokepoint&quot;},&quot;geometry&quot;:{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[19.877499,-34.845363],[19.910717,-37.614427],[19.9628,-37.616709],[19.944734,-36.60437],[19.926568,-34.850397],[19.926568,-34.850397],[19.877499,-34.845363]]]}}]}&#39;</span>
+<span class="n">chokepoints_gdf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">chokepoints_str</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="s2">&quot;port_boundary&quot;</span><span class="p">})</span>
+    <span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s2">&quot;port_boundary&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># for idx, row in distances2.head(10000).iterrows():</span>
+<span class="c1">#     if row.geometry.intersects(chokepoints_gdf.unary_union):</span>
+<span class="c1">#         print(idx)</span>
+<span class="c1">#         break</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># row = distances2.iloc[0]</span>
+<span class="c1"># row_gdf = distances2.loc[[335]].copy()</span>
+<span class="c1"># row = distances2.loc[335]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chokepoints_sel = chokepoints_gdf.copy()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># row.geometry.intersects(chokepoints_sel.unary_union)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># chokepoint_gdf = chokepoints_sel.loc[chokepoints_sel.intersects(row.geometry)].copy()</span>
+<span class="c1"># chokepoint = chokepoint_gdf.iloc[0]</span>
+<span class="c1"># chokepoint</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># row.geometry.intersects(chokepoint.port_boundary.boundary)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># m = row_gdf.explore()</span>
+<span class="c1"># chokepoint_gdf.explore(m=m, color=&quot;red&quot;)</span>
+<span class="c1"># m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">shapely.ops</span> <span class="kn">import</span> <span class="n">split</span><span class="p">,</span> <span class="n">linemerge</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># t = split(row.geometry, chokepoint.port_boundary)</span>
+<span class="c1"># for geom in t.geoms:</span>
+<span class="c1">#     print(geom.length)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># p1 = row.copy()</span>
+<span class="c1"># p2 = row.copy()</span>
+
+<span class="c1"># p1.geometry = t.geoms[0]</span>
+<span class="c1"># p2.geometry = linemerge(t.geoms[1:])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># p1.next_port = chokepoint.Port_name</span>
+<span class="c1"># p2.prev_port = chokepoint.Port_name</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distances2.loc[335]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># res = []</span>
+<span class="c1"># res.append(p1)</span>
+<span class="c1"># res.append(p2)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pdc</span> <span class="o">=</span> <span class="s2">&quot;EPSG:3832&quot;</span>
+<span class="n">wgs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="n">azimuthal</span> <span class="o">=</span> <span class="s2">&quot;ESRI:54032&quot;</span>
+<span class="n">rob</span> <span class="o">=</span> <span class="s2">&quot;ESRI:54030&quot;</span>
+<span class="n">merc</span> <span class="o">=</span> <span class="s2">&quot;EPSG:3857&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distances3 = gpd.GeoDataFrame(res, geometry=&quot;geometry&quot;, crs=wgs)</span>
+<span class="c1"># distances3 = distances3.to_crs(azimuthal)</span>
+<span class="c1"># distances3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distances3.loc[:, &quot;original_index&quot;] = distances3.index</span>
+<span class="c1"># distances3.loc[:, &quot;original_distance&quot;] = distances3[&#39;distance&#39;]</span>
+<span class="c1"># distances3.loc[:, &quot;distance&quot;] = (distances3.geometry.length) / 1000</span>
+<span class="c1"># distances3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">split_route</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">chokepoints_gdf</span><span class="p">):</span>
+    <span class="n">chokepoint_gdf</span> <span class="o">=</span> <span class="n">chokepoints_gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="n">chokepoints_gdf</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chokepoint_gdf</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># return []</span>
+        <span class="n">chokepoint</span> <span class="o">=</span> <span class="n">chokepoint_gdf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span> <span class="n">chokepoint</span><span class="o">.</span><span class="n">port_boundary</span><span class="p">)</span>
+        <span class="c1"># res = []</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">geoms</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">p1</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">geoms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">p2</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">linemerge</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">geoms</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+            <span class="n">p1</span><span class="o">.</span><span class="n">next_port</span> <span class="o">=</span> <span class="n">chokepoint</span><span class="o">.</span><span class="n">Port_name</span>
+            <span class="n">p2</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">=</span> <span class="n">chokepoint</span><span class="o">.</span><span class="n">Port_name</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No chokepoint found for </span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+        <span class="c1"># for i, geom in enumerate(t.geoms):</span>
+        <span class="c1">#     p = row.copy()</span>
+        <span class="c1">#     p.geometry = geom</span>
+        <span class="c1">#     if i == 0:</span>
+        <span class="c1">#         p.next_port = chokepoint.Port_name</span>
+        <span class="c1">#     elif i == len(t.geoms) - 1:</span>
+        <span class="c1">#         p.prev_port = chokepoint.Port_name</span>
+        <span class="c1">#     res.append(p)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances_sub</span> <span class="o">=</span> <span class="n">distances2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">distances2</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">chokepoints_gdf</span><span class="o">.</span><span class="n">unary_union</span><span class="p">)</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">distances_sub</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2535
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">distances_sub</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">split_rows</span> <span class="o">=</span> <span class="n">split_route</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">chokepoints_gdf</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">split_rows</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">split_rows</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances3</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">wgs</span><span class="p">)</span>
+<span class="n">distances3</span> <span class="o">=</span> <span class="n">distances3</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">azimuthal</span><span class="p">)</span>
+<span class="n">distances3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_count</th>
+      <th>prev_port</th>
+      <th>next_port</th>
+      <th>distance</th>
+      <th>frequency</th>
+      <th>geometry</th>
+      <th>n_components</th>
+      <th>land_intersect</th>
+      <th>index</th>
+      <th>n_vertices</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6114</th>
+      <td>1866491</td>
+      <td>3764</td>
+      <td>Suez Canal</td>
+      <td>283.994690</td>
+      <td>0.3</td>
+      <td>LINESTRING (3226455.212 3631660.552, 3224208.8...</td>
+      <td>1.0</td>
+      <td>0.717158</td>
+      <td>6114</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>6114</th>
+      <td>1866491</td>
+      <td>Suez Canal</td>
+      <td>2214</td>
+      <td>283.994690</td>
+      <td>0.3</td>
+      <td>LINESTRING (3277092.361 3485272.128, 3277185.4...</td>
+      <td>1.0</td>
+      <td>0.717158</td>
+      <td>6114</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>4987</th>
+      <td>1648653</td>
+      <td>3764</td>
+      <td>Suez Canal</td>
+      <td>240.896790</td>
+      <td>0.7</td>
+      <td>LINESTRING (3226455.212 3631660.552, 3223816.9...</td>
+      <td>1.0</td>
+      <td>0.757848</td>
+      <td>4987</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>4987</th>
+      <td>1648653</td>
+      <td>Suez Canal</td>
+      <td>2214</td>
+      <td>240.896790</td>
+      <td>0.7</td>
+      <td>LINESTRING (3276690.927 3484892.026, 3276551.7...</td>
+      <td>1.0</td>
+      <td>0.757848</td>
+      <td>4987</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>41743</th>
+      <td>2373626</td>
+      <td>6972</td>
+      <td>Bab el-Mandeb Strait</td>
+      <td>6528.593681</td>
+      <td>0.4</td>
+      <td>LINESTRING (3272322.205 3480671.978, 3276084.3...</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>41743</td>
+      <td>410</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>13937919</th>
+      <td>2477738</td>
+      <td>Cape of Good Hope</td>
+      <td>4021</td>
+      <td>16329.725925</td>
+      <td>1.0</td>
+      <td>LINESTRING (1933235.497 -3941165.368, 1928543....</td>
+      <td>1.0</td>
+      <td>0.002266</td>
+      <td>13937919</td>
+      <td>1028</td>
+    </tr>
+    <tr>
+      <th>13952165</th>
+      <td>2493847</td>
+      <td>45066</td>
+      <td>Cape of Good Hope</td>
+      <td>19647.237921</td>
+      <td>1.0</td>
+      <td>LINESTRING (375611.511 712099.611, 375650.997 ...</td>
+      <td>1.0</td>
+      <td>0.000487</td>
+      <td>13952165</td>
+      <td>1068</td>
+    </tr>
+    <tr>
+      <th>13952165</th>
+      <td>2493847</td>
+      <td>Cape of Good Hope</td>
+      <td>1975</td>
+      <td>19647.237921</td>
+      <td>1.0</td>
+      <td>LINESTRING (1928628.377 -3940019.423, 1933240....</td>
+      <td>1.0</td>
+      <td>0.000487</td>
+      <td>13952165</td>
+      <td>1068</td>
+    </tr>
+    <tr>
+      <th>13994160</th>
+      <td>2924037</td>
+      <td>4092</td>
+      <td>Cape of Good Hope</td>
+      <td>22292.771583</td>
+      <td>1.0</td>
+      <td>LINESTRING (-5101943.571 -4037735.483, -510001...</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>13994160</td>
+      <td>1311</td>
+    </tr>
+    <tr>
+      <th>13994160</th>
+      <td>2924037</td>
+      <td>Cape of Good Hope</td>
+      <td>2255</td>
+      <td>22292.771583</td>
+      <td>1.0</td>
+      <td>LINESTRING (1924184.596 -3972068.097, 1927665....</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>13994160</td>
+      <td>1311</td>
+    </tr>
+  </tbody>
+</table>
+<p>5070 rows × 10 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances3</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;original_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distances3</span><span class="o">.</span><span class="n">index</span>
+<span class="n">distances3</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;original_distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">distances3</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span>
+<span class="n">distances3</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">distances3</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span>
+<span class="n">distances3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_count</th>
+      <th>prev_port</th>
+      <th>next_port</th>
+      <th>distance</th>
+      <th>frequency</th>
+      <th>geometry</th>
+      <th>n_components</th>
+      <th>land_intersect</th>
+      <th>index</th>
+      <th>n_vertices</th>
+      <th>original_index</th>
+      <th>original_distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6114</th>
+      <td>1866491</td>
+      <td>3764</td>
+      <td>Suez Canal</td>
+      <td>175.431891</td>
+      <td>0.3</td>
+      <td>LINESTRING (3226455.212 3631660.552, 3224208.8...</td>
+      <td>1.0</td>
+      <td>0.717158</td>
+      <td>6114</td>
+      <td>21</td>
+      <td>6114</td>
+      <td>283.994690</td>
+    </tr>
+    <tr>
+      <th>6114</th>
+      <td>1866491</td>
+      <td>Suez Canal</td>
+      <td>2214</td>
+      <td>46.880371</td>
+      <td>0.3</td>
+      <td>LINESTRING (3277092.361 3485272.128, 3277185.4...</td>
+      <td>1.0</td>
+      <td>0.717158</td>
+      <td>6114</td>
+      <td>21</td>
+      <td>6114</td>
+      <td>283.994690</td>
+    </tr>
+    <tr>
+      <th>4987</th>
+      <td>1648653</td>
+      <td>3764</td>
+      <td>Suez Canal</td>
+      <td>164.184105</td>
+      <td>0.7</td>
+      <td>LINESTRING (3226455.212 3631660.552, 3223816.9...</td>
+      <td>1.0</td>
+      <td>0.757848</td>
+      <td>4987</td>
+      <td>22</td>
+      <td>4987</td>
+      <td>240.896790</td>
+    </tr>
+    <tr>
+      <th>4987</th>
+      <td>1648653</td>
+      <td>Suez Canal</td>
+      <td>2214</td>
+      <td>46.430345</td>
+      <td>0.7</td>
+      <td>LINESTRING (3276690.927 3484892.026, 3276551.7...</td>
+      <td>1.0</td>
+      <td>0.757848</td>
+      <td>4987</td>
+      <td>22</td>
+      <td>4987</td>
+      <td>240.896790</td>
+    </tr>
+    <tr>
+      <th>41743</th>
+      <td>2373626</td>
+      <td>6972</td>
+      <td>Bab el-Mandeb Strait</td>
+      <td>1905.385948</td>
+      <td>0.4</td>
+      <td>LINESTRING (3272322.205 3480671.978, 3276084.3...</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>41743</td>
+      <td>410</td>
+      <td>41743</td>
+      <td>6528.593681</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>13937919</th>
+      <td>2477738</td>
+      <td>Cape of Good Hope</td>
+      <td>4021</td>
+      <td>5020.539683</td>
+      <td>1.0</td>
+      <td>LINESTRING (1933235.497 -3941165.368, 1928543....</td>
+      <td>1.0</td>
+      <td>0.002266</td>
+      <td>13937919</td>
+      <td>1028</td>
+      <td>13937919</td>
+      <td>16329.725925</td>
+    </tr>
+    <tr>
+      <th>13952165</th>
+      <td>2493847</td>
+      <td>45066</td>
+      <td>Cape of Good Hope</td>
+      <td>4970.972343</td>
+      <td>1.0</td>
+      <td>LINESTRING (375611.511 712099.611, 375650.997 ...</td>
+      <td>1.0</td>
+      <td>0.000487</td>
+      <td>13952165</td>
+      <td>1068</td>
+      <td>13952165</td>
+      <td>19647.237921</td>
+    </tr>
+    <tr>
+      <th>13952165</th>
+      <td>2493847</td>
+      <td>Cape of Good Hope</td>
+      <td>1975</td>
+      <td>11746.905683</td>
+      <td>1.0</td>
+      <td>LINESTRING (1928628.377 -3940019.423, 1933240....</td>
+      <td>1.0</td>
+      <td>0.000487</td>
+      <td>13952165</td>
+      <td>1068</td>
+      <td>13952165</td>
+      <td>19647.237921</td>
+    </tr>
+    <tr>
+      <th>13994160</th>
+      <td>2924037</td>
+      <td>4092</td>
+      <td>Cape of Good Hope</td>
+      <td>7145.666398</td>
+      <td>1.0</td>
+      <td>LINESTRING (-5101943.571 -4037735.483, -510001...</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>13994160</td>
+      <td>1311</td>
+      <td>13994160</td>
+      <td>22292.771583</td>
+    </tr>
+    <tr>
+      <th>13994160</th>
+      <td>2924037</td>
+      <td>Cape of Good Hope</td>
+      <td>2255</td>
+      <td>11356.725745</td>
+      <td>1.0</td>
+      <td>LINESTRING (1924184.596 -3972068.097, 1927665....</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+      <td>13994160</td>
+      <td>1311</td>
+      <td>13994160</td>
+      <td>22292.771583</td>
+    </tr>
+  </tbody>
+</table>
+<p>5070 rows × 12 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances4</span> <span class="o">=</span> <span class="n">distances2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances3</span><span class="o">.</span><span class="n">original_index</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([    6114,     4987,    41743, ..., 13937919, 13952165, 13994160])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances4</span> <span class="o">=</span> <span class="n">distances4</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">distances3</span><span class="o">.</span><span class="n">original_index</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances3</span> <span class="o">=</span> <span class="n">distances3</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;original_index&quot;</span><span class="p">,</span> <span class="s2">&quot;original_distance&quot;</span><span class="p">])</span>
+<span class="n">distances3</span> <span class="o">=</span> <span class="n">distances3</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">wgs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">distances4</span><span class="p">,</span> <span class="n">distances3</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances_final</span><span class="o">.</span><span class="n">crs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Geographic 2D CRS: EPSG:4326&gt;
+Name: WGS 84
+Axis Info [ellipsoidal]:
+- Lat[north]: Geodetic latitude (degree)
+- Lon[east]: Geodetic longitude (degree)
+Area of Use:
+- name: World.
+- bounds: (-180.0, -90.0, 180.0, 90.0)
+Datum: World Geodetic System 1984 ensemble
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chokepoints_gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">representative_point</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_gdf</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Port_name&quot;</span><span class="p">:</span> <span class="s2">&quot;PORT_NAME&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chokepoints_gdf</span><span class="p">[</span><span class="s2">&quot;PORT_NAME&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chokepoints_gdf</span><span class="p">[[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;PORT_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>PORT_NAME</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Bab el-Mandeb Strait</td>
+      <td>Bab el-Mandeb Strait</td>
+      <td>POINT (43.41242 12.57943)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Suez Canal</td>
+      <td>Suez Canal</td>
+      <td>POINT (32.56841 29.93733)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Cape of Good Hope</td>
+      <td>Cape of Good Hope</td>
+      <td>POINT (19.91187 -35.72738)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ports2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">ports</span><span class="p">,</span> <span class="n">chokepoints_gdf</span><span class="p">[[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;PORT_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]]],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ports2</span><span class="o">.</span><span class="n">crs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Geographic 2D CRS: EPSG:4326&gt;
+Name: WGS 84
+Axis Info [ellipsoidal]:
+- Lat[north]: Geodetic latitude (degree)
+- Lon[east]: Geodetic longitude (degree)
+Area of Use:
+- name: World.
+- bounds: (-180.0, -90.0, 180.0, 90.0)
+Datum: World Geodetic System 1984 ensemble
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+</pre></div>
+</div>
 </div>
 </div>
 </section>
@@ -975,9 +2460,28 @@ Name: land_intersect, dtype: float64
 <h2>Convert to Graph Network<a class="headerlink" href="#convert-to-graph-network" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">gn</span><span class="o">.</span><span class="n">edges_and_nodes_gdf_to_graph</span><span class="p">(</span>
-    <span class="n">nodes_df</span><span class="o">=</span><span class="n">ports</span><span class="p">,</span>
-    <span class="n">edges_df</span><span class="o">=</span><span class="n">distances2</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># G = gn.edges_and_nodes_gdf_to_graph(</span>
+<span class="c1">#     nodes_df=ports,</span>
+<span class="c1">#     edges_df=distances2,</span>
+<span class="c1">#     node_tag=&quot;index&quot;,</span>
+<span class="c1">#     u_tag=&quot;prev_port&quot;,</span>
+<span class="c1">#     v_tag=&quot;next_port&quot;,</span>
+<span class="c1">#     geometry_tag=&quot;geometry&quot;,</span>
+<span class="c1">#     largest_G=False,</span>
+<span class="c1">#     discard_node_col=[],</span>
+<span class="c1">#     checks=False,</span>
+<span class="c1">#     add_missing_reflected_edges=False,</span>
+<span class="c1">#     oneway_tag=None,</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">gn</span><span class="o">.</span><span class="n">edges_and_nodes_gdf_to_graph</span><span class="p">(</span>
+    <span class="n">nodes_df</span><span class="o">=</span><span class="n">ports2</span><span class="p">,</span>
+    <span class="n">edges_df</span><span class="o">=</span><span class="n">distances_final</span><span class="p">,</span>
     <span class="n">node_tag</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span>
     <span class="n">u_tag</span><span class="o">=</span><span class="s2">&quot;prev_port&quot;</span><span class="p">,</span>
     <span class="n">v_tag</span><span class="o">=</span><span class="s2">&quot;next_port&quot;</span><span class="p">,</span>
@@ -995,8 +2499,17 @@ Name: land_intersect, dtype: float64
 <p>Save graph</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gn</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="s2">&quot;G_sea_routes&quot;</span><span class="p">,</span> <span class="n">routes_dir</span><span class="p">,</span> <span class="n">pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;G_sea_routes.gpickle&quot;</span><span class="p">),</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># gn.save(G, &quot;G_sea_routes_fix&quot;, routes_dir, pickle=False, nodes=True, edges=True)</span>
+<span class="c1"># with open(join(routes_dir, &quot;G_sea_routes_fix.gpickle&quot;), &quot;wb&quot;) as f:</span>
+<span class="c1">#     pickle.dump(G, f, pickle.HIGHEST_PROTOCOL)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gn</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="s2">&quot;G_sea_routes_v2&quot;</span><span class="p">,</span> <span class="n">routes_dir</span><span class="p">,</span> <span class="n">pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;G_sea_routes_v2.gpickle&quot;</span><span class="p">),</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1004,14 +2517,24 @@ Name: land_intersect, dtype: float64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;crs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wgs</span>  <span class="c1"># wgs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;crs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wgs</span>  <span class="c1"># wgs</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">plot_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">node_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">edge_linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">plot_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">node_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">edge_linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/dae00aee1dc03176134e99d98207fd0660bfdf503aff2cc8918f0521dc5a770e.png" src="../../_images/dae00aee1dc03176134e99d98207fd0660bfdf503aff2cc8918f0521dc5a770e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">plot_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">node_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">edge_linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1031,16 +2554,16 @@ Name: land_intersect, dtype: float64
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "move"
+            mode: "ox2"
         },
         kernelOptions: {
-            name: "move",
+            name: "ox2",
             path: "./notebooks/routes"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'move'</script>
+    <script>kernelName = 'ox2'</script>
 
                 </article>
               
@@ -1086,6 +2609,7 @@ Name: land_intersect, dtype: float64
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-datasets">Load Datasets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-routes-with-geometry">Merge Routes with Geometry</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-geometries">Clean Geometries</a></li>
@@ -1093,6 +2617,7 @@ Name: land_intersect, dtype: float64
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-rotues">Clean Rotues</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-routes">Plot Routes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#split-by-chokepoint">Split by Chokepoint</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-graph-network">Convert to Graph Network</a></li>
 </ul>
   </nav></div>
@@ -1120,7 +2645,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 26, 2024.
+  Last updated on Oct 03, 2024.
   <br/>
 </p>
   </div>

@@ -2,7 +2,7 @@
 
 ## Assignment
 
-The Red Sea shipping crisis is a global crisis that began in October 2023, when missile attacks on ships and tankers traversing the Red Sea caused hundreds of vessels to avoid the Suez Canal. The attacks are concentrated near the Bab al-Mandab Strait, a 20-mile-wide chokepoint for maritime traffic. The World Bank Country Economics teams in Egypt, Yemen, and Djibouti seek to monitor the status and impacts of the crisis on their respective and regional economies. 
+The Red Sea shipping crisis is a global crisis that began in October 2023, when missile attacks on ships and tankers traversing the Red Sea caused hundreds of vessels to avoid the Suez Canal. The attacks are concentrated near the Bab al-Mandab Strait, a 20-mile-wide chokepoint for maritime traffic. The World Bank Country Economics teams in Egypt, Yemen, and Djibouti seek to monitor the status and impacts of the crisis on their respective and regional economies.
 
 
 

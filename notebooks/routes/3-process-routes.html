@@ -69,7 +69,7 @@
     <link rel="prev" title="Sea Routes" href="2-prepare-sea-routes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 26, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 03, 2024"/>
   </head>
   
   
@@ -548,41 +548,20 @@ INFO: Pandarallel will use Memory file system to transfer data between the main 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_files</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">[</span><span class="s2">&quot;Contents&quot;</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s2">&quot;Key&quot;</span><span class="p">])</span>
+    <span class="c1"># print(obj[&quot;Key&quot;])</span>
     <span class="n">s3_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s2">&quot;Key&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Andres_Temp/AIS/red-sea/portcalls_gdf_2023_01.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_02.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_03.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_04.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_05.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_06.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_10.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_11.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_12.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_7.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_8.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2023_9.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2024_1.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2024_2.csv
-Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_files</span> <span class="o">=</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">12</span><span class="p">:]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3_files</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># s3_files = s3_files[0:6] + s3_files[9:12] + s3_files[6:9] + s3_files[12:]</span>
+<span class="c1"># s3_files = s3_files[0:6] + s3_files[9:12] + s3_files[6:9] + s3_files[15:] + s3_files[13:15]</span>
+<span class="n">s3_files</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">s3_files</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">19</span><span class="p">:]</span> <span class="o">+</span> <span class="n">s3_files</span><span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">19</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">s3_files</span>
 </pre></div>
 </div>
 </div>
@@ -601,7 +580,13 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
  &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2023_12.csv&#39;,
  &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_1.csv&#39;,
  &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_2.csv&#39;,
- &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv&#39;]
+ &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv&#39;,
+ &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_04.csv&#39;,
+ &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_05.csv&#39;,
+ &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_06.csv&#39;,
+ &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_07.csv&#39;,
+ &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_08.csv&#39;,
+ &#39;Andres_Temp/AIS/red-sea/portcalls_gdf_2024_09.csv&#39;]
 </pre></div>
 </div>
 </div>
@@ -634,7 +619,13 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
  884053,
  864070,
  678337,
- 757018]
+ 757018,
+ 758891,
+ 759204,
+ 732224,
+ 821611,
+ 931175,
+ 913017]
 </pre></div>
 </div>
 </div>
@@ -653,7 +644,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12757788
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>17673910
 </pre></div>
 </div>
 </div>
@@ -677,8 +668,23 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </section>
 <section id="data-processing">
 <h2>Data Processing<a class="headerlink" href="#data-processing" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df = pd.read_csv(f&quot;s3://wbgdecinternal-ntl/{s3_files[0]}&quot;)</span>
+<span class="c1"># group_by_cols = [&quot;mmsi&quot;, &quot;imo&quot;, &quot;vessel_name&quot;]  # route_group</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="calculate-travel-time">
 <h3>Calculate Travel Time<a class="headerlink" href="#calculate-travel-time" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df = df.head(1000)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
@@ -756,7 +762,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">days_threshold</span> <span class="o">=</span> <span class="mi">30</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">days_threshold</span> <span class="o">=</span> <span class="mi">60</span>
 </pre></div>
 </div>
 </div>
@@ -775,7 +781,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced from 12757788 to 11123620, 0.8719082022682929 pct
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced from 17673910 to 16029171, 0.9069397207522274 pct
 </pre></div>
 </div>
 </div>
@@ -840,7 +846,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced from 11123620 to 10586290
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced from 16029171 to 15312307
 </pre></div>
 </div>
 </div>
@@ -859,15 +865,15 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10586290
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15312307
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># del(df)</span>
-<span class="c1"># del(df_filt)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">df</span>
+<span class="k">del</span> <span class="n">df_filt</span>
 </pre></div>
 </div>
 </div>
@@ -899,7 +905,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;G_sea_routes.gpickle&quot;</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">routes_dir</span><span class="p">,</span> <span class="s2">&quot;G_sea_routes_fix.gpickle&quot;</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">G</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -934,8 +940,8 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
     <span class="n">node_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">edge_linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;./sea_routes.png&quot;</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="c1"># filepath=&quot;./sea_routes.png&quot;,</span>
     <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="c1"># plt.savefig(&#39;./sea_routes.png&#39;, dpi=300)</span>
@@ -943,7 +949,7 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d31a66dcfcee2fcf01b7c420f2c8b0d2f2d434b055d55e8e3bb1066dd426c4ac.png" src="../../_images/d31a66dcfcee2fcf01b7c420f2c8b0d2f2d434b055d55e8e3bb1066dd426c4ac.png" />
+<img alt="../../_images/274744c95527d31fe2f7435b46eed1c685fb9f2c7a469d86a7632014511c17e3.png" src="../../_images/274744c95527d31fe2f7435b46eed1c685fb9f2c7a469d86a7632014511c17e3.png" />
 </div>
 </div>
 </section>
@@ -991,12 +997,12 @@ Andres_Temp/AIS/red-sea/portcalls_gdf_2024_3.csv
 3              POINT (4.94167 52.38167)
 4              POINT (3.81155 51.34228)
                        ...             
-10586285     POINT (-78.98333 -8.22667)
-10586286    POINT (-77.14202 -12.03942)
-10586287      POINT (-55.14351 5.82691)
-10586288    POINT (-56.22170 -34.92133)
-10586289     POINT (-80.71500 -0.92333)
-Name: prev_geometry, Length: 10586290, dtype: geometry
+15312302     POINT (-80.72000 -0.93000)
+15312303     POINT (-79.91500 -2.27833)
+15312304    POINT (-77.15557 -12.04702)
+15312305      POINT (-79.64306 0.99516)
+15312306    POINT (-77.14255 -12.03974)
+Name: prev_geometry, Length: 15312307, dtype: geometry
 </pre></div>
 </div>
 </div>
@@ -1037,7 +1043,7 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced from 10586290 to 7980418
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced from 15312307 to 11171321
 </pre></div>
 </div>
 </div>
@@ -1057,7 +1063,7 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7980418
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>11171321
 </pre></div>
 </div>
 </div>
@@ -1112,6 +1118,8 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
       <th>frequency</th>
       <th>n_components</th>
       <th>land_intersect</th>
+      <th>index</th>
+      <th>n_vertices</th>
     </tr>
   </thead>
   <tbody>
@@ -1126,6 +1134,8 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
       <td>1.000000</td>
       <td>1.0</td>
       <td>1.0</td>
+      <td>7682</td>
+      <td>43</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1138,6 +1148,8 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
       <td>1.000000</td>
       <td>1.0</td>
       <td>1.0</td>
+      <td>7062</td>
+      <td>57</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1150,6 +1162,8 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
       <td>1.000000</td>
       <td>1.0</td>
       <td>1.0</td>
+      <td>7133</td>
+      <td>61</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1162,6 +1176,8 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
       <td>1.000000</td>
       <td>1.0</td>
       <td>1.0</td>
+      <td>9998</td>
+      <td>65</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1174,6 +1190,8 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
       <td>0.428571</td>
       <td>1.0</td>
       <td>1.0</td>
+      <td>6380</td>
+      <td>75</td>
     </tr>
   </tbody>
 </table>
@@ -1244,8 +1262,8 @@ Name: prev_geometry, Length: 10586290, dtype: geometry
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sea_route
-False    4096783
-True     3883635
+False    8455581
+True     2715740
 Name: count, dtype: int64
 </pre></div>
 </div>
@@ -1311,7 +1329,7 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3883635, 4096783)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2715740, 8455581)
 </pre></div>
 </div>
 </div>
@@ -1357,11 +1375,13 @@ Name: count, dtype: int64
       <th>frequency</th>
       <th>n_components</th>
       <th>land_intersect</th>
+      <th>index</th>
+      <th>n_vertices</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>38095</th>
+      <th>33466</th>
       <td>26</td>
       <td>1940</td>
       <td>0</td>
@@ -1371,9 +1391,11 @@ Name: count, dtype: int64
       <td>0.200000</td>
       <td>2.0</td>
       <td>0.000181</td>
+      <td>12002821</td>
+      <td>544</td>
     </tr>
     <tr>
-      <th>38096</th>
+      <th>33467</th>
       <td>26</td>
       <td>1940</td>
       <td>1</td>
@@ -1383,9 +1405,11 @@ Name: count, dtype: int64
       <td>0.800000</td>
       <td>2.0</td>
       <td>0.002746</td>
+      <td>12073163</td>
+      <td>725</td>
     </tr>
     <tr>
-      <th>38093</th>
+      <th>33464</th>
       <td>26</td>
       <td>1973</td>
       <td>0</td>
@@ -1395,9 +1419,11 @@ Name: count, dtype: int64
       <td>0.100000</td>
       <td>2.0</td>
       <td>0.000337</td>
+      <td>11027902</td>
+      <td>742</td>
     </tr>
     <tr>
-      <th>38088</th>
+      <th>33459</th>
       <td>26</td>
       <td>1975</td>
       <td>1</td>
@@ -1407,9 +1433,11 @@ Name: count, dtype: int64
       <td>0.666667</td>
       <td>2.0</td>
       <td>0.000000</td>
+      <td>6125524</td>
+      <td>882</td>
     </tr>
     <tr>
-      <th>38087</th>
+      <th>33458</th>
       <td>26</td>
       <td>1975</td>
       <td>0</td>
@@ -1419,6 +1447,8 @@ Name: count, dtype: int64
       <td>0.333333</td>
       <td>2.0</td>
       <td>0.000000</td>
+      <td>5954058</td>
+      <td>827</td>
     </tr>
   </tbody>
 </table>
@@ -1486,7 +1516,7 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4096783
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8455581
 </pre></div>
 </div>
 </div>
@@ -1502,8 +1532,8 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 40s, sys: 12.9 s, total: 1min 53s
-Wall time: 19min 34s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 39s, sys: 23.2 s, total: 2min 2s
+Wall time: 22min 57s
 </pre></div>
 </div>
 </div>
@@ -1515,7 +1545,7 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4096783
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8455581
 </pre></div>
 </div>
 </div>
@@ -1534,7 +1564,7 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2815, 2073, 3945]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2815, 2560, 3945]
 </pre></div>
 </div>
 </div>
@@ -1574,7 +1604,7 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>298760
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1293001
 </pre></div>
 </div>
 </div>
@@ -1586,7 +1616,7 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3798023
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7162580
 </pre></div>
 </div>
 </div>
@@ -1598,7 +1628,7 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.07292551253019748
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.15291687230008205
 </pre></div>
 </div>
 </div>
@@ -1606,6 +1636,13 @@ Wall time: 19min 34s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row</span> <span class="o">=</span> <span class="n">df_search</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_search</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># row</span>
 </pre></div>
 </div>
 </div>
@@ -1635,9 +1672,9 @@ Wall time: 19min 34s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df_new.to_csv(join(expanduser(&quot;~&quot;), &#39;tmp&#39;, &#39;ais&#39;, &#39;portcalls_v4.csv&#39;), index=False)</span>
-<span class="n">df_new</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span>
-    <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v4.parquet&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
+<span class="c1"># df_new.to_parquet(</span>
+<span class="c1">#     join(expanduser(&quot;~&quot;), &quot;tmp&quot;, &quot;ais&quot;, &quot;portcalls_v4.parquet&quot;), index=False</span>
+<span class="c1"># )</span>
 </pre></div>
 </div>
 </div>
@@ -1719,7 +1756,7 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9625633644753947
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8842571080000298
 </pre></div>
 </div>
 </div>
@@ -1771,7 +1808,7 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.22067641068425237
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.22451525652158774
 </pre></div>
 </div>
 </div>
@@ -1783,7 +1820,365 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1761090
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2508132
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df_filt.loc[410609]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt2</span> <span class="o">=</span> <span class="n">df_filt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df_filt</span><span class="o">.</span><span class="n">Port</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">aois</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">df_filt</span><span class="o">.</span><span class="n">prev_port</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">aois</span><span class="p">))</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_filt</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_filt2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(413, 2)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">add_edge_lengths</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># route = df_filt.loc[410609][&#39;route&#39;]</span>
+<span class="c1"># route = df_filt2.iloc[1][&quot;route&quot;]</span>
+<span class="n">trip</span> <span class="o">=</span> <span class="n">df_filt2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">trip</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mmsi                                                                 218553000
+imo                                                                    9197478
+vessel_name                                                             WIEBKE
+route_group                                                                  3
+length                                                                   152.0
+width                                                                     20.0
+longitude                                                            32.582492
+latitude                                                             29.954372
+departure_longitude                                                  32.563333
+departure_latitude                                                   29.931667
+vessel_type                                                              Cargo
+arrival_dt_pos_utc                                         2023-01-29 19:49:59
+departure_dt_pos_utc                                       2023-01-29 20:04:27
+arrival_draught                                                            6.8
+arrival_destination                                                      SGSIN
+departure_draught                                                          6.8
+departure_destination                                                    SGSIN
+mean_sog                                                                  6.94
+max_sog                                                                    7.0
+min_sog                                                                    6.7
+count_ais                                                                    5
+year                                                                      2023
+month                                                                        1
+Country                                                  Chokepoint Suez Canal
+Port                                                                Suez Canal
+geometry                                       POINT (32.58249167 29.95437167)
+prev_departure_dt_pos_utc                                  2023-01-19 17:29:10
+time_spent                                                            0.241111
+time_travel                                                         242.346944
+days_spent                                                                   0
+days_travel                                                               10.0
+unique_id                                             218553000_9197478_WIEBKE
+prev_geometry                                      POINT (4.22651 51.35933167)
+prev_port                                                              Antwerp
+prev_country                                                           Belgium
+travel_distance                                                    3336.686391
+end_id                                                              Suez Canal
+end_port_dist                                                      2346.835598
+start_id                                                                  2866
+start_port_dist                                                   35081.829369
+sea_route                                                                False
+distance                                                           2815.173635
+route                        [2866, Cape of Good Hope, 2053, 27090, 2111, B...
+Name: 439, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trip</span><span class="o">.</span><span class="n">start_id</span><span class="p">,</span> <span class="n">trip</span><span class="o">.</span><span class="n">end_id</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2866, &#39;Suez Canal&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># r = ox.shortest_path(</span>
+<span class="c1">#     G, 2866, 2214, weight=&quot;distance&quot;</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trip</span><span class="o">.</span><span class="n">end_id</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Suez Canal&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">trip</span><span class="o">.</span><span class="n">start_id</span><span class="p">,</span> <span class="n">trip</span><span class="o">.</span><span class="n">end_id</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;distance&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">154</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">r</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">G</span><span class="p">,</span> <span class="n">trip</span><span class="o">.</span><span class="n">start_id</span><span class="p">,</span> <span class="n">trip</span><span class="o">.</span><span class="n">end_id</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;distance&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="p">)</span>
+
+<span class="nn">File ~/.conda/envs/ox2/lib/python3.12/site-packages/osmnx/routing.py:58,</span> in <span class="ni">shortest_path</span><span class="nt">(G, orig, dest, weight, cpus)</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">orig</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)):</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span>     <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;orig and dest must either both be iterable or neither must be iterable&quot;</span>
+<span class="ne">---&gt; </span><span class="mi">58</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="c1"># if both orig and dest are iterable, ensure they have same lengths</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dest</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+
+<span class="ne">ValueError</span>: orig and dest must either both be iterable or neither must be iterable
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[2866,
+  &#39;Cape of Good Hope&#39;,
+  2053,
+  27090,
+  2111,
+  &#39;Bab el-Mandeb Strait&#39;,
+  5322,
+  6972,
+  &#39;Suez Canal&#39;]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># route = [trip.start_id, trip.end_id]</span>
+<span class="n">route</span> <span class="o">=</span> <span class="n">trip</span><span class="o">.</span><span class="n">route</span>
+<span class="n">route</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2866,
+ &#39;Cape of Good Hope&#39;,
+ 2053,
+ 27090,
+ 2111,
+ &#39;Bab el-Mandeb Strait&#39;,
+ 5322,
+ 6972,
+ &#39;Suez Canal&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">route</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2866,
+ &#39;Cape of Good Hope&#39;,
+ 2053,
+ 27090,
+ 2111,
+ &#39;Bab el-Mandeb Strait&#39;,
+ 5322,
+ 6972,
+ &#39;Suez Canal&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># edges = ox.graph_to_gdfs(G, nodes=False, edges=True)</span>
+<span class="c1"># edges.reset_index(inplace=True)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># edges.head()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># edges.loc[(edges.u==2866) &amp; (edges.v==842)]#.iloc[[0]].explore() #.explore()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># edges.loc[2866, 842].explore()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ox.utils_graph.route_to_gdf(G, route, &quot;distance&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">route</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2866,
+ &#39;Cape of Good Hope&#39;,
+ 2053,
+ 27090,
+ 2111,
+ &#39;Bab el-Mandeb Strait&#39;,
+ 5322,
+ 6972,
+ &#39;Suez Canal&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ox</span><span class="o">.</span><span class="n">plot_graph_route</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">route</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
+    <span class="n">route_linewidth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">node_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">edge_linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">bgcolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">route_color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="c1"># filepath=&quot;./route.png&quot;,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NotImplementedError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">146</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ox</span><span class="o">.</span><span class="n">plot_graph_route</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">G</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">route</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">route_linewidth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">node_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">edge_linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">bgcolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">route_color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="c1"># filepath=&quot;./route.png&quot;,</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="p">)</span>
+
+<span class="nn">File ~/.conda/envs/ox2/lib/python3.12/site-packages/osmnx/plot.py:319,</span> in <span class="ni">plot_graph_route</span><span class="nt">(G, route, route_color, route_linewidth, route_alpha, orig_dest_size, ax, **pg_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">316</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">get_edge_data</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">317</span> <span class="k">if</span> <span class="s2">&quot;geometry&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">318</span>     <span class="c1"># if geometry attribute exists, add all its coords to list</span>
+<span class="ne">--&gt; </span><span class="mi">319</span>     <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">xy</span>
+<span class="g g-Whitespace">    </span><span class="mi">320</span>     <span class="n">x</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">321</span>     <span class="n">y</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+
+<span class="nn">File ~/.conda/envs/ox2/lib/python3.12/site-packages/shapely/geometry/base.py:229,</span> in <span class="ni">BaseGeometry.xy</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">226</span> <span class="nd">@property</span>
+<span class="g g-Whitespace">    </span><span class="mi">227</span> <span class="k">def</span> <span class="nf">xy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">228</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Separate arrays of X and Y coordinate values&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">229</span>     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<span class="ne">NotImplementedError</span>: 
+</pre></div>
+</div>
+<img alt="../../_images/298d2742490bb817ba75bcff2c5c024519d77d68db6a0bf5452c01b181ee1150.png" src="../../_images/298d2742490bb817ba75bcff2c5c024519d77d68db6a0bf5452c01b181ee1150.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ox.plot_graph_route(</span>
+<span class="c1">#     G,</span>
+<span class="c1">#     route,</span>
+<span class="c1">#     route_linewidth=6,</span>
+<span class="c1">#     node_size=0.5,</span>
+<span class="c1">#     bgcolor=&quot;k&quot;,</span>
+<span class="c1">#     route_color=&quot;r&quot;,</span>
+<span class="c1">#     save=False,</span>
+<span class="c1">#     # filepath=&quot;./route.png&quot;,</span>
+<span class="c1">#     dpi=300,</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">plot_graph</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
+    <span class="n">node_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">edge_linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;./sea_routes.png&quot;</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1799,7 +2194,7 @@ Wall time: 19min 34s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_filt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v5.csv&quot;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df_filt.to_csv(join(expanduser(&quot;~&quot;), &quot;tmp&quot;, &quot;ais&quot;, &quot;portcalls_v5.csv&quot;), index=False)</span>
 </pre></div>
 </div>
 </div>
@@ -1812,8 +2207,8 @@ Wall time: 19min 34s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 895 ms, sys: 54.7 ms, total: 950 ms
-Wall time: 1.12 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.38 s, sys: 350 ms, total: 1.72 s
+Wall time: 1.56 s
 </pre></div>
 </div>
 </div>
@@ -1825,7 +2220,7 @@ Wall time: 1.12 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>456357
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>665086
 </pre></div>
 </div>
 </div>
@@ -1856,16 +2251,16 @@ Wall time: 1.12 s
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "move"
+            mode: "ox2"
         },
         kernelOptions: {
-            name: "move",
+            name: "ox2",
             path: "./notebooks/routes"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'move'</script>
+    <script>kernelName = 'ox2'</script>
 
                 </article>
               
@@ -1956,7 +2351,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 26, 2024.
+  Last updated on Oct 03, 2024.
   <br/>
 </p>
   </div>
