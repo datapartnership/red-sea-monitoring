@@ -17,6 +17,7 @@ parts:
       - file: notebooks/conflict/README
         sections:
           - file: notebooks/conflict/acled.ipynb
+          - file: notebooks/conflict/acled-persian-gulf.ipynb
       - file: notebooks/spill/spillover-README
         sections:
         - file: notebooks/spill/spill.ipynb
