@@ -1,10 +1,12 @@
-# CO2 Emissions Estimation
+# Greenhouse Gas Emissions Estimation
 
 This section attempts to estimate greenhouse gas emissions from maritime shipping. The objective is to document the percentage increase in CO2 emissions as a result of the Red Sea Crisis. Ships have embarked on longer routes across the Cape of Good Hope in order to avoid the Red Sea, resulting in longer distance traveled and increased fuel consumption (also from ships traveling at a higher speed*).
 
 Given our team's access to detailed ship location data (Automatic Identification System, hereafter AIS) from the [UN Global Platform](https://unstats.un.org/wiki/display/AIS/AIS+Handbook+Outline), we propose a simple but replicable methodology to extract AIS messages from port visits and critical crossing areas (also referred to as "chokepoints"), approximate travel routes using historical routes data, and estimate CO2 emissions from distance traveled using average emissions factors from previous research.
 
-## 1. Data Extraction
+## Methodology
+
+### 1. Data Extraction
 
 The AIS dataset is too large to query all movements for every vessel. In order to solve this issue, we extract AIS data only for key crossing chokepoints (Bab el-Mandeb Strait, Cape of Good Hope, Suez Canal) and all ports around the world. We rely on a global dataset of port boundaries referenced in previous research by the International Monetary Fund ({cite:t}`Cerdeiro2020WorldST`; {cite:t}`Verschuur2021`; {cite:t}`Verschuur2021-fw`). For the chokepoint areas, we digitized them manually.
 
@@ -14,7 +16,7 @@ The next step is to aggregate these AIS data points into port calls, or port vis
 
 - [Data Extraction Notebook](1-data-extraction.ipynb)
 
-## 2. Sea Routes
+### 2. Sea Routes
 
 Since we don't have the exact route trajectory for all vessels, our strategy is to match the origin-destination trajectories we extracted with a dataset of historical routes. We processed sea routes derived from AIS data by [Mariquant (2019)](https://towardsdatascience.com/creating-sea-routes-from-the-sea-of-ais-data-30bc68d8530e).
 
@@ -31,19 +33,19 @@ Network of processed sea routes and ports
 
 - [Sea Routes Notebook](2-prepare-sea-routes.ipynb)
 
-## 3. Convert Port Calls to Trips
+### 3. Convert Port Calls to Trips
 
 We conduct multiple data cleaning and processing steps to identify international ship journeys from the AIS port calls data created in step 1.
 
-### Calculate Travel Time
+#### Calculate Travel Time
 
 For each vessel port call, we identify the previous port call departure and estimate the time between arrival and previous departure.
 
-### Remove False Positives
+#### Remove False Positives
 
 We remove trips that are errors from duplicate vessel names/identifiers. The maximum journey time allowed is 30 days, and the minimum is 1 hour. We remove vessels where travel time is less than 1 hour and distance between start port and end port is greater than 1000 km (duplicate vessels). We also remove vessels where the start port and end port are in the same country. The number of trips is reduced from 12,757,788 to 1,761,090.
 
-### Merge Sea Route from Step 2
+#### Merge Sea Route from Step 2
 
 For each trip, we locate the closest start port and end port in our routes network from step 2, and extract the closest route between those points. In cases where the route between the exact start port and end port is not available (34% of routes: 615,584 out of 1,761,090), we use the network graph to solve for the shortest path from start port to end port. Below our two visual examples of each case of route matching.
 
@@ -63,7 +65,7 @@ Case A: Shortest Route Calculated Between Phuket, Thailand and Suez Canal
 
 - [Trips Processing Notebook](3-process-routes.ipynb)
 
-## 4. Aggregation and Percent Change Calculation
+### 4. Aggregation and Percent Change Calculation
 
 From our final dataset of 1,761,090 trips, we further select vessels who have crossed the Red Sea during a reference period (January 2023 through October 2023), and have crossed any of our chokepoints of interest (Red Sea or Cape of Good Hope). **Critically, this represents only 15% of the 11,761,090 trips detected, and 12% of unique vessels in our dataset.**
 
@@ -77,7 +79,9 @@ We then aggregate the total distance traveled (sum) and number of trips by origi
 |  3 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | Rosario                |                   2431.08  |                    23643.1  |                6 |
 |  4 |   2023 |       2 | Cargo         | Cape of Good Hope | Chokepoint Cape of Good Hope | Argentina | San Nicolas            |                    915.36  |                     7837.1  |                2 |
 
-### Summary Charts
+## Results
+
+### Distance Traveled Estimation
 
 In the figures below, we present monthly sums of the data to examine aggregate changes in total distance traveled, as a proxy for emissions. We observe a sharp increase in distance traveled caused by the trade diversion starting in January 2024, and most prominently in March 2024.
 
@@ -96,6 +100,33 @@ Total Distance Traveled by Red Sea Vessels Crossing Bab el-Mandeb Strait
 ```
 
 ```{figure} ../../reports/routes/distance-traveled-cape.jpeg
+---
+align: center
+---
+Total Distance Traveled by Red Sea Vessels Crossing Cape of Good Hope
+```
+
+```{figure} ../../reports/routes/distance-traveled-horm.jpeg
+---
+align: center
+---
+Total Distance Traveled by Red Sea Vessels Crossing Straight of Hormuz
+```
+
+### CO2 Emissions Estimation
+
+We apply average fuel consumption factors to the shipping activity for a rough estimation of CO2 emitted. We multiply the number of estimated days of travel to a CO2 emission factor per fuel consumption. We follow the formulas identified in the [IPCC report](https://www.ipcc-nggip.iges.or.jp/public/gp/bgp/2_4_Water-borne_Navigation.pdf).
+
+We use the emission factor from [Table 7, CO2 for US ships, Ocean-going](https://www.ipcc-nggip.iges.or.jp/public/gp/bgp/2_4_Water-borne_Navigation.pdf), and fuel consumption from [Table 13, general cargo](https://www.ipcc-nggip.iges.or.jp/public/gp/bgp/2_4_Water-borne_Navigation.pdf), assuming a fixed ship volume (average gross weight tonnage for cargo in 2000, (IUMI)[https://iumi.com/images/stories/IUMI/Pictures/Conferences/Genoa2001/Wednesday/05%20statistics%205.pdf]).
+
+```{figure} ../../reports/routes/emissions-red-sea.jpeg
+---
+align: center
+---
+Total Distance Traveled by Red Sea Vessels Crossing Bab el-Mandeb Strait
+```
+
+```{figure} ../../reports/routes/emissions-cape.jpeg
 ---
 align: center
 ---
@@ -135,10 +166,6 @@ Time Traveled by Red Sea Vessels, % Change from Baseline
 | % Change Time Travel     | 13.4%     | 18.5%     | 43.0%     | 39.8%     | 28.1%     | 39.9%     | 32.4%     | 28.3%     | 9.4%      |
 
 - [Aggregation Notebook](4-aggregate.ipynb)
-
-```{note}
-We attempted to apply average fuel consumption factors to the shipping activity for a rough estimation of CO2 emitted, however, the simplified formulas identified in an [IPCC report](https://www.ipcc-nggip.iges.or.jp/public/gp/bgp/2_4_Water-borne_Navigation.pdf) require a multiplication of the consumption factor to the volume of a ship (gross tonnage), which we currently do not have. The [Fourth Greenhouse Gas Study](https://www.imo.org/en/ourwork/Environment/Pages/Fourth-IMO-Greenhouse-Gas-Study-2020.aspx) (2020) by the International Maritime Organization provides additional guidelines for bottom-up GHG estimation with AIS data, but requires more detailed analysis of individual vessel type, speed, and draught factors which are beyond the scope of this analysis.
-```
 
 ## Global Emissions (OECD) Data
 
