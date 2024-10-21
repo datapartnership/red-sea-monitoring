@@ -69,7 +69,7 @@
     <link rel="prev" title="Conflict in the Red Sea" href="acled.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 21, 2024"/>
   </head>
   
   
@@ -205,7 +205,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../mobility/visits.html">Estimating Activity Through Point of Interest Visits Using Mobility Data</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../routes/README.html">CO2 Emissions Estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../routes/README.html">Greenhouse Gas Emissions Estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../routes/1-data-extraction.html">Data Extraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../routes/2-prepare-sea-routes.html">Sea Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../routes/3-process-routes.html">Process AIS Dataset</a></li>
@@ -467,10 +467,15 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">grouped_data</span><span class="p">[</span><span class="n">grouped_data</span><span class="p">[</span><span class="s1">&#39;event_type&#39;</span><span class="p">]</span><span class="o">!=</span><span class="s1">&#39;Protests&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
-    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;nrEvents&quot;</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span> <span class="n">marker_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> 
-    <span class="n">vmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;event_date&#39;</span><span class="p">,</span><span class="s1">&#39;location&#39;</span><span class="p">,</span><span class="s1">&#39;notes_part1&#39;</span><span class="p">,</span> <span class="s1">&#39;notes_part2&#39;</span><span class="p">,</span> <span class="s1">&#39;notes_part3&#39;</span><span class="p">],</span>
-    <span class="n">tooltip_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;aliases&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">,</span><span class="s1">&#39;location&#39;</span><span class="p">,</span><span class="s1">&#39;details&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">grouped_data</span><span class="p">[</span><span class="n">grouped_data</span><span class="p">[</span><span class="s2">&quot;event_type&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;Protests&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;nrEvents&quot;</span><span class="p">,</span>
+    <span class="n">zoom_start</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span>
+    <span class="n">marker_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;event_date&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;notes_part1&quot;</span><span class="p">,</span> <span class="s2">&quot;notes_part2&quot;</span><span class="p">,</span> <span class="s2">&quot;notes_part3&quot;</span><span class="p">],</span>
+    <span class="n">tooltip_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;aliases&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]},</span>
 <span class="p">)</span>
 <span class="n">m</span>
 </pre></div>
@@ -1148,7 +1153,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 20, 2024.
+  Last updated on Oct 21, 2024.
   <br/>
 </p>
   </div>

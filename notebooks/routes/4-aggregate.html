@@ -69,7 +69,7 @@
     <link rel="prev" title="Process AIS Dataset" href="3-process-routes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 21, 2024"/>
   </head>
   
   
@@ -205,7 +205,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../mobility/visits.html">Estimating Activity Through Point of Interest Visits Using Mobility Data</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">CO2 Emissions Estimation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">Greenhouse Gas Emissions Estimation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="1-data-extraction.html">Data Extraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2-prepare-sea-routes.html">Sea Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="3-process-routes.html">Process AIS Dataset</a></li>
@@ -489,13 +489,15 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v5.parquet&quot;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span>
+    <span class="n">join</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="s2">&quot;ais&quot;</span><span class="p">,</span> <span class="s2">&quot;hormuz&quot;</span><span class="p">,</span> <span class="s2">&quot;portcalls_v5.parquet&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2508132
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2535792
 </pre></div>
 </div>
 </div>
@@ -528,7 +530,7 @@ document.write(`
 <h2>Get Vessels that crossed Red Sea in Reference Period<a class="headerlink" href="#get-vessels-that-crossed-red-sea-in-reference-period" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aois</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">,</span> <span class="s2">&quot;Suez Canal&quot;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aois</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">,</span> <span class="s2">&quot;Suez Canal&quot;</span><span class="p">,</span> <span class="s2">&quot;Straight of Hormuz&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -536,6 +538,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_sel</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">prev_port</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">aois</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Port</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">aois</span><span class="p">))]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># df2 = df.loc[(df.prev_port.isin(aois)) | (df.Port.isin(aois))].copy()</span>
 </pre></div>
 </div>
 </div>
@@ -549,7 +552,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.10340864018649981
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.13932403000725982
 </pre></div>
 </div>
 </div>
@@ -568,7 +571,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.15950639438381506
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0
 </pre></div>
 </div>
 </div>
@@ -577,6 +580,13 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df2.vessel_type.value_counts()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -596,7 +606,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.1506177092912103
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7131265483948988
 </pre></div>
 </div>
 </div>
@@ -620,20 +630,138 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. https://www.ipcc-nggip.iges.or.jp/public/gp/bgp/2_4_Water-borne_Navigation.pdf</span>
+<span class="c1"># 2. https://iumi.com/images/stories/IUMI/Pictures/Conferences/Genoa2001/Wednesday/05%20statistics%205.pdf</span>
+
+<span class="n">Emissions_Factor</span> <span class="o">=</span> <span class="mi">3212</span>  <span class="c1"># (g/kg) - Table 7 (CO2 for US ships, Ocean-going)</span>
+<span class="n">Average_Gross_Tonnage</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mi">12042</span>  <span class="c1"># Gigaton - Average gross weight tonnage for cargo in 2000, from link 2</span>
+<span class="p">)</span>
+<span class="n">Fuel_Consumption</span> <span class="o">=</span> <span class="mf">9.8197</span> <span class="o">+</span> <span class="p">(</span>
+    <span class="mf">0.00143</span> <span class="o">*</span> <span class="n">Average_Gross_Tonnage</span>
+<span class="p">)</span>  <span class="c1"># (Mg/day) - Fuel consumption factor from Table 13 (general cargo)</span>
+<span class="n">days</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># This parameter will change depending on time traveled</span>
+<span class="n">Fuel_Consumption_Total</span> <span class="o">=</span> <span class="n">Fuel_Consumption</span> <span class="o">*</span> <span class="n">days</span>
+<span class="c1"># Result is in micrograms per day, does it need to be converted to kg to multiply by emissions factor?</span>
+<span class="n">Fuel_Consumption_Total_kg</span> <span class="o">=</span> <span class="n">Fuel_Consumption_Total</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># Kg per day</span>
+<span class="c1"># convert megagrams to kilograms</span>
+
+<span class="c1"># If so, results in a very small number, otherwise...</span>
+<span class="n">Emissions</span> <span class="o">=</span> <span class="n">Emissions_Factor</span> <span class="o">*</span> <span class="n">Fuel_Consumption_Total_kg</span>
+<span class="n">Emissions</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>86851709.12
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_emissions</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="n">Fuel_Consumption_Total</span> <span class="o">=</span> <span class="n">Fuel_Consumption</span> <span class="o">*</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;days_travel2&quot;</span><span class="p">]</span>
+    <span class="n">Fuel_Consumption_Total_kg</span> <span class="o">=</span> <span class="n">Fuel_Consumption_Total</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="n">Emissions</span> <span class="o">=</span> <span class="n">Emissions_Factor</span> <span class="o">*</span> <span class="n">Fuel_Consumption_Total_kg</span>
+    <span class="n">Emissions_mt</span> <span class="o">=</span> <span class="n">Emissions</span> <span class="o">/</span> <span class="mi">1000000</span>
+    <span class="k">return</span> <span class="n">Emissions_mt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="p">[</span><span class="s2">&quot;time_travel2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;H&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;days_travel2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">24</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;emissions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_emissions</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="s2">&quot;vessel_type&quot;</span><span class="p">]</span>
+<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="s2">&quot;emissions&quot;</span><span class="p">,</span> <span class="s2">&quot;days_travel2&quot;</span><span class="p">]</span>
+<span class="n">df_horm</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Straight of Hormuz&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Straight of Hormuz&quot;</span><span class="p">)</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_agg_horm</span> <span class="o">=</span> <span class="n">df_horm</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)[</span><span class="n">data_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_agg_horm</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="s2">&quot;dodge2&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Distance (nautical miles)&quot;</span><span class="p">,</span>
+        <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by all Vessels, Straight of Hormuz&quot;</span><span class="p">,</span>
+        <span class="c1"># caption=&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period \n(January 2023 through October), and have crossed the Cape of Good Hope&quot;,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># display(p4)</span>
+<span class="n">p4</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;distance-traveled-horm-all.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 8 x 6 in image.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\routes\distance-traveled-horm-all.jpeg
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cape</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
     <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Cape of Good Hope&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Cape of Good Hope&quot;</span><span class="p">)</span>
 <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df_bab</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
     <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Bab el-Mandeb Strait&quot;</span><span class="p">)</span>
 <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_horm</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">Port</span> <span class="o">==</span> <span class="s2">&quot;Straight of Hormuz&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">prev_port</span> <span class="o">==</span> <span class="s2">&quot;Straight of Hormuz&quot;</span><span class="p">)</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_cape</span><span class="p">,</span> <span class="n">df_bab</span><span class="p">])</span>
 <span class="n">df3</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df3</span> <span class="o">=</span> <span class="n">df3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df3</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="s2">&quot;vessel_type&quot;</span><span class="p">]</span>
-<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">]</span>
+<span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time_travel&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="s2">&quot;emissions&quot;</span><span class="p">,</span> <span class="s2">&quot;days_travel2&quot;</span><span class="p">]</span>
 <span class="n">df_agg</span> <span class="o">=</span> <span class="n">df3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)[</span><span class="n">data_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">df_agg_cape</span> <span class="o">=</span> <span class="n">df_cape</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)[</span><span class="n">data_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">df_agg_bab</span> <span class="o">=</span> <span class="n">df_bab</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)[</span><span class="n">data_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df_agg_horm</span> <span class="o">=</span> <span class="n">df_horm</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">)[</span><span class="n">data_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -675,60 +803,13 @@ document.write(`
     <span class="p">)</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span>
-<span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;distance-traveled.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="c1"># p0.save(filename=join(charts_dir, &quot;routes&quot;, &quot;distance-traveled.jpeg&quot;), dpi=300)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<a class="reference internal image-reference" href="../../_images/29032f3bed8d597d9a4bb3ccde0a6020c0a902c24b066cac6d5299c1e594f521.png"><img alt="../../_images/29032f3bed8d597d9a4bb3ccde0a6020c0a902c24b066cac6d5299c1e594f521.png" src="../../_images/29032f3bed8d597d9a4bb3ccde0a6020c0a902c24b066cac6d5299c1e594f521.png" style="width: 800px; height: 600px;" /></a>
+<a class="reference internal image-reference" href="../../_images/1155313bf978100c4caab8dade93a226f6a4c9f03916f245f341689f2d86a0a9.png"><img alt="../../_images/1155313bf978100c4caab8dade93a226f6a4c9f03916f245f341689f2d86a0a9.png" src="../../_images/1155313bf978100c4caab8dade93a226f6a4c9f03916f245f341689f2d86a0a9.png" style="width: 800px; height: 600px;" /></a>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (800 x 600)&gt;
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 8 x 6 in image.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\routes\distance-traveled.jpeg
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_agg</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">))</span>  <span class="c1">#</span>
-    <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
-        <span class="n">position</span><span class="o">=</span><span class="s2">&quot;dodge2&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
-        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Distance (nautical miles)&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels&quot;</span><span class="p">,</span>
-        <span class="c1"># caption=&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period \n(January 2023 through October), and have either crossed the Bab el-Mandeb Strait or the Cape of Good Hope in the period of interest.&quot;,</span>
-        <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
-    <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
-    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
-        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
-        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
-        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">p0</span><span class="p">)</span>
-<span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;distance-traveled.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<a class="reference internal image-reference" href="../../_images/29032f3bed8d597d9a4bb3ccde0a6020c0a902c24b066cac6d5299c1e594f521.png"><img alt="../../_images/29032f3bed8d597d9a4bb3ccde0a6020c0a902c24b066cac6d5299c1e594f521.png" src="../../_images/29032f3bed8d597d9a4bb3ccde0a6020c0a902c24b066cac6d5299c1e594f521.png" style="width: 800px; height: 600px;" /></a>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (800 x 600)&gt;
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 8 x 6 in image.
-c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\routes\distance-traveled.jpeg
 </pre></div>
 </div>
 </div>
@@ -747,7 +828,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Distance (nautical miles)&quot;</span><span class="p">,</span>
         <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels Crossing Bab el-Mandeb Strait&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels - Bab el-Mandeb Strait&quot;</span><span class="p">,</span>
         <span class="c1"># caption=&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period \n(January 2023 through October), and have crossed the Bab el-Mandeb Strait&quot;,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
@@ -766,7 +847,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 </div>
 <div class="cell_output docutils container">
-<a class="reference internal image-reference" href="../../_images/f4a31cabfcab25d1a8efdb4635d5bac6faa37861244f47474d6d55a0ca35a461.png"><img alt="../../_images/f4a31cabfcab25d1a8efdb4635d5bac6faa37861244f47474d6d55a0ca35a461.png" src="../../_images/f4a31cabfcab25d1a8efdb4635d5bac6faa37861244f47474d6d55a0ca35a461.png" style="width: 800px; height: 600px;" /></a>
+<a class="reference internal image-reference" href="../../_images/4da597ded13d21c27f1cfd5a630a73e5f6ffd585c6721267e81285b898677050.png"><img alt="../../_images/4da597ded13d21c27f1cfd5a630a73e5f6ffd585c6721267e81285b898677050.png" src="../../_images/4da597ded13d21c27f1cfd5a630a73e5f6ffd585c6721267e81285b898677050.png" style="width: 800px; height: 600px;" /></a>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (800 x 600)&gt;
 </pre></div>
 </div>
@@ -790,7 +871,7 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Distance (nautical miles)&quot;</span><span class="p">,</span>
         <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels Crossing Cape of Good Hope&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels, Cape of Good Hope&quot;</span><span class="p">,</span>
         <span class="c1"># caption=&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period \n(January 2023 through October), and have crossed the Cape of Good Hope&quot;,</span>
     <span class="p">)</span>
     <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
@@ -809,12 +890,145 @@ c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWa
 </div>
 </div>
 <div class="cell_output docutils container">
-<a class="reference internal image-reference" href="../../_images/fde930b931f9f3e9138ed8cf4560f839d6b0c51540b7486574e6da5043dee312.png"><img alt="../../_images/fde930b931f9f3e9138ed8cf4560f839d6b0c51540b7486574e6da5043dee312.png" src="../../_images/fde930b931f9f3e9138ed8cf4560f839d6b0c51540b7486574e6da5043dee312.png" style="width: 800px; height: 600px;" /></a>
+<a class="reference internal image-reference" href="../../_images/3c7e5837d9002fc55cfc8519cc377db92a5c73b13bc906d7f0d9bdb6512809f0.png"><img alt="../../_images/3c7e5837d9002fc55cfc8519cc377db92a5c73b13bc906d7f0d9bdb6512809f0.png" src="../../_images/3c7e5837d9002fc55cfc8519cc377db92a5c73b13bc906d7f0d9bdb6512809f0.png" style="width: 800px; height: 600px;" /></a>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure Size: (800 x 600)&gt;
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 8 x 6 in image.
 c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\routes\distance-traveled-cape.jpeg
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_agg_horm</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="s2">&quot;dodge2&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Distance (nautical miles)&quot;</span><span class="p">,</span>
+        <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Distance Traveled by Red Sea Vessels, Straight of Hormuz&quot;</span><span class="p">,</span>
+        <span class="c1"># caption=&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period \n(January 2023 through October), and have crossed the Cape of Good Hope&quot;,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;1 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">hjust</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># display(p4)</span>
+<span class="n">p4</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;distance-traveled-horm.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 8 x 6 in image.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\routes\distance-traveled-horm.jpeg
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">charts_dir</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;C:/Users/WB514197/Repos/red-sea-monitoring\\reports&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_agg</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;emissions&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="s2">&quot;dodge2&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;CO2 Emissions, Red Sea Vessels&quot;</span><span class="p">,</span>
+        <span class="c1"># caption=&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period \n(January 2023 through October), and have either crossed the Bab el-Mandeb Strait or the Cape of Good Hope in the period of interest.&quot;,</span>
+        <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="c1"># + scale_y_continuous(labels=metric_tons_formatter)</span>
+    <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
+    <span class="c1"># + scale_y_continuous(labels = unit_format(unit = &quot;M&quot;, scale = 1e-6))</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;2 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">),</span>  <span class="c1"># , hjust=1</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># display(p0)</span>
+<span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;emissions-red-sea.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 8 x 6 in image.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\routes\emissions-red-sea.jpeg
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">df_agg_cape</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;ymd&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;emissions&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;vessel_type&quot;</span><span class="p">))</span>  <span class="c1">#</span>
+    <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="s2">&quot;dodge2&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Metric Tons&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;CO2 Emissions, Red Sea Vessels Crossing Cape of Good Hope&quot;</span><span class="p">,</span>
+        <span class="c1"># caption=&quot;This chart shows the monthly total distance traveled by a subset of vessels that were identified to cross the Red Sea in a reference period \n(January 2023 through October), and have either crossed the Bab el-Mandeb Strait or the Cape of Good Hope in the period of interest.&quot;,</span>
+        <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;Vessel Type&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="c1"># + scale_y_continuous(labels=metric_tons_formatter)</span>
+    <span class="o">+</span> <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">comma_format</span><span class="p">())</span>
+    <span class="c1"># + scale_y_continuous(labels = unit_format(unit = &quot;M&quot;, scale = 1e-6))</span>
+    <span class="o">+</span> <span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">date_breaks</span><span class="p">(</span><span class="s2">&quot;2 month&quot;</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">),</span>
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;Roboto&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span>
+        <span class="n">axis_text_x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">),</span>  <span class="c1"># , hjust=1</span>
+        <span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># display(p0)</span>
+<span class="n">p0</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">join</span><span class="p">(</span><span class="n">charts_dir</span><span class="p">,</span> <span class="s2">&quot;routes&quot;</span><span class="p">,</span> <span class="s2">&quot;emissions-cape.jpeg&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:587: PlotnineWarning: Saving 8 x 6 in image.
+c:\WBG\Anaconda3\envs\rtmis\Lib\site-packages\plotnine\ggplot.py:588: PlotnineWarning: Filename: C:/Users/WB514197/Repos/red-sea-monitoring\reports\routes\emissions-cape.jpeg
 </pre></div>
 </div>
 </div>
@@ -1584,7 +1798,7 @@ By Data Lab
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 20, 2024.
+  Last updated on Oct 21, 2024.
   <br/>
 </p>
   </div>
