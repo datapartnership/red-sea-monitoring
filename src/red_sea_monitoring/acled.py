@@ -1,6 +1,7 @@
 import os
-import requests
+
 import pandas as pd
+import requests
 
 
 def acled_api(
@@ -31,8 +32,8 @@ def acled_api(
         )
 
     # Building the URL
-    url = "https://api.acleddata.com/acled/read/?key={}&email={}".format(
-        access_key, email_address
+    url = (
+        f"https://api.acleddata.com/acled/read/?key={access_key}&email={email_address}"
     )
 
     if country:
@@ -41,7 +42,7 @@ def acled_api(
     if region:
         url += "&region=" + "|".join(str(region) for region in region)
     if start_date and end_date:
-        url += "&event_date={}|{}&event_date_where=BETWEEN".format(start_date, end_date)
+        url += f"&event_date={start_date}|{end_date}&event_date_where=BETWEEN"
 
     fields = "region|country|year|event_date|source|admin1|admin2|admin3|location|event_type|sub_event_type|interaction|fatalities|timestamp|latitude|longitude"
     if all_variables:
@@ -65,7 +66,7 @@ def acled_api(
     response = requests.get(url)
     if not response.ok:
         raise Exception(
-            "GET request was unsuccessful. Status code: {}".format(response.status_code)
+            f"GET request was unsuccessful. Status code: {response.status_code}"
         )
 
     # Parsing JSON response
