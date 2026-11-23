@@ -1,9 +1,8 @@
-from bokeh.plotting import figure, ColumnDataSource
-from bokeh.models import Legend, Span, Label
-from bokeh.layouts import column
 from bokeh.core.validation import silence
 from bokeh.core.validation.warnings import EMPTY_LAYOUT
-
+from bokeh.layouts import column
+from bokeh.models import Label, Legend, Span
+from bokeh.plotting import ColumnDataSource, figure
 
 # Use the silence function to ignore the EMPTY_LAYOUT warning
 silence(EMPTY_LAYOUT, True)
